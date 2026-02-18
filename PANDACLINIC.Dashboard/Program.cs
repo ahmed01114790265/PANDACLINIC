@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using PANDACLINIC.Domain.Entity;
 using PANDACLINIC.Persistence.Context;
@@ -27,11 +29,18 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
 .AddEntityFrameworkStores<ClinicDbContext>()
 .AddDefaultTokenProviders();
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+});
 
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-
+builder.Services.AddControllersWithViews(options =>
+{
+    
+    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+    // options.Filters.Add(new AuthorizeFilter(policy)); // Optional: global lock
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -67,7 +76,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=Account}/{action=Login}/{id?}")
     .WithStaticAssets();
 
 
