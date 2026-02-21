@@ -12,6 +12,7 @@ namespace PANDACLINIC.Domain.Entity
     {
         public AppointmentType TypeOfAppoinment { get; set; }
         public AppointmentStatus Status { get; set; }
+        public DateTime AppointmentDate { get; set; }
         public Guid AnimalId { get; set; }
         public virtual Animal Animal { get; set; } = null!;
     }

@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="InterfaceRepository\" />
     <Folder Include="Exception\" />
   </ItemGroup>
 

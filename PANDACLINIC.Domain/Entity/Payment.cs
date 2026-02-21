@@ -14,5 +14,6 @@ namespace PANDACLINIC.Domain.Entity
         public string PaymentMethod { get; set; } = null!;
         public Guid OrderId { get; set; }
         public virtual Order Order { get; set; }
+        public decimal? Amount { get; set; }
     }
 }
