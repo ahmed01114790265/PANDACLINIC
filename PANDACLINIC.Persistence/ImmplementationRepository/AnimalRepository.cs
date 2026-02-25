@@ -89,5 +89,12 @@ namespace PANDACLINIC.Persistence.ImmplementationRepository
                 .Where(a => a.IsDeleted)
                 .ToListAsync();
         }
+
+        public async Task<Animal?> GetByIdDeletedAsync(Guid id)
+        {
+            return await _dbSet
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(a => a.Id == id && a.IsDeleted);
+        }
     }
 }

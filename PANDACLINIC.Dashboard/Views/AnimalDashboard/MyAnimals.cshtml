@@ -1,0 +1,86 @@
+﻿@using PANDACLINIC.Application.DTOS.Animal
+@model IEnumerable<AnimalSummaryDto>
+
+@{
+    ViewData["Title"] = "My Registered Pets";
+}
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold text-primary mb-1"> حيواناتي المسجله لي </h2>
+            <p class="text-muted">Manage the pets you have registered in our system.</p>
+        </div>
+        <a asp-action="Create" class="btn btn-success btn-lg shadow-sm">
+            <i class="bi bi-plus-lg"></i> اضافه حيوان جديد
+        </a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i> @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row g-4">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var animal in Model)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow-sm hover-shadow transition">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title fw-bold mb-0">@animal.Name</h5>
+                                    <h5 class="card-img fw-bold mb-0">@animal.Imgageurl</h5>
+                                   
+                                </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-light btn-sm rounded-circle" type="button" data-bs-toggle="dropdown">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end shadow">
+                                        <li><a class="dropdown-item" asp-action="Details" asp-route-id="@animal.Id">View Details</a></li>
+                                        <li><a class="dropdown-item text-danger" href="#" onclick="confirmDelete('@animal.Id')"> حذف الحيوان </a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            
+                        </div>
+                        <div class="card-footer bg-transparent border-top-0 pb-3">
+                            <a asp-action="Details" asp-route-id="@animal.Id" class="btn btn-outline-primary w-100 btn-sm">
+                                معلومات الحيوان 
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12 text-center py-5">
+                <div class="mb-3">
+                    <i class="bi bi-clipboard-x display-1 text-muted"></i>
+                </div>
+                <h4 class="text-muted">لا يوجد حيوانات مسجله لك الان .</h4>
+                <p>لم تسجل حيوات بعد .</p>
+                <a asp-action="Create" class="btn btn-primary">Get Started Now</a>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.1) !important;
+    }
+
+    .transition {
+        transition: all 0.3s ease;
+    }
+</style>

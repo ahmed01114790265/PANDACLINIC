@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PANDACLINIC.Domain.Entity;
-using PANDACLINIC.Shared;
+using PANDACLINIC.Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

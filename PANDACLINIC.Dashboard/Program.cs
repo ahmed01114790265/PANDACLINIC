@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
+using PANDACLINIC.Application;
 using PANDACLINIC.Domain.Entity;
 using PANDACLINIC.Persistence.Context;
 using PANDACLINIC.Persistence.Seed;
@@ -10,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddPersistence(builder.Configuration);
+builder.Services.AddApplication(builder.Configuration);
 
 // 3. Register Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
@@ -66,6 +68,17 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occurred while seeding the database.");
     }
 }
+var globalUploadsPath = builder.Configuration["FileStorage:Path"];
+if (!Directory.Exists(globalUploadsPath))
+{
+    Directory.CreateDirectory(globalUploadsPath);
+}
+//app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(globalUploadsPath),
+    RequestPath = "/uploads"
+});
 
 app.UseHttpsRedirection();
 app.UseRouting();
@@ -76,7 +89,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}")
+    pattern: "{controller=AnimalDashboard}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 

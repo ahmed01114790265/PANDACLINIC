@@ -1,0 +1,104 @@
+﻿@using PANDACLINIC.Application.DTOS.Animal
+@model IEnumerable<AnimalSummaryDto>
+
+@{
+    ViewData["Title"] = "Currently Hosted Animals";
+}
+
+<div class="container-fluid py-4 bg-white">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 border-bottom pb-3">
+        <div>
+            <h2 class="fw-bold text-dark mb-1">
+                <i class="bi bi-hospital text-primary me-2"></i>In-Patient Monitoring
+            </h2>
+            <p class="text-muted mb-0">List of animals currently staying at the clinic facility.</p>
+        </div>
+        <div class="mt-3 mt-md-0">
+            <span class="badge bg-primary rounded-pill px-3 py-2">
+                Total Hosted: @Model.Count()
+            </span>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <div class="mb-3">
+                <i class="bi bi-calendar-check text-light display-1"></i>
+            </div>
+            <h4 class="text-secondary"> لا يوجد حيوانات في الاستاضفه الان </h4>
+            <p class="text-muted">When an animal is checked in without a checkout date, they will appear here.</p>
+            <a asp-action="Index" class="btn btn-outline-primary rounded-pill"> عرض كل الحيوانات الموجوده </a>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var item in Model)
+            {
+                <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 hover-shadow transition">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="flex-shrink-0">
+                                    <div class="rounded-circle bg-light d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                        <i class="bi bi-paw-fill text-primary fs-4"></i>
+                                    </div>
+                                </div>
+                                <div class="ms-3">
+                                    <h5 class="card-title fw-bold mb-0">@item.Name</h5>
+                                </div>
+                                <div class="rounded-circle shadow-sm d-inline-flex align-items-center justify-content-center mb-3"
+                                     style="width: 140px;
+                    height: 140px;
+                                    background-image: url('@(string.IsNullOrEmpty(@item.Imgageurl) ? "/images/default-animal.png" : @item.Imgageurl)');
+                    background-size: cover;
+                    background-position: center;
+                    border: 3px solid #f8f9fa;">
+
+                                    @if (string.IsNullOrEmpty(@item.Imgageurl))
+                                    {
+                                        <i class="bi bi-paw text-primary display-4"></i>
+                                    }
+                                </div>
+                                <div class="ms-auto">
+                                    <div class="spinner-grow text-success spinner-grow-sm" role="status">
+                                        <span class="visually-hidden">Live</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-light rounded-3 p-3 mb-3 small">
+                              
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-white border rounded-pill btn-sm fw-bold">
+                                    View Vitals & History
+                                </a>
+                                <button type="button" class="btn btn-outline-primary rounded-pill btn-sm">
+                                   تسجبل في الاستضافه 
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.08) !important;
+    }
+
+    .transition {
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn-white:hover {
+        background-color: #f8f9fa;
+    }
+</style>

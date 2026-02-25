@@ -3,10 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using PANDACLINIC.Domain.Entity;
 using PANDACLINIC.Persistence.Context;
 using PANDACLINIC.Persistence.Seed;
+using PANDACLINIC.Application;
 
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddPersistence(builder.Configuration);
+builder.Services.AddApplication(builder.Configuration);
+
 builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
 {
     options.User.RequireUniqueEmail = false;
@@ -49,6 +52,13 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occurred while seeding the database.");
     }
 }
+var globalUploadsPath = builder.Configuration["FileStorage:Path"];
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(globalUploadsPath),
+    RequestPath = "/uploads"
+});
 
 app.UseHttpsRedirection();
 app.UseRouting();
@@ -59,7 +69,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}")
+    pattern: "{controller=Animal}/{action=MyAnimals}/{id?}")
     .WithStaticAssets();
 
 

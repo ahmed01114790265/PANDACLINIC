@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PANDACLINIC.Shared
+namespace PANDACLINIC.Shared.Enums
 {
     public enum ProductType
     {

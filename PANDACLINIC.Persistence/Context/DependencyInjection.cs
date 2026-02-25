@@ -32,6 +32,7 @@ namespace PANDACLINIC.Persistence.Context
             services.AddScoped<IPricingService,PricingService>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
+
             return services;
         }
     }

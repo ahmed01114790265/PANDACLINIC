@@ -2,7 +2,7 @@
 using PANDACLINIC.Domain.Entity;
 using PANDACLINIC.Domain.InterfaceRepository;
 using PANDACLINIC.Persistence.Context;
-using PANDACLINIC.Shared;
+using PANDACLINIC.Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

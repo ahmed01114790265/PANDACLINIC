@@ -1,5 +1,5 @@
 ﻿using PANDACLINIC.Domain.Comman.BaseEntity;
-using PANDACLINIC.Shared;
+using PANDACLINIC.Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,6 @@
 ﻿using PANDACLINIC.Domain.Comman.GenericRepository;
 using PANDACLINIC.Domain.Entity;
-using PANDACLINIC.Shared;
+using PANDACLINIC.Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

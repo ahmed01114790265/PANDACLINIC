@@ -1,0 +1,60 @@
+﻿@using PANDACLINIC.Application.DTOS.Animal
+@model AnimalDetailDto
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-white py-4 border-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="mb-0 fw-bold">معلومات  الحيوان </h3>
+                        <span class="badge @(Model.IsHostedNow ? "bg-success" : "bg-secondary") rounded-pill p-2 px-3">
+                            @(Model.IsHostedNow ? "Currently Hosted" : "At Home")
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body p-4 pt-0">
+                    <div class="row g-4">
+                        <div class="col-12 col-md-6 text-center border-end">
+                            <div class="rounded-circle shadow-sm d-inline-flex align-items-center justify-content-center mb-3"
+                                 style="width: 140px;
+                                                   height: 140px;
+                                                    background-image: url('@(string.IsNullOrEmpty(Model.Imgageurl) ? "/images/default-animal.png" : Model.Imgageurl)');
+                                                    background-size: cover;
+                                                     background-position: center;
+                                                     border: 3px solid #f8f9fa;">
+
+                                @if (string.IsNullOrEmpty(Model.Imgageurl))
+                                {
+                                    <i class="bi bi-paw text-primary display-4"></i>
+                                }
+                            </div>
+                            <h2 class="fw-bold">@Model.Name</h2>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <ul class="list-group list-group-flush small">
+                                <li class="list-group-item d-flex justify-content-between bg-transparent px-0">
+                                    <span class="text-muted"> المالك للحيوان </span>
+                                    <span class="fw-bold">@Model.OwnerName</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between bg-transparent px-0">
+                                    <span class="text-muted">تاريخ تسجيل الحيوان </span>
+                                    <span class="fw-bold">@Model.BirthDate.ToShortDateString()</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between bg-transparent px-0">
+                                    <span class="text-muted"> الاستشارات الخاصه به </span>
+                                    <span class="badge bg-dark rounded-pill">@Model.AppointmentCount</span>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-light border-0 py-3 text-center">
+                    <a asp-action="Index" class="btn btn-link text-decoration-none text-dark"> الرجوع للقائمه  </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+

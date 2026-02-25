@@ -27,6 +27,7 @@ namespace PANDACLINIC.Domain.InterfaceRepository
         Task<bool> IsNameExistsForOwnerAsync(string name, Guid ownerId);
 
         // --- Soft Delete / Activation (If applicable) ---
-        Task<IEnumerable<Animal>> GetDeletedAnimalsAsync(); // If using a 'IsDeleted' flag
+        Task<IEnumerable<Animal>> GetDeletedAnimalsAsync();
+        Task<Animal?> GetByIdDeletedAsync(Guid id);// If using a 'IsDeleted' flag
     }
 }
