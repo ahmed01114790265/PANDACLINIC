@@ -1,0 +1,42 @@
+﻿@using PANDACLINIC.Application.DTOS.Appointment
+@using PANDACLINIC.Shared.Enums
+@model AppointmentDetailDto
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg rounded-4">
+                <div class="card-header bg-white py-4 border-0">
+                    <h3 class="mb-0 fw-bold">تفاصيل الموعد</h3>
+                </div>
+                <div class="card-body p-4">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="text-muted">الحيوان</span>
+                            <span class="fw-bold">@Model.AnimalName</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="text-muted">المالك</span>
+                            <span class="fw-bold">@Model.OwnerName</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="text-muted">نوع الموعد</span>
+                            <span class="fw-bold">@Model.TypeOfAppoinment</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="text-muted">الحالة</span>
+                            <span class="badge @(Model.Status == AppointmentStatus.Scheduled ? "bg-warning text-dark" : Model.Status == AppointmentStatus.Completed ? "bg-success" : "bg-danger")">@Model.Status</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="text-muted">موعد الزيارة</span>
+                            <span class="fw-bold">@Model.AppointmentDate.ToString("yyyy-MM-dd hh:mm")</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-footer bg-light border-0 py-3 text-center">
+                    <a asp-action="MyAppointments" class="btn btn-link text-decoration-none text-dark">الرجوع للقائمة</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

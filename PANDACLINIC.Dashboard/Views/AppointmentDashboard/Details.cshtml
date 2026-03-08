@@ -1,0 +1,45 @@
+﻿@using PANDACLINIC.Application.DTOS.Appointment
+@using PANDACLINIC.Shared.Enums
+@model AppointmentDetailDto
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-white py-4 border-0 d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0 fw-bold">Appointment Details</h3>
+                    <span class="badge @(Model.Status == AppointmentStatus.Scheduled ? "bg-warning text-dark" : Model.Status == AppointmentStatus.Completed ? "bg-success" : "bg-danger") rounded-pill p-2 px-3">
+                        @Model.Status
+                    </span>
+                </div>
+                <div class="card-body p-4">
+                    <ul class="list-group list-group-flush small">
+                        <li class="list-group-item d-flex justify-content-between bg-transparent px-0">
+                            <span class="text-muted">Animal</span>
+                            <span class="fw-bold">@Model.AnimalName</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between bg-transparent px-0">
+                            <span class="text-muted">Owner</span>
+                            <span class="fw-bold">@Model.OwnerName</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between bg-transparent px-0">
+                            <span class="text-muted">Type</span>
+                            <span class="fw-bold">@Model.TypeOfAppoinment</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between bg-transparent px-0">
+                            <span class="text-muted">Visit Time</span>
+                            <span class="fw-bold">@Model.AppointmentDate.ToString("yyyy-MM-dd hh:mm")</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between bg-transparent px-0">
+                            <span class="text-muted">Created At</span>
+                            <span class="fw-bold">@Model.CreatedAt.ToString("yyyy-MM-dd hh:mm")</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-footer bg-light border-0 py-3 text-center">
+                    <a asp-action="Index" class="btn btn-link text-decoration-none text-dark">Back to list</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -18,19 +18,21 @@
             @foreach (var animal in Model)
             {
                 <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 border-0 shadow-sm hover-shadow transition">
+                    <div class="card h-100 border-0 shadow-sm">
                         <img src="@(string.IsNullOrEmpty(animal.Imgageurl) ? "/images/default-pet.png" : animal.Imgageurl)"
                              class="card-img-top" alt="@animal.Name"
                              style="height: 200px; object-fit: cover;">
 
                         <div class="card-body text-center">
                             <h5 class="card-title fw-bold">@animal.Name</h5>
-                            <div class="d-flex justify-content-center gap-2">
-                                @* <a asp-action="Details" asp-route-id="@animal.Id" class="btn btn-sm btn-outline-primary">التفاصيل</a> *@
-                               @*  <form asp-action="Delete" asp-route-id="@animal.Id" method="post" onsubmit="return confirm('هل أنت متأكد؟');">
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">حذف</button>
-                                </form> *@
-                            </div>
+                            <button type="button"
+                                    class="btn btn-sm btn-primary select-service-btn"
+                                    data-animal-id="@animal.Id"
+                                    data-animal-name="@animal.Name"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#serviceChoiceModal">
+                                اختر خدمة
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -38,6 +40,40 @@
         }
         else
         {
+            <div class="col-12 text-center text-muted py-5">لا يوجد حيوانات مسجلة حالياً.</div>
         }
     </div>
 </div>
+
+<div class="modal fade" id="serviceChoiceModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header">
+                <h5 class="modal-title">اختر الخدمة</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <p class="mb-3">الحيوان المختار: <strong id="selectedAnimalName"></strong></p>
+                <div class="d-grid gap-2">
+                    <a id="appointmentLink" class="btn btn-primary">Appointment</a>
+                    <a id="hostingLink" class="btn btn-outline-secondary">Hosting</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('.select-service-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var animalId = btn.getAttribute('data-animal-id');
+                var animalName = btn.getAttribute('data-animal-name');
+
+                document.getElementById('selectedAnimalName').textContent = animalName;
+                document.getElementById('appointmentLink').href = '/Appointment/Create?animalId=' + animalId;
+                document.getElementById('hostingLink').href = '/Hosting/Create?animalId=' + animalId;
+            });
+        });
+    </script>
+}

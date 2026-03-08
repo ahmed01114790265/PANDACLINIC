@@ -16,7 +16,7 @@ namespace PANDACLINIC.Web.Controllers
 
         [HttpGet]
         public async Task<IActionResult> MyAnimals()
-        { 
+        {
             var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userIdClaim)) return Challenge();
 
@@ -26,7 +26,25 @@ namespace PANDACLINIC.Web.Controllers
             return View(result.Data);
         }
 
- 
+        [HttpGet]
+        public async Task<IActionResult> RequestHosting(Guid animalId)
+        {
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userIdClaim)) return Challenge();
+
+            var ownerId = Guid.Parse(userIdClaim);
+            var result = await _animalService.GetByOwnerAsync(ownerId);
+            var animal = (result.Data ?? Enumerable.Empty<AnimalSummaryDto>()).FirstOrDefault(a => a.Id == animalId);
+
+            if (animal == null)
+            {
+                TempData["Error"] = "Animal not found.";
+                return RedirectToAction(nameof(MyAnimals));
+            }
+
+            return RedirectToAction("Create", "Hosting", new { animalId });
+        }
+
         public IActionResult Create()
         {
             return View();
@@ -52,7 +70,6 @@ namespace PANDACLINIC.Web.Controllers
             ModelState.AddModelError("", result.Message);
             return View(dto);
         }
-       
     }
 }
 

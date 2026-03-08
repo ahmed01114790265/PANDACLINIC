@@ -1,0 +1,44 @@
+﻿@using PANDACLINIC.Application.DTOS.Hosting
+@model IEnumerable<HostingSummaryDto>
+
+<div class="container py-4">
+    <div class="alert alert-warning d-flex align-items-center rounded-4 shadow-sm mb-4">
+        <i class="bi bi-trash3-fill me-3 fs-3"></i>
+        <div>
+            <h5 class="mb-0 fw-bold">Hosting Archive</h5>
+            <small>Soft-deleted hosting stays can be restored by Admin.</small>
+        </div>
+    </div>
+
+    <div class="table-responsive shadow-sm rounded-3">
+        <table class="table table-hover align-middle bg-white mb-0">
+            <thead class="table-light"><tr><th>Animal</th><th>Room</th><th>Status</th><th>Check-In</th><th class="text-end">Actions</th></tr></thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="fw-bold">@item.AnimalName</td>
+                            <td>@item.RoomNumber</td>
+                            <td>@item.Status</td>
+                            <td>@item.CheckInDate.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td class="text-end">
+                                <form asp-action="Restore" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <button type="submit" class="btn btn-sm btn-success">Restore</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="5" class="text-center text-muted py-4">Archive is empty.</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

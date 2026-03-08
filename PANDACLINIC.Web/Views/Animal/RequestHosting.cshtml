@@ -1,0 +1,24 @@
+﻿@using PANDACLINIC.Application.DTOS.Animal
+@model AnimalSummaryDto
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-lg">
+                <div class="card-body p-5 text-center">
+                    <h2 class="mb-3">Hosting Request</h2>
+                    <p class="text-muted mb-4">تم اختيار الحيوان: <strong>@Model.Name</strong></p>
+
+                    <div class="alert alert-info">
+                        خدمة الاستضافة سيتم ربطها بخطوة الحجز قريبًا. يمكنك الآن اختيار خدمة المواعيد مباشرة.
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-2 mt-4">
+                        <a class="btn btn-primary" asp-controller="Appointment" asp-action="Create" asp-route-animalId="@Model.Id">Go To Appointment</a>
+                        <a class="btn btn-outline-secondary" asp-action="MyAnimals">Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
