@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PANDACLINIC.Application.DTOS.Animal;
@@ -6,6 +6,7 @@ using PANDACLINIC.Application.DTOS.Hosting;
 using PANDACLINIC.Application.InterfacesService.AnimalService;
 using PANDACLINIC.Application.InterfacesService.HostingService;
 using PANDACLINIC.Shared.Enums;
+using System.Security.Claims;
 
 namespace PANDACLINIC.Dashboard.Controllers
 {
@@ -21,11 +22,13 @@ namespace PANDACLINIC.Dashboard.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(DateTime? date = null, HostingStayStatus? status = null)
+        public async Task<IActionResult> Index(DateTime? date = null, HostingStayStatus? status = null, bool mine = false)
         {
-            var source = date.HasValue
-                ? await _hostingService.GetByDateAsync(date.Value)
-                : await _hostingService.GetAllAsync();
+            var source = mine
+                ? await GetMineHostingsAsync()
+                : date.HasValue
+                    ? await _hostingService.GetByDateAsync(date.Value)
+                    : await _hostingService.GetAllAsync();
 
             if (!source.IsSuccess)
             {
@@ -34,6 +37,12 @@ namespace PANDACLINIC.Dashboard.Controllers
             }
 
             var data = source.Data ?? Enumerable.Empty<HostingSummaryDto>();
+
+            if (date.HasValue)
+            {
+                data = data.Where(h => h.CheckInDate.Date == date.Value.Date);
+            }
+
             if (status.HasValue)
             {
                 data = data.Where(h => h.Status == status.Value);
@@ -41,23 +50,15 @@ namespace PANDACLINIC.Dashboard.Controllers
 
             ViewBag.SelectedDate = date?.ToString("yyyy-MM-dd");
             ViewBag.SelectedStatus = status;
+            ViewBag.Mine = mine;
             return View(data.OrderByDescending(h => h.CheckInDate));
         }
 
         [HttpGet]
-        public async Task<IActionResult> CurrentlyHosted()
+        public IActionResult CurrentlyHosted(bool mine = false)
         {
-            var result = await _hostingService.GetByStatusAsync(HostingStayStatus.Ongoing);
-            if (!result.IsSuccess)
-            {
-                TempData["ErrorMessage"] = result.Message;
-                return View("Index", Enumerable.Empty<HostingSummaryDto>());
-            }
-
-            ViewBag.SelectedDate = null;
-            ViewBag.SelectedStatus = HostingStayStatus.Ongoing;
-            return View("Index", (result.Data ?? Enumerable.Empty<HostingSummaryDto>())
-                .OrderByDescending(h => h.CheckInDate));
+            // As requested: opening current hosting should show all hostings.
+            return RedirectToAction(nameof(Index), new { mine });
         }
 
         [HttpGet]
@@ -95,7 +96,7 @@ namespace PANDACLINIC.Dashboard.Controllers
                 return View(dto);
             }
 
-            dto.CreatedBy = User.Identity?.Name ?? "Admin";
+            dto.CreatedBy = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? User.Identity?.Name ?? "Admin";
 
             var result = await _hostingService.CreateAsync(dto);
             if (result.IsSuccess)
@@ -227,6 +228,17 @@ namespace PANDACLINIC.Dashboard.Controllers
             return Json(new { result.IsSuccess, result.Message });
         }
 
+        private async Task<PANDACLINIC.Shared.ResultModel.Result<IEnumerable<HostingSummaryDto>>> GetMineHostingsAsync()
+        {
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrWhiteSpace(userIdClaim) || !Guid.TryParse(userIdClaim, out var userId))
+            {
+                return PANDACLINIC.Shared.ResultModel.Result<IEnumerable<HostingSummaryDto>>.Failure("User not found.");
+            }
+
+            return await _hostingService.GetByCreatorAsync(userId);
+        }
+
         private async Task LoadAnimalsAsync()
         {
             var animalsResult = await _animalService.GetAllAsync();
@@ -244,4 +256,3 @@ namespace PANDACLINIC.Dashboard.Controllers
         }
     }
 }
-

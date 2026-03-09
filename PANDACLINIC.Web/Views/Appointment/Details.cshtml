@@ -2,6 +2,18 @@
 @using PANDACLINIC.Shared.Enums
 @model AppointmentDetailDto
 
+@{
+    string AppointmentTypeAr(AppointmentType type) => type switch
+    {
+        AppointmentType.ClinicalExamination => "كشف عيادة",
+        AppointmentType.HomeExamination => "كشف منزلي",
+        AppointmentType.Surgery => "جراحة",
+        AppointmentType.Grooming => "تجميل",
+        AppointmentType.Bording => "إقامة",
+        _ => type.ToString()
+    };
+}
+
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-8">
@@ -21,7 +33,7 @@
                         </li>
                         <li class="list-group-item d-flex justify-content-between">
                             <span class="text-muted">نوع الموعد</span>
-                            <span class="fw-bold">@Model.TypeOfAppoinment</span>
+                            <span class="fw-bold">@AppointmentTypeAr(Model.TypeOfAppoinment)</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between">
                             <span class="text-muted">الحالة</span>

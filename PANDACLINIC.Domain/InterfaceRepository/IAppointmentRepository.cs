@@ -6,6 +6,7 @@ namespace PANDACLINIC.Domain.InterfaceRepository
 {
     public interface IAppointmentRepository : IGenericRepository<Appointment>
     {
+        Task<IEnumerable<Appointment>> GetAllWithDetailsAsync();
         Task<IEnumerable<Appointment>> GetAppointmentsByDateAsync(DateTime date);
         Task<IEnumerable<Appointment>> GetByAnimalIdAsync(Guid animalId);
         Task<IEnumerable<Appointment>> GetByCreatorAsync(string creatorId);

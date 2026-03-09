@@ -1,7 +1,18 @@
 ﻿@using PANDACLINIC.Application.DTOS.Appointment
 @using PANDACLINIC.Shared.Enums
-@using Microsoft.AspNetCore.Mvc.Rendering
 @model AppointmentRequestDto
+
+@{
+    string AppointmentTypeAr(AppointmentType type) => type switch
+    {
+        AppointmentType.ClinicalExamination => "كشف عيادة",
+        AppointmentType.HomeExamination => "كشف منزلي",
+        AppointmentType.Surgery => "جراحة",
+        AppointmentType.Grooming => "تجميل",
+        AppointmentType.Bording => "إقامة",
+        _ => type.ToString()
+    };
+}
 
 <div class="container py-5">
     <div class="row justify-content-center">
@@ -25,7 +36,12 @@
 
                         <div class="mb-3">
                             <label asp-for="TypeOfAppoinment" class="form-label">نوع الموعد</label>
-                            <select asp-for="TypeOfAppoinment" asp-items="Html.GetEnumSelectList<AppointmentType>()" class="form-select"></select>
+                            <select asp-for="TypeOfAppoinment" class="form-select">
+                                @foreach (var type in Enum.GetValues<AppointmentType>())
+                                {
+                                    <option value="@((int)type)" selected="@(Model.TypeOfAppoinment == type ? "selected" : null)">@AppointmentTypeAr(type)</option>
+                                }
+                            </select>
                             <span asp-validation-for="TypeOfAppoinment" class="text-danger small"></span>
                         </div>
 

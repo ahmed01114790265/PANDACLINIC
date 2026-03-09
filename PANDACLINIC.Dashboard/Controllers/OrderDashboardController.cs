@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PANDACLINIC.Application.DTOS.Order;
 using PANDACLINIC.Application.InterfacesService.OrderService;
 using PANDACLINIC.Shared.Enums;
@@ -15,7 +15,7 @@ namespace PANDACLINIC.Dashboard.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(OrderStatus? status = null, PaymentStatus? paymentStatus = null, bool? clientConfirmed = null)
+        public async Task<IActionResult> Index(OrderStatus? status = null, PaymentStatus? paymentStatus = null, bool? clientConfirmed = null, bool paymentFollowUp = false)
         {
             var result = await _orderService.GetAllAsync();
             if (!result.IsSuccess)
@@ -25,11 +25,15 @@ namespace PANDACLINIC.Dashboard.Controllers
             }
 
             var data = result.Data ?? Enumerable.Empty<OrderSummaryDto>();
+
             if (status.HasValue)
                 data = data.Where(o => o.Status == status.Value);
 
             if (paymentStatus.HasValue)
                 data = data.Where(o => o.PaymentStatus == paymentStatus.Value);
+
+            if (paymentFollowUp)
+                data = data.Where(o => o.PaymentStatus == PaymentStatus.New || o.PaymentStatus == PaymentStatus.InProgress);
 
             if (clientConfirmed.HasValue)
                 data = data.Where(o => o.IsClientConfirmed == clientConfirmed.Value);
@@ -37,6 +41,7 @@ namespace PANDACLINIC.Dashboard.Controllers
             ViewBag.SelectedStatus = status;
             ViewBag.SelectedPaymentStatus = paymentStatus;
             ViewBag.SelectedClientConfirmed = clientConfirmed;
+            ViewBag.PaymentFollowUp = paymentFollowUp;
             return View(data.OrderByDescending(o => o.CreatedAt));
         }
 

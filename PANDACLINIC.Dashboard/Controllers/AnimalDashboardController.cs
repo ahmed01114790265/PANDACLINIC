@@ -13,9 +13,44 @@ namespace PANDACLINIC.Dashboard.Controllers
         {
             _animalService = animalService;
         }
+
         [HttpGet]
-        public async Task<IActionResult> Index(int page = 1, int size = 10, string? search = null)
+        public async Task<IActionResult> Index(int page = 1, int size = 10, string? search = null, bool mine = false)
         {
+            if (mine)
+            {
+                var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(userIdClaim)) return Challenge();
+
+                var ownerId = Guid.Parse(userIdClaim);
+                var mineResult = await _animalService.GetByOwnerAsync(ownerId);
+                if (!mineResult.IsSuccess)
+                {
+                    TempData["ErrorMessage"] = mineResult.Message;
+                    return View(new PagedResponseDto<AnimalSummaryDto>());
+                }
+
+                var mineData = mineResult.Data?.ToList() ?? new List<AnimalSummaryDto>();
+                if (!string.IsNullOrWhiteSpace(search))
+                {
+                    mineData = mineData
+                        .Where(a => a.Name.Contains(search, StringComparison.OrdinalIgnoreCase))
+                        .ToList();
+                }
+
+                var pagedMine = new PagedResponseDto<AnimalSummaryDto>
+                {
+                    Items = mineData,
+                    TotalCount = mineData.Count,
+                    PageNumber = 1,
+                    PageSize = Math.Max(1, mineData.Count)
+                };
+
+                ViewBag.SearchTerm = search;
+                ViewBag.Mine = true;
+                return View(pagedMine);
+            }
+
             var result = await _animalService.GetPagedAsync(page, size, search);
 
             if (!result.IsSuccess)
@@ -25,6 +60,7 @@ namespace PANDACLINIC.Dashboard.Controllers
             }
 
             ViewBag.SearchTerm = search;
+            ViewBag.Mine = false;
             return View(result.Data);
         }
 
@@ -55,19 +91,16 @@ namespace PANDACLINIC.Dashboard.Controllers
             var result = await _animalService.GetDeletedAnimalsAsync();
             return View(result.Data);
         }
-  
+
         [HttpPost]
-        [ValidateAntiForgeryToken] 
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Restore(Guid id)
         {
             var result = await _animalService.RestoreAsync(id);
 
             if (result.IsSuccess)
             {
-                
                 TempData["SuccessMessage"] = result.Message;
-
-                
                 return RedirectToAction(nameof(Index));
             }
 
@@ -75,7 +108,6 @@ namespace PANDACLINIC.Dashboard.Controllers
             return RedirectToAction(nameof(RecycleBin));
         }
 
-        // POST: Dashboard/Animal/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Guid id)
@@ -90,7 +122,6 @@ namespace PANDACLINIC.Dashboard.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // Remote validation for AJAX checks in the Dashboard
         [HttpGet]
         public async Task<IActionResult> IsNameAvailable(string name, Guid ownerId)
         {
@@ -109,6 +140,7 @@ namespace PANDACLINIC.Dashboard.Controllers
 
             return View(result.Data);
         }
+
         public IActionResult Create()
         {
             return View();
@@ -136,4 +168,3 @@ namespace PANDACLINIC.Dashboard.Controllers
         }
     }
 }
-

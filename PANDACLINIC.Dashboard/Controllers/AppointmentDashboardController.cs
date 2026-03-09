@@ -6,6 +6,7 @@ using PANDACLINIC.Application.DTOS.Appointment;
 using PANDACLINIC.Application.InterfacesService.AnimalService;
 using PANDACLINIC.Application.InterfacesService.AppointmentService;
 using PANDACLINIC.Shared.Enums;
+using System.Security.Claims;
 
 namespace PANDACLINIC.Dashboard.Controllers
 {
@@ -21,11 +22,13 @@ namespace PANDACLINIC.Dashboard.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(DateTime? date = null, AppointmentStatus? status = null)
+        public async Task<IActionResult> Index(DateTime? date = null, AppointmentStatus? status = null, bool mine = false)
         {
-            var source = date.HasValue
-                ? await _appointmentService.GetByDateAsync(date.Value)
-                : await _appointmentService.GetAllAsync();
+            var source = mine
+                ? await GetMineAppointmentsAsync()
+                : date.HasValue
+                    ? await _appointmentService.GetByDateAsync(date.Value)
+                    : await _appointmentService.GetAllAsync();
 
             if (!source.IsSuccess)
             {
@@ -34,6 +37,12 @@ namespace PANDACLINIC.Dashboard.Controllers
             }
 
             var data = source.Data ?? Enumerable.Empty<AppointmentSummaryDto>();
+
+            if (date.HasValue)
+            {
+                data = data.Where(a => a.AppointmentDate.Date == date.Value.Date);
+            }
+
             if (status.HasValue)
             {
                 data = data.Where(a => a.Status == status.Value);
@@ -41,6 +50,7 @@ namespace PANDACLINIC.Dashboard.Controllers
 
             ViewBag.SelectedDate = date?.ToString("yyyy-MM-dd");
             ViewBag.SelectedStatus = status;
+            ViewBag.Mine = mine;
             return View(data.OrderByDescending(a => a.AppointmentDate));
         }
 
@@ -76,6 +86,9 @@ namespace PANDACLINIC.Dashboard.Controllers
                 await LoadAnimalsAsync();
                 return View(dto);
             }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            dto.CreatedBy = userId;
 
             var result = await _appointmentService.CreateAsync(dto);
             if (result.IsSuccess)
@@ -225,6 +238,17 @@ namespace PANDACLINIC.Dashboard.Controllers
             });
         }
 
+        private async Task<PANDACLINIC.Shared.ResultModel.Result<IEnumerable<AppointmentSummaryDto>>> GetMineAppointmentsAsync()
+        {
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrWhiteSpace(userIdClaim) || !Guid.TryParse(userIdClaim, out var userId))
+            {
+                return PANDACLINIC.Shared.ResultModel.Result<IEnumerable<AppointmentSummaryDto>>.Failure("User not found.");
+            }
+
+            return await _appointmentService.GetByCreatorAsync(userId);
+        }
+
         private async Task LoadAnimalsAsync()
         {
             var animalsResult = await _animalService.GetAllAsync();
@@ -242,4 +266,3 @@ namespace PANDACLINIC.Dashboard.Controllers
         }
     }
 }
-

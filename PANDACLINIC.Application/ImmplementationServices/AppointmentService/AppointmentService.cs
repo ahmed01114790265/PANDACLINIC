@@ -16,6 +16,13 @@ namespace PANDACLINIC.Application.ImmplementationServices.AppointmentService
         {
         }
 
+        public override async Task<Result<IEnumerable<AppointmentSummaryDto>>> GetAllAsync()
+        {
+            var appointments = await _uow.Appointments.GetAllWithDetailsAsync();
+            var dtos = _mapper.Map<IEnumerable<AppointmentSummaryDto>>(appointments);
+            return Result<IEnumerable<AppointmentSummaryDto>>.Success(dtos);
+        }
+
         public override async Task<Result<AppointmentDetailDto>> CreateAsync(AppointmentRequestDto dto)
         {
             var animal = await _uow.Animals.GetByIdAsync(dto.AnimalId);

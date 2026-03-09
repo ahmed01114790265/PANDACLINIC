@@ -10,6 +10,14 @@ namespace PANDACLINIC.Persistence.ImmplementationRepository
     {
         public AppointmentRepository(ClinicDbContext context) : base(context) { }
 
+        public async Task<IEnumerable<Appointment>> GetAllWithDetailsAsync()
+        {
+            return await _dbSet
+                .Include(a => a.Animal)
+                .OrderByDescending(a => a.AppointmentDate)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<Appointment>> GetAppointmentsByDateAsync(DateTime date)
         {
             var dayStart = date.Date;

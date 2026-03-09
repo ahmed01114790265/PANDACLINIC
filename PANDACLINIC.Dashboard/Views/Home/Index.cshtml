@@ -1,8 +1,121 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model PANDACLINIC.Dashboard.Models.DashboardOverviewViewModel
+@{
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="dashboard-home">
+    <section class="overview-hero mb-4">
+        <div class="hero-content">
+            <p class="hero-kicker mb-2">Operations Overview</p>
+            <h1 class="hero-title mb-2">Welcome back, @Model.GreetingName</h1>
+            <p class="hero-subtitle mb-0">Live snapshot of appointments, hosting, inventory, and orders.</p>
+        </div>
+        <div class="hero-meta text-muted small">
+            <i class="bi bi-clock-history me-1"></i>
+            Updated @Model.GeneratedAt.ToString("yyyy-MM-dd HH:mm")
+        </div>
+    </section>
+
+    <section class="kpi-grid mb-4">
+        <article class="kpi-card">
+            <div class="kpi-icon bg-soft-cyan"><i class="bi bi-heart-pulse"></i></div>
+            <p class="kpi-label">Appointments Today</p>
+            <h3 class="kpi-value">@Model.TodayAppointments</h3>
+            <p class="kpi-foot">Scheduled: @Model.ScheduledAppointments</p>
+        </article>
+
+        <article class="kpi-card">
+            <div class="kpi-icon bg-soft-blue"><i class="bi bi-house-heart"></i></div>
+            <p class="kpi-label">Current Hosting</p>
+            <h3 class="kpi-value">@Model.OngoingHostings</h3>
+            <p class="kpi-foot">Total hostings: @Model.TotalHostings</p>
+        </article>
+
+        <article class="kpi-card">
+            <div class="kpi-icon bg-soft-green"><i class="bi bi-box-seam"></i></div>
+            <p class="kpi-label">Active Products</p>
+            <h3 class="kpi-value">@Model.ActiveProducts</h3>
+            <p class="kpi-foot">Low stock: @Model.LowStockProducts</p>
+        </article>
+
+        <article class="kpi-card">
+            <div class="kpi-icon bg-soft-amber"><i class="bi bi-receipt-cutoff"></i></div>
+            <p class="kpi-label">Pending Orders</p>
+            <h3 class="kpi-value">@Model.PendingOrders</h3>
+            <p class="kpi-foot">Total orders: @Model.TotalOrders</p>
+        </article>
+
+        <article class="kpi-card">
+            <div class="kpi-icon bg-soft-violet"><i class="bi bi-wallet2"></i></div>
+            <p class="kpi-label">Payment Follow-up</p>
+            <h3 class="kpi-value">@Model.NewPayments</h3>
+            <p class="kpi-foot">Need confirmation</p>
+        </article>
+
+        <article class="kpi-card">
+            <div class="kpi-icon bg-soft-rose"><i class="bi bi-cash-stack"></i></div>
+            <p class="kpi-label">Completed Revenue</p>
+            <h3 class="kpi-value">@Model.TotalRevenue.ToString("0.##") EGP</h3>
+            <p class="kpi-foot">Completed orders: @Model.CompletedOrders</p>
+        </article>
+    </section>
+
+    <section class="row g-3 mb-4">
+        <div class="col-12 col-xl-8">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0 fw-bold">Quick Actions</h5>
+                        <span class="text-muted small">Daily operations</span>
+                    </div>
+                    <div class="quick-actions">
+                        <a asp-controller="AppointmentDashboard" asp-action="Create" class="quick-action-link">
+                            <i class="bi bi-calendar-plus"></i><span>Create Appointment</span>
+                        </a>
+                        <a asp-controller="HostingDashboard" asp-action="Create" class="quick-action-link">
+                            <i class="bi bi-house-add"></i><span>Create Hosting</span>
+                        </a>
+                        <a asp-controller="ProductDashboard" asp-action="Create" class="quick-action-link">
+                            <i class="bi bi-bag-plus"></i><span>Add Product</span>
+                        </a>
+                        <a asp-controller="OrderDashboard" asp-action="Index" class="quick-action-link">
+                            <i class="bi bi-credit-card-2-front"></i><span>Review Orders</span>
+                        </a>
+                        <a asp-controller="AnimalDashboard" asp-action="Index" class="quick-action-link">
+                            <i class="bi bi-grid"></i><span>All Animals</span>
+                        </a>
+                        <a asp-controller="HostingDashboard" asp-action="CurrentlyHosted" class="quick-action-link">
+                            <i class="bi bi-activity"></i><span>Current Hosting</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-xl-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                    <h5 class="mb-3 fw-bold">System Snapshot</h5>
+                    <ul class="list-group list-group-flush compact-list">
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span>Total Animals</span>
+                            <strong>@Model.TotalAnimals</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span>Total Appointments</span>
+                            <strong>@Model.TotalAppointments</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span>Total Products</span>
+                            <strong>@Model.TotalProducts</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0">
+                            <span>Total Orders</span>
+                            <strong>@Model.TotalOrders</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>

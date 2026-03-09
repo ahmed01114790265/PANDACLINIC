@@ -6,6 +6,7 @@ using PANDACLINIC.Domain.Entity;
 
 namespace PANDACLINIC.Dashboard.Controllers.AccountController
 {
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -17,9 +18,11 @@ namespace PANDACLINIC.Dashboard.Controllers.AccountController
             _userManager = userManager;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Login() => View();
 
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginVM model)
@@ -55,11 +58,9 @@ namespace PANDACLINIC.Dashboard.Controllers.AccountController
             return RedirectToAction("Login");
         }
 
-        [Authorize]
         [HttpGet]
         public IActionResult ChangePassword() => View();
 
-        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordVM model)
@@ -73,7 +74,6 @@ namespace PANDACLINIC.Dashboard.Controllers.AccountController
 
             if (result.Succeeded)
             {
- 
                 await _signInManager.RefreshSignInAsync(user);
                 TempData["SuccessMessage"] = "Admin password updated successfully.";
                 return RedirectToAction("Index", "Home");
@@ -88,4 +88,3 @@ namespace PANDACLINIC.Dashboard.Controllers.AccountController
         }
     }
 }
-

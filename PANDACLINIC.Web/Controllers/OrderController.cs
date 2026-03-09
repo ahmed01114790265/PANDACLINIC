@@ -170,7 +170,7 @@ namespace PANDACLINIC.Web.Controllers
 
             ViewBag.CartItems = cartItems;
             ViewBag.Total = cartItems.Sum(i => i.LineTotal);
-            ViewBag.VodafoneCashNumber = _configuration["ManualPayment:VodafoneCashNumber"] ?? "01000000000";
+            ViewBag.VodafoneCashNumber = _configuration["ManualPayment:VodafoneCashNumber"] ?? "01004293837";
             return View(model);
         }
 
@@ -210,7 +210,7 @@ namespace PANDACLINIC.Web.Controllers
             {
                 ViewBag.CartItems = cartItems;
                 ViewBag.Total = cartItems.Sum(i => i.LineTotal);
-                ViewBag.VodafoneCashNumber = _configuration["ManualPayment:VodafoneCashNumber"] ?? "01000000000";
+                ViewBag.VodafoneCashNumber = _configuration["ManualPayment:VodafoneCashNumber"] ?? "01004293837";
                 return View(dto);
             }
 
@@ -220,7 +220,7 @@ namespace PANDACLINIC.Web.Controllers
                 ModelState.AddModelError(string.Empty, result.Errors.FirstOrDefault() ?? result.Message);
                 ViewBag.CartItems = cartItems;
                 ViewBag.Total = cartItems.Sum(i => i.LineTotal);
-                ViewBag.VodafoneCashNumber = _configuration["ManualPayment:VodafoneCashNumber"] ?? "01000000000";
+                ViewBag.VodafoneCashNumber = _configuration["ManualPayment:VodafoneCashNumber"] ?? "01004293837";
                 return View(dto);
             }
 
@@ -233,8 +233,8 @@ namespace PANDACLINIC.Web.Controllers
 
         private string BuildWhatsAppUrl(OrderDetailDto order, string paymentMethod)
         {
-            var whatsappNumber = (_configuration["ManualPayment:ClinicWhatsAppNumber"] ?? "201000000000").Replace("+", string.Empty);
-            var vodafoneNumber = _configuration["ManualPayment:VodafoneCashNumber"] ?? "01000000000";
+            var whatsappNumber = (_configuration["ManualPayment:ClinicWhatsAppNumber"] ?? "01004293837").Replace("+", string.Empty);
+            var vodafoneNumber = _configuration["ManualPayment:VodafoneCashNumber"] ?? "01004293837";
 
             string paymentText = paymentMethod == "VodafoneCash"
                 ? $"سأقوم بالدفع عبر فودافون كاش على الرقم: {vodafoneNumber}."

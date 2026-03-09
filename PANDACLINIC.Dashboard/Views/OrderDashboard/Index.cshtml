@@ -1,14 +1,32 @@
-@using PANDACLINIC.Application.DTOS.Order
+﻿@using PANDACLINIC.Application.DTOS.Order
 @using PANDACLINIC.Shared.Enums
 @model IEnumerable<OrderSummaryDto>
 
+@{
+    var paymentFollowUp = ViewBag.PaymentFollowUp is bool b && b;
+    var selectedStatus = ViewBag.SelectedStatus as OrderStatus?;
+}
+
 <div class="container-fluid py-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="fw-bold">Orders & Payments</h2>
-        <a asp-action="RecycleBin" class="btn btn-outline-danger">Orders Archive</a>
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+        <h2 class="fw-bold mb-0">Orders & Payments Review</h2>
+        <div class="d-flex gap-2 flex-wrap">
+            <a asp-action="Index" class="btn btn-outline-secondary">All Orders</a>
+            <a asp-action="Index" asp-route-status="Pending" class="btn btn-outline-warning">Pending Orders</a>
+            <a asp-action="Index" asp-route-paymentFollowUp="true" class="btn btn-outline-danger">Payment Follow-up</a>
+            <a asp-action="RecycleBin" class="btn btn-outline-danger">Orders Archive</a>
+        </div>
     </div>
 
+    @if (paymentFollowUp)
+    {
+        <div class="alert alert-warning">
+            <strong>Payment Follow-up mode:</strong> showing orders with payment status <strong>New</strong> or <strong>InProgress</strong>.
+        </div>
+    }
+
     <form method="get" class="row g-2 mb-3">
+        <input type="hidden" name="paymentFollowUp" value="@paymentFollowUp.ToString().ToLower()" />
         <div class="col-md-3">
             <select name="status" class="form-select" asp-items="Html.GetEnumSelectList<OrderStatus>()">
                 <option value="">All Order Statuses</option>
@@ -33,7 +51,8 @@
         <table class="table table-striped align-middle">
             <thead>
                 <tr>
-                    <th>Order</th>
+                    <th>#</th>
+                   @*  <th>Order No.</th> *@
                     <th>Client</th>
                     <th>Phone</th>
                     <th>Client Confirmation</th>
@@ -47,10 +66,13 @@
             <tbody>
                 @if (Model.Any())
                 {
+                    var rowNo = 1;
                     @foreach (var order in Model)
                     {
+                        var orderNo = $"ORD-{order.Id.ToString("N").Substring(0, 8).ToUpper()}";
                         <tr>
-                            <td>@order.Id</td>
+                            <td>@rowNo</td>
+                            @* <td class="fw-semibold">@orderNo</td> *@
                             <td>@order.ClientName</td>
                             <td>@order.ClientPhone</td>
                             <td>
@@ -71,8 +93,14 @@
                                     <select name="paymentStatus" class="form-select form-select-sm" onchange="this.form.submit()">
                                         @foreach (var s in Enum.GetValues<PaymentStatus>())
                                         {
-                                            if (s == order.PaymentStatus) { <option value="@s" selected>@s</option> }
-                                            else { <option value="@s">@s</option> }
+                                            if (s == order.PaymentStatus)
+                                            {
+                                                <option value="@s" selected>@s</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@s">@s</option>
+                                            }
                                         }
                                     </select>
                                 </form>
@@ -84,8 +112,14 @@
                                     <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
                                         @foreach (var s in Enum.GetValues<OrderStatus>())
                                         {
-                                            if (s == order.Status) { <option value="@s" selected>@s</option> }
-                                            else { <option value="@s">@s</option> }
+                                            if (s == order.Status)
+                                            {
+                                                <option value="@s" selected>@s</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@s">@s</option>
+                                            }
                                         }
                                     </select>
                                 </form>
@@ -100,11 +134,18 @@
                                 </form>
                             </td>
                         </tr>
+                        rowNo++;
                     }
                 }
                 else
                 {
-                    <tr><td colspan="9" class="text-center text-muted">No orders found.</td></tr>
+                    var emptyMessage = paymentFollowUp
+                        ? "No orders need payment follow-up right now."
+                        : selectedStatus == OrderStatus.Pending
+                            ? "No pending orders right now."
+                            : "No orders found.";
+
+                    <tr><td colspan="10" class="text-center text-muted">@emptyMessage</td></tr>
                 }
             </tbody>
         </table>
