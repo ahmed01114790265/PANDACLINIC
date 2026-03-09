@@ -1,0 +1,45 @@
+﻿@using PANDACLINIC.Application.DTOS.Order
+@model IEnumerable<OrderSummaryDto>
+
+<div class="container py-4">
+    <h2 class="fw-bold mb-4">طلباتي</h2>
+
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>رقم الطلب</th>
+                    <th>التاريخ</th>
+                    <th>العميل</th>
+                    <th>طريقة الدفع</th>
+                    <th>حالة الدفع</th>
+                    <th>حالة الطلب</th>
+                    <th>الإجمالي</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    @foreach (var order in Model)
+                    {
+                        <tr>
+                            <td>@order.Id</td>
+                            <td>@order.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td>@order.ClientName (@order.ClientPhone)</td>
+                            <td>@order.PaymentMethod</td>
+                            <td>@order.PaymentStatus</td>
+                            <td>@order.Status</td>
+                            <td>@order.TotalAmount.ToString("0.##") جنيه</td>
+                            <td><a asp-action="Details" asp-route-id="@order.Id" class="btn btn-sm btn-outline-primary">تفاصيل</a></td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="8" class="text-center text-muted">لا توجد طلبات حتى الآن.</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

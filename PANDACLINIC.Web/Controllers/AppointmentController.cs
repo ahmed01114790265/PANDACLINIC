@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PANDACLINIC.Application.DTOS.Animal;
 using PANDACLINIC.Application.DTOS.Appointment;
@@ -8,6 +9,7 @@ using System.Security.Claims;
 
 namespace PANDACLINIC.Web.Controllers
 {
+    [Authorize]
     public class AppointmentController : Controller
     {
         private readonly IAppointmentService _appointmentService;
@@ -174,3 +176,5 @@ namespace PANDACLINIC.Web.Controllers
         }
     }
 }
+
+

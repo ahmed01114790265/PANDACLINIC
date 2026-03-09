@@ -1,0 +1,43 @@
+﻿@using PANDACLINIC.Application.DTOS.Product
+@model ProductDetailDto
+
+<div class="container py-4">
+    <div class="row g-4">
+        <div class="col-md-6">
+            <img src="@(string.IsNullOrWhiteSpace(Model.ImageUrl) ? "/uploads/default-product.png" : Model.ImageUrl)" class="img-fluid rounded shadow-sm" />
+        </div>
+        <div class="col-md-6">
+            <h2 class="fw-bold">@Model.Name</h2>
+            <p class="text-muted">@Model.Type</p>
+            <p>@Model.Description</p>
+            <p class="mb-2">النكهة: @Model.Taste</p>
+            <p class="mb-2">الوزن: @Model.Weight</p>
+            <p class="mb-2">المخزون: @Model.Stock</p>
+            <h4 class="text-primary">@Model.Price.ToString("0.##") جنيه</h4>
+
+            <div class="mt-4 d-flex gap-2">
+                <input type="number" id="qtyInput" min="1" value="1" class="form-control" style="max-width:120px;" />
+                <a id="addToCartLink" asp-controller="Order" asp-action="AddToCart" asp-route-productId="@Model.Id" asp-route-quantity="1" class="btn btn-primary">أضف للسلة</a>
+                <a asp-action="Index" class="btn btn-outline-secondary">رجوع</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    (function () {
+        var qty = document.getElementById("qtyInput");
+        var link = document.getElementById("addToCartLink");
+        if (!qty || !link) return;
+
+        qty.addEventListener("input", function () {
+            var q = parseInt(qty.value || "1");
+            if (isNaN(q) || q < 1) q = 1;
+            var url = new URL(link.href, window.location.origin);
+            url.searchParams.set("quantity", q.toString());
+            link.href = url.pathname + url.search;
+        });
+    })();
+</script>
+}

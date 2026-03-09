@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PANDACLINIC.Application.DTOS.Animal;
 using PANDACLINIC.Application.InterfacesService.AnimalService;
 using System.Security.Claims;
 
 namespace PANDACLINIC.Web.Controllers
 {
+    [Authorize]
     public class AnimalController : Controller
     {
         private readonly IAnimalService _animalService;
@@ -72,4 +74,6 @@ namespace PANDACLINIC.Web.Controllers
         }
     }
 }
+
+
 

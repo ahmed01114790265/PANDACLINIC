@@ -1,0 +1,61 @@
+@using PANDACLINIC.Application.DTOS.Product
+@model IEnumerable<ProductSummaryDto>
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-bold">Products</h2>
+        <div class="d-flex gap-2">
+            <a asp-action="RecycleBin" class="btn btn-outline-danger">Products Archive</a>
+            <a asp-action="Create" class="btn btn-primary">Add Product</a>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Active</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    @foreach (var p in Model)
+                    {
+                        <tr>
+                            <td>@p.Name</td>
+                            <td>@p.Type</td>
+                            <td>@p.Price.ToString("0.##") @p.Currency</td>
+                            <td>@p.Stock</td>
+                            <td>
+                                <form asp-action="ToggleStatus" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@p.Id" />
+                                    <input type="hidden" name="isActive" value="@(!p.IsActive)" />
+                                    <button type="submit" class="btn btn-sm @(p.IsActive ? "btn-success" : "btn-secondary")">@(p.IsActive ? "Active" : "Inactive")</button>
+                                </form>
+                            </td>
+                            <td class="text-end">
+                                <a asp-action="Edit" asp-route-id="@p.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                                <form asp-action="Delete" method="post" class="d-inline" onsubmit="return confirm('Move product to archive?');">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@p.Id" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Archive</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="6" class="text-center text-muted">No products found.</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

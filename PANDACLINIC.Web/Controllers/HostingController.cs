@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PANDACLINIC.Application.DTOS.Animal;
 using PANDACLINIC.Application.DTOS.Hosting;
@@ -8,6 +9,7 @@ using System.Security.Claims;
 
 namespace PANDACLINIC.Web.Controllers
 {
+    [Authorize]
     public class HostingController : Controller
     {
         private readonly IHostingService _hostingService;
@@ -194,4 +196,6 @@ namespace PANDACLINIC.Web.Controllers
         }
     }
 }
+
+
 

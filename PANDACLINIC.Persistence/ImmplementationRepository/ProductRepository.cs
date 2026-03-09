@@ -1,13 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PANDACLINIC.Domain.Entity;
 using PANDACLINIC.Domain.InterfaceRepository;
 using PANDACLINIC.Persistence.Context;
 using PANDACLINIC.Shared.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PANDACLINIC.Persistence.ImmplementationRepository
 {
@@ -15,7 +10,6 @@ namespace PANDACLINIC.Persistence.ImmplementationRepository
     {
         public ProductRepository(ClinicDbContext context) : base(context) { }
 
-        // 1.  Filters
         public async Task<IEnumerable<Product>> GetInStockProductsAsync()
         {
             return await _dbSet.Where(p => p.Stock > 0 && p.IsActive).ToListAsync();
@@ -28,7 +22,6 @@ namespace PANDACLINIC.Persistence.ImmplementationRepository
 
         public async Task<IEnumerable<Product>> GetDiscountedProductsAsync()
         {
-            // Assuming you have a DiscountPrice or IsOnSale property
             return await _dbSet.Where(p => p.DiscountPercentage > 0 && p.IsActive).ToListAsync();
         }
 
@@ -39,7 +32,6 @@ namespace PANDACLINIC.Persistence.ImmplementationRepository
                 .ToListAsync();
         }
 
-        // 2. Search & Pagination
         public async Task<IEnumerable<Product>> SearchAsync(string searchTerm)
         {
             return await _dbSet
@@ -64,7 +56,6 @@ namespace PANDACLINIC.Persistence.ImmplementationRepository
                 .ToListAsync();
         }
 
-        // 3. Inventory Management
         public async Task<IEnumerable<Product>> GetOutOfStockProductsAsync()
         {
             return await _dbSet.Where(p => p.Stock == 0 && p.IsActive).ToListAsync();
@@ -84,10 +75,8 @@ namespace PANDACLINIC.Persistence.ImmplementationRepository
             }
         }
 
-        // 4. Analytics
         public async Task<IEnumerable<Product>> GetBestSellersAsync(int topCount)
         {
-            // Joining with OrderItems to find most sold products
             return await _context.Set<OrderItem>()
                 .GroupBy(oi => oi.ProductId)
                 .OrderByDescending(g => g.Sum(oi => oi.Quantity))
@@ -98,7 +87,6 @@ namespace PANDACLINIC.Persistence.ImmplementationRepository
 
         public async Task<decimal> GetTotalInventoryValueAsync()
         {
-            // Sum of (Price * Quantity) for all active products
             return await _dbSet
                 .Where(p => p.IsActive)
                 .SumAsync(p => p.Price.Amount * p.Stock);
@@ -107,6 +95,22 @@ namespace PANDACLINIC.Persistence.ImmplementationRepository
         public async Task<bool> IsProductNameUniqueAsync(string name)
         {
             return !await _dbSet.AnyAsync(p => p.Name.ToLower() == name.ToLower());
+        }
+
+        public async Task<IEnumerable<Product>> GetDeletedProductsAsync()
+        {
+            return await _dbSet
+                .IgnoreQueryFilters()
+                .Where(p => p.IsDeleted)
+                .OrderByDescending(p => p.DeletedAt)
+                .ToListAsync();
+        }
+
+        public async Task<Product?> GetByIdDeletedAsync(Guid id)
+        {
+            return await _dbSet
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(p => p.Id == id && p.IsDeleted);
         }
     }
 }

@@ -1,0 +1,110 @@
+﻿@using PANDACLINIC.Application.DTOS.Order
+@model OrderCheckoutRequestDto
+
+@{
+    var items = ViewBag.CartItems as IEnumerable<OrderItemSummaryDto> ?? Enumerable.Empty<OrderItemSummaryDto>();
+    decimal total = ViewBag.Total != null ? (decimal)ViewBag.Total : 0m;
+    string vodafone = ViewBag.VodafoneCashNumber?.ToString() ?? "01000000000";
+}
+
+<div class="container py-4">
+    <h2 class="fw-bold mb-4">تأكيد الطلب والدفع</h2>
+
+    <div class="row g-4">
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <form method="post" asp-action="Checkout">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="ClientName" class="form-label">اسم العميل</label>
+                            <input asp-for="ClientName" class="form-control" />
+                            <span asp-validation-for="ClientName" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ClientPhone" class="form-label">رقم الهاتف</label>
+                            <input asp-for="ClientPhone" class="form-control" />
+                            <span asp-validation-for="ClientPhone" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ClientAddress" class="form-label">العنوان</label>
+                            <textarea asp-for="ClientAddress" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="ClientAddress" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Notes" class="form-label">ملاحظات (اختياري)</label>
+                            <textarea asp-for="Notes" class="form-control" rows="2"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label d-block">طريقة الدفع</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" asp-for="PaymentMethod" value="VodafoneCash" id="payVodafone" />
+                                <label class="form-check-label" for="payVodafone">فودافون كاش</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" asp-for="PaymentMethod" value="CashOnDelivery" id="payCash" />
+                                <label class="form-check-label" for="payCash">الدفع عند الاستلام</label>
+                            </div>
+                            <span asp-validation-for="PaymentMethod" class="text-danger small"></span>
+                        </div>
+
+                        <div id="vodafoneBox" class="alert alert-warning d-none">
+                            يرجى التحويل على رقم فودافون كاش: <strong>@vodafone</strong><br />
+                            بعد ذلك سيتم تحويلك إلى واتساب لتأكيد الدفع.
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-lg w-100">تأكيد الطلب والدفع</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-3">ملخص الطلب</h5>
+                    <ul class="list-group list-group-flush">
+                        @foreach (var item in items)
+                        {
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>@item.ProductName x @item.Quantity</span>
+                                <span>@item.LineTotal.ToString("0.##") جنيه</span>
+                            </li>
+                        }
+                    </ul>
+                    <hr />
+                    <h4 class="d-flex justify-content-between">
+                        <span>الإجمالي</span>
+                        <span class="text-primary">@total.ToString("0.##") جنيه</span>
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script>
+        (function () {
+            var payVodafone = document.getElementById('payVodafone');
+            var payCash = document.getElementById('payCash');
+            var box = document.getElementById('vodafoneBox');
+
+            function updateBox() {
+                if (payVodafone && payVodafone.checked) box.classList.remove('d-none');
+                else box.classList.add('d-none');
+            }
+
+            if (payVodafone) payVodafone.addEventListener('change', updateBox);
+            if (payCash) payCash.addEventListener('change', updateBox);
+            updateBox();
+        })();
+    </script>
+}

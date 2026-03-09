@@ -1,13 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PANDACLINIC.Domain.Entity;
 using PANDACLINIC.Domain.InterfaceRepository;
 using PANDACLINIC.Persistence.Context;
 using PANDACLINIC.Shared.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PANDACLINIC.Persistence.ImmplementationRepository
 {
@@ -15,10 +10,13 @@ namespace PANDACLINIC.Persistence.ImmplementationRepository
     {
         public OrderRepository(ClinicDbContext context) : base(context) { }
 
-        // 1. Basic 
         public async Task<IEnumerable<Order>> GetOrdersByCustomerIdAsync(Guid customerId)
         {
             return await _dbSet
+                .Include(o => o.User)
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Product)
+                .Include(o => o.Payments)
                 .Where(o => o.UserId == customerId)
                 .OrderByDescending(o => o.CreatedAt)
                 .ToListAsync();
@@ -34,7 +32,17 @@ namespace PANDACLINIC.Persistence.ImmplementationRepository
                 .FirstOrDefaultAsync(o => o.Id == orderId);
         }
 
-        // 2. Status & Sales Management
+        public async Task<IEnumerable<Order>> GetAllWithDetailsAsync()
+        {
+            return await _dbSet
+                .Include(o => o.User)
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Product)
+                .Include(o => o.Payments)
+                .OrderByDescending(o => o.CreatedAt)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<Order>> GetOrdersByStatusAsync(OrderStatus status)
         {
             return await _dbSet.Where(o => o.Status == status).ToListAsync();
@@ -42,29 +50,35 @@ namespace PANDACLINIC.Persistence.ImmplementationRepository
 
         public async Task<IEnumerable<Order>> GetPendingOrdersAsync()
         {
-
             return await _dbSet
                 .Include(o => o.User)
+                .Include(o => o.Payments)
                 .Where(o => o.Status == OrderStatus.Pending)
                 .OrderByDescending(o => o.CreatedAt)
                 .ToListAsync();
         }
 
-        // 3. Dashboard 
         public async Task<IEnumerable<Order>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate)
         {
             return await _dbSet
+                .Include(o => o.User)
+                .Include(o => o.Payments)
                 .Where(o => o.CreatedAt >= startDate && o.CreatedAt <= endDate)
                 .ToListAsync();
         }
 
         public async Task<(IEnumerable<Order> Items, int TotalCount)> GetPagedOrdersAsync(int pageNumber, int pageSize, string? searchTerm = null)
         {
-            var query = _dbSet.Include(o => o.User).AsQueryable();
+            var query = _dbSet
+                .Include(o => o.User)
+                .Include(o => o.Payments)
+                .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
-                query = query.Where(o => o.User.UserName.Contains(searchTerm) || o.Id.ToString().Contains(searchTerm));
+                query = query.Where(o =>
+                    (o.User != null && o.User.UserName != null && o.User.UserName.Contains(searchTerm)) ||
+                    o.Id.ToString().Contains(searchTerm));
             }
 
             int totalCount = await query.CountAsync();
@@ -77,7 +91,6 @@ namespace PANDACLINIC.Persistence.ImmplementationRepository
             return (items, totalCount);
         }
 
-        // 4. Financial Calculations
         public async Task<decimal> GetTotalRevenueAsync(DateTime? start = null, DateTime? end = null)
         {
             var query = _dbSet.Where(o => o.Status == OrderStatus.Completed);
@@ -88,9 +101,9 @@ namespace PANDACLINIC.Persistence.ImmplementationRepository
             if (end.HasValue)
                 query = query.Where(o => o.CreatedAt <= end.Value);
 
-
             return await query.SumAsync(o => (decimal?)o.TotalAmount) ?? 0m;
         }
+
         public async Task<IEnumerable<Order>> GetOrdersWithPaymentIssuesAsync()
         {
             return await _dbSet
@@ -101,13 +114,12 @@ namespace PANDACLINIC.Persistence.ImmplementationRepository
                 .ToListAsync();
         }
 
-        // 5. Analytics
         public async Task<IEnumerable<OrderItem>> GetTopSellingItemsAsync(int count)
         {
             return await _context.Set<OrderItem>()
                 .Include(oi => oi.Product)
                 .GroupBy(oi => oi.ProductId)
-                .Select(g => new { ProductId = g.Key, TotalQty = g.Sum(x => x.Quantity), Item = g.First() })
+                .Select(g => new { Item = g.First(), TotalQty = g.Sum(x => x.Quantity) })
                 .OrderByDescending(x => x.TotalQty)
                 .Take(count)
                 .Select(x => x.Item)
@@ -126,6 +138,26 @@ namespace PANDACLINIC.Persistence.ImmplementationRepository
             return await _dbSet
                 .Where(o => o.CreatedAt.Date == today && o.Status != OrderStatus.Cancelled)
                 .SumAsync(o => o.TotalAmount);
+        }
+
+        public async Task<IEnumerable<Order>> GetDeletedOrdersAsync()
+        {
+            return await _dbSet
+                .IgnoreQueryFilters()
+                .Include(o => o.User)
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Product)
+                .Include(o => o.Payments)
+                .Where(o => o.IsDeleted)
+                .OrderByDescending(o => o.DeletedAt)
+                .ToListAsync();
+        }
+
+        public async Task<Order?> GetByIdDeletedAsync(Guid id)
+        {
+            return await _dbSet
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(o => o.Id == id && o.IsDeleted);
         }
     }
 }

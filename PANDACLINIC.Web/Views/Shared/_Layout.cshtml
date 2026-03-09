@@ -1,4 +1,20 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using PANDACLINIC.Domain.Entity
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ApplicationUser? currentUser = null;
+    if (User.Identity?.IsAuthenticated == true)
+    {
+        currentUser = await UserManager.GetUserAsync(User);
+    }
+
+    var displayName = !string.IsNullOrWhiteSpace(currentUser?.fullName)
+        ? currentUser!.fullName
+        : User.Identity?.Name;
+}
+
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="utf-8" />
@@ -10,37 +26,41 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom mb-4">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom mb-4 shadow-sm">
             <div class="container">
-                <a class="navbar-brand fw-bold text-primary" asp-controller="Home" asp-action="Index">
+                <a class="navbar-brand fw-bold text-primary" asp-controller="Product" asp-action="Index">
                     <i class="bi bi-heart-pulse-fill"></i> PANDACLINIC
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Home" asp-action="Index">الرئيسية</a></li>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item"><a class="nav-link text-dark" asp-controller="Animal" asp-action="MyAnimals">حيواناتي</a></li>
-                            <li class="nav-item"><a class="nav-link text-dark" asp-controller="Animal" asp-action="Create">إضافة حيوان جديد</a></li>
-                            <li class="nav-item"><a class="nav-link text-dark" asp-controller="Appointment" asp-action="MyAppointments">مواعيدي</a></li>
-                            <li class="nav-item"><a class="nav-link text-dark" asp-controller="Appointment" asp-action="Create">حجز موعد</a></li>
-                            <li class="nav-item"><a class="nav-link text-dark" asp-controller="Hosting" asp-action="MyHostings">استضافاتي</a></li>
-                            <li class="nav-item"><a class="nav-link text-dark" asp-controller="Hosting" asp-action="Create">حجز استضافة</a></li>
-                        }
+                    <ul class="navbar-nav me-auto align-items-lg-center gap-lg-1">
+                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Product" asp-action="Index">المنتجات</a></li>
+                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Animal" asp-action="MyAnimals">حيواناتي</a></li>
+                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Animal" asp-action="Create">إضافة حيوان</a></li>
+                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Appointment" asp-action="MyAppointments">مواعيدي</a></li>
+                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Appointment" asp-action="Create">حجز موعد</a></li>
+                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Hosting" asp-action="MyHostings">استضافاتي</a></li>
+                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Hosting" asp-action="Create">حجز استضافة</a></li>
+                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Order" asp-action="Cart">السلة</a></li>
+                        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Order" asp-action="MyOrders">طلباتي</a></li>
                     </ul>
-                    <ul class="navbar-nav ms-auto">
-                        @if (User.Identity.IsAuthenticated)
+
+                    <ul class="navbar-nav ms-auto align-items-lg-center">
+                        @if (User.Identity?.IsAuthenticated == true)
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle btn btn-outline-primary btn-sm px-3 ms-2" href="#" data-bs-toggle="dropdown">أهلاً، @User.Identity.Name</a>
+                                <a class="nav-link dropdown-toggle btn btn-outline-primary btn-sm px-3 ms-2" href="#" data-bs-toggle="dropdown">
+                                    أهلاً، @displayName
+                                </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li><a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword">تغيير كلمة المرور</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <form asp-controller="Account" asp-action="Logout" method="post" class="px-3">
+                                            @Html.AntiForgeryToken()
                                             <button type="submit" class="btn btn-danger btn-sm w-100">تسجيل خروج</button>
                                         </form>
                                     </li>
@@ -49,8 +69,8 @@
                         }
                         else
                         {
-                            <li class="nav-item"><a class="nav-link btn btn-primary text-white px-4 ms-2" asp-controller="Account" asp-action="Login">دخول</a></li>
-                            <li class="nav-item"><a class="nav-link text-dark" asp-controller="Account" asp-action="Register">تسجيل جديد</a></li>
+                            <li class="nav-item"><a class="nav-link btn btn-primary text-white px-4 ms-2" asp-controller="Account" asp-action="Login">تسجيل الدخول</a></li>
+                            <li class="nav-item"><a class="nav-link text-dark" asp-controller="Account" asp-action="Register">إنشاء حساب</a></li>
                         }
                     </ul>
                 </div>
@@ -62,17 +82,23 @@
         <main role="main" class="pb-3">
             @if (TempData["SuccessMessage"] != null || TempData["Success"] != null)
             {
-                <div class="alert alert-success alert-dismissible fade show" role="alert">@(TempData["SuccessMessage"] ?? TempData["Success"])</div>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle me-2"></i> @(TempData["SuccessMessage"] ?? TempData["Success"])
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
             }
-            @if (TempData["ErrorMessage"] != null)
+            @if (TempData["ErrorMessage"] != null || TempData["Error"] != null)
             {
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">@TempData["ErrorMessage"]</div>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-triangle me-2"></i> @(TempData["ErrorMessage"] ?? TempData["Error"])
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
             }
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top text-muted">
+    <footer class="border-top text-muted py-3 bg-light mt-4">
         <div class="container text-center">&copy; 2026 - <strong>PANDACLINIC</strong></div>
     </footer>
 

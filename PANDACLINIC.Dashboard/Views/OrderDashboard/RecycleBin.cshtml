@@ -1,0 +1,50 @@
+@using PANDACLINIC.Application.DTOS.Order
+@model IEnumerable<OrderSummaryDto>
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-bold">Orders Archive</h2>
+        <a asp-action="Index" class="btn btn-outline-secondary">Back To Orders</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>Order</th>
+                    <th>Client</th>
+                    <th>Phone</th>
+                    <th>Payment Method</th>
+                    <th>Total</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    @foreach (var order in Model)
+                    {
+                        <tr>
+                            <td>@order.Id</td>
+                            <td>@order.ClientName</td>
+                            <td>@order.ClientPhone</td>
+                            <td>@order.PaymentMethod</td>
+                            <td>@order.TotalAmount.ToString("0.##") EGP</td>
+                            <td class="text-end">
+                                <form asp-action="Restore" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@order.Id" />
+                                    <button type="submit" class="btn btn-sm btn-success">Restore</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="6" class="text-center text-muted">Archive is empty.</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,128 @@
+@using PANDACLINIC.Application.DTOS.Order
+@using PANDACLINIC.Shared.Enums
+@model IEnumerable<OrderSummaryDto>
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-bold">Orders & Payments</h2>
+        <a asp-action="RecycleBin" class="btn btn-outline-danger">Orders Archive</a>
+    </div>
+
+    <form method="get" class="row g-2 mb-3">
+        <div class="col-md-3">
+            <select name="status" class="form-select" asp-items="Html.GetEnumSelectList<OrderStatus>()">
+                <option value="">All Order Statuses</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select name="paymentStatus" class="form-select" asp-items="Html.GetEnumSelectList<PaymentStatus>()">
+                <option value="">All Payment Statuses</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select name="clientConfirmed" class="form-select" id="clientConfirmedFilter">
+                <option value="">All Confirmations</option>
+                <option value="true">Confirmed</option>
+                <option value="false">Not Confirmed</option>
+            </select>
+        </div>
+        <div class="col-md-3 d-grid"><button class="btn btn-dark">Filter</button></div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>Order</th>
+                    <th>Client</th>
+                    <th>Phone</th>
+                    <th>Client Confirmation</th>
+                    <th>Payment Method</th>
+                    <th>Payment Status</th>
+                    <th>Order Status</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    @foreach (var order in Model)
+                    {
+                        <tr>
+                            <td>@order.Id</td>
+                            <td>@order.ClientName</td>
+                            <td>@order.ClientPhone</td>
+                            <td>
+                                @if (order.IsClientConfirmed)
+                                {
+                                    <span class="badge bg-success">Confirmed</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">Not Confirmed</span>
+                                }
+                            </td>
+                            <td>@order.PaymentMethod</td>
+                            <td>
+                                <form asp-action="UpdatePaymentStatus" method="post" class="d-flex gap-2">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@order.Id" />
+                                    <select name="paymentStatus" class="form-select form-select-sm" onchange="this.form.submit()">
+                                        @foreach (var s in Enum.GetValues<PaymentStatus>())
+                                        {
+                                            if (s == order.PaymentStatus) { <option value="@s" selected>@s</option> }
+                                            else { <option value="@s">@s</option> }
+                                        }
+                                    </select>
+                                </form>
+                            </td>
+                            <td>
+                                <form asp-action="UpdateOrderStatus" method="post" class="d-flex gap-2">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@order.Id" />
+                                    <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
+                                        @foreach (var s in Enum.GetValues<OrderStatus>())
+                                        {
+                                            if (s == order.Status) { <option value="@s" selected>@s</option> }
+                                            else { <option value="@s">@s</option> }
+                                        }
+                                    </select>
+                                </form>
+                            </td>
+                            <td>@order.TotalAmount.ToString("0.##") EGP</td>
+                            <td class="d-flex gap-2">
+                                <a asp-action="Details" asp-route-id="@order.Id" class="btn btn-sm btn-outline-primary">Details</a>
+                                <form asp-action="Delete" method="post" onsubmit="return confirm('Move order to archive?');">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@order.Id" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Archive</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="9" class="text-center text-muted">No orders found.</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    (function() {
+        var status = document.querySelector('select[name="status"]');
+        var pay = document.querySelector('select[name="paymentStatus"]');
+        var confirm = document.getElementById('clientConfirmedFilter');
+        var selectedStatus = '@(ViewBag.SelectedStatus?.ToString() ?? string.Empty)';
+        var selectedPay = '@(ViewBag.SelectedPaymentStatus?.ToString() ?? string.Empty)';
+        var selectedConfirm = '@(ViewBag.SelectedClientConfirmed?.ToString().ToLower() ?? string.Empty)';
+        if (status && selectedStatus) status.value = selectedStatus;
+        if (pay && selectedPay) pay.value = selectedPay;
+        if (confirm && selectedConfirm) confirm.value = selectedConfirm;
+    })();
+</script>
+}

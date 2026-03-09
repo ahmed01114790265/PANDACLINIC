@@ -1,4 +1,4 @@
-﻿using PANDACLINIC.Domain.Comman.BaseEntity;
+using PANDACLINIC.Domain.Comman.BaseEntity;
 using PANDACLINIC.Domain.Comman.ValueObject;
 using PANDACLINIC.Shared.Enums;
 using System;
@@ -12,9 +12,9 @@ namespace PANDACLINIC.Domain.Entity
     
     public class Product : BaseEntity
     {
-        public string Name { get; private set; }
-        public string Description { get; private set; }
-        public Money Price { get; private set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public Money Price { get; set; }
         public decimal Weight { get; set; }
         public string Taste { get; set; } = null!;
         public string ImageUrl { get; set; } = "default-product.png";
@@ -28,3 +28,4 @@ namespace PANDACLINIC.Domain.Entity
 
     }
 }
+

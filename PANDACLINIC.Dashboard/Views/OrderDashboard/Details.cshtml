@@ -1,0 +1,48 @@
+@using PANDACLINIC.Application.DTOS.Order
+@model OrderDetailDto
+
+<div class="container py-4">
+    <h3 class="fw-bold mb-3">Order Details</h3>
+
+    <div class="row g-4">
+        <div class="col-md-5">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <p><strong>Order:</strong> @Model.Id</p>
+                    <p><strong>Date:</strong> @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</p>
+                    <p><strong>Client:</strong> @Model.ClientName</p>
+                    <p><strong>Phone:</strong> @Model.ClientPhone</p>
+                    <p><strong>Address:</strong> @Model.ClientAddress</p>
+                    <p><strong>Payment Method:</strong> @Model.PaymentMethod</p>
+                    <p><strong>Payment Status:</strong> @Model.PaymentStatus</p>
+                    <p><strong>Order Status:</strong> @Model.Status</p>
+                    <p><strong>Total:</strong> @Model.TotalAmount.ToString("0.##") EGP</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="fw-bold">Items</h5>
+                    <table class="table table-bordered">
+                        <thead><tr><th>Product</th><th>Qty</th><th>Unit Price</th><th>Total</th></tr></thead>
+                        <tbody>
+                            @foreach (var item in Model.Items)
+                            {
+                                <tr>
+                                    <td>@item.ProductName</td>
+                                    <td>@item.Quantity</td>
+                                    <td>@item.UnitPrice.ToString("0.##")</td>
+                                    <td>@item.LineTotal.ToString("0.##")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a asp-action="Index" class="btn btn-outline-secondary mt-3">Back to Orders</a>
+</div>
