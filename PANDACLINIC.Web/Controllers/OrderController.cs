@@ -233,7 +233,12 @@ namespace PANDACLINIC.Web.Controllers
 
         private string BuildWhatsAppUrl(OrderDetailDto order, string paymentMethod)
         {
-            var whatsappNumber = (_configuration["ManualPayment:ClinicWhatsAppNumber"] ?? "01004293837").Replace("+", string.Empty);
+            
+            var rawNumber = (_configuration["ManualPayment:ClinicWhatsAppNumber"] ?? "01004293837")
+                            .Replace("+", string.Empty)
+                            .TrimStart('0');
+
+            var whatsappNumber = rawNumber.StartsWith("20") ? rawNumber : "20" + rawNumber;
             var vodafoneNumber = _configuration["ManualPayment:VodafoneCashNumber"] ?? "01004293837";
 
             string paymentText = paymentMethod == "VodafoneCash"
