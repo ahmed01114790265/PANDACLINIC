@@ -8,11 +8,11 @@
 <div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h2 class="fw-bold text-primary mb-1"> حيواناتي المسجله لي </h2>
+            <h2 class="fw-bold text-primary mb-1">My RegeserationAnimal for me  </h2>
             <p class="text-muted">Manage the pets you have registered in our system.</p>
         </div>
         <a asp-action="Create" class="btn btn-success btn-lg shadow-sm">
-            <i class="bi bi-plus-lg"></i> اضافه حيوان جديد
+            <i class="bi bi-plus-lg"></i> AddNewAnimal
         </a>
     </div>
 
@@ -36,6 +36,7 @@
                                 <div>
                                     <h5 class="card-title fw-bold mb-0">@animal.Name</h5>
                                     <h5 class="card-img fw-bold mb-0">@animal.Imgageurl</h5>
+                                    <h5 class="hover-shadow fw-bold mb-0">@animal.AnimalType</h5>
                                    
                                 </div>
                                 <div class="dropdown">
@@ -44,7 +45,7 @@
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end shadow">
                                         <li><a class="dropdown-item" asp-action="Details" asp-route-id="@animal.Id">View Details</a></li>
-                                        <li><a class="dropdown-item text-danger" href="#" onclick="confirmDelete('@animal.Id')"> حذف الحيوان </a></li>
+                                        <li><a class="dropdown-item text-danger" href="#" onclick="confirmDelete('@animal.Id')"> ArchiveAnimal </a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -53,7 +54,7 @@
                         </div>
                         <div class="card-footer bg-transparent border-top-0 pb-3">
                             <a asp-action="Details" asp-route-id="@animal.Id" class="btn btn-outline-primary w-100 btn-sm">
-                                معلومات الحيوان 
+                               AnimalInformation 
                             </a>
                         </div>
                     </div>
@@ -66,7 +67,7 @@
                 <div class="mb-3">
                     <i class="bi bi-clipboard-x display-1 text-muted"></i>
                 </div>
-                <h4 class="text-muted">لا يوجد حيوانات مسجله لك الان .</h4>
+                <h4 class="text-muted">you did Not Have AnyAnimal .</h4>
                 <p>لم تسجل حيوات بعد .</p>
                 <a asp-action="Create" class="btn btn-primary">Get Started Now</a>
             </div>

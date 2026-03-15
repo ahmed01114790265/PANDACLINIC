@@ -32,18 +32,12 @@ namespace PANDACLINIC.Application.Mappings
                                               src.HostingHistory.Any(h => h.CheckOutDate == null)));
 
             // 3. Request DTO -> Entity (For Creating)
-            // داخل AnimalMappingProfile
+
             CreateMap<AnimalRequestDto, Animal>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.IsDeleted, opt => opt.MapFrom(_ => false))
-                //.ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(_ => DateTime.UtcNow))
-                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.BirthDate))
-                // تجاهل الملف لأنه لا يوجد حقل له في الـ Entity
-                .ForMember(dest => dest.Imgageurl, opt => opt.Ignore())
-                // التأكد من نقل المسار النصي
-                .ForMember(dest => dest.Imgageurl, opt => opt.MapFrom(src => src.Imgageurl));
-            // 4. Mapping for Paged Results (if needed)
-            // Note: Map specific items first, then use .Select in service or a custom converter
+     .ForMember(dest => dest.Id, opt => opt.Ignore())
+     .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.Now))
+
+     .ForMember(dest => dest.AnimalType, opt => opt.MapFrom(src => src.AnimalType));
         }
     }
 }

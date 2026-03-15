@@ -7,7 +7,7 @@
             <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
                 <div class="card-header bg-white py-4 border-0">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h3 class="mb-0 fw-bold">معلومات  الحيوان </h3>
+                        <h3 class="mb-0 fw-bold">AnimalInformation </h3>
                         <span class="badge @(Model.IsHostedNow ? "bg-success" : "bg-secondary") rounded-pill p-2 px-3">
                             @(Model.IsHostedNow ? "Currently Hosted" : "At Home")
                         </span>
@@ -34,15 +34,19 @@
                         <div class="col-12 col-md-6">
                             <ul class="list-group list-group-flush small">
                                 <li class="list-group-item d-flex justify-content-between bg-transparent px-0">
-                                    <span class="text-muted"> المالك للحيوان </span>
+                                    <span class="text-muted"> Owner </span>
                                     <span class="fw-bold">@Model.OwnerName</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between bg-transparent px-0">
-                                    <span class="text-muted">تاريخ تسجيل الحيوان </span>
+                                    <span class="text-muted">DateOfRegesterAnamil </span>
                                     <span class="fw-bold">@Model.BirthDate.ToShortDateString()</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between bg-transparent px-0">
-                                    <span class="text-muted"> الاستشارات الخاصه به </span>
+                                    <span class="text-muted"> TypeOfAnimal </span>
+                                    <span class="fw-bold">@Model.AnimalType.ToString()</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between bg-transparent px-0">
+                                    <span class="text-muted"> NumberofHisAppointment </span>
                                     <span class="badge bg-dark rounded-pill">@Model.AppointmentCount</span>
                                 </li>
 
@@ -51,7 +55,7 @@
                     </div>
                 </div>
                 <div class="card-footer bg-light border-0 py-3 text-center">
-                    <a asp-action="Index" class="btn btn-link text-decoration-none text-dark"> الرجوع للقائمه  </a>
+                    <a asp-action="Index" class="btn btn-link text-decoration-none text-dark"> BackToList  </a>
                 </div>
             </div>
         </div>

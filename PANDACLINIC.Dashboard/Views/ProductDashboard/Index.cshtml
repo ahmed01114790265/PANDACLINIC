@@ -15,6 +15,7 @@
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Image</th>
                     <th>Type</th>
                     <th>Price</th>
                     <th>Stock</th>
@@ -29,6 +30,25 @@
                     {
                         <tr>
                             <td>@p.Name</td>
+                            <td class="ps-4">
+                                <div class="d-flex align-items-center">
+                                    @if (!string.IsNullOrEmpty(p.ImageUrl))
+                                    {
+                                        <img src="@p.ImageUrl"
+                                             alt="@p.Name"
+                                             class="rounded-circle shadow-sm border"
+                                             style="width: 70px; height: 70px; -o-object-fit: cover;" />
+                                    }
+                                    else
+                                    {
+                                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center border"
+                                             style="width: 70px; height: 70px;">
+                                            <i class="bi bi-paw text-muted"></i>
+                                        </div>
+                                    }
+                                   @*  <span class="ms-3 fw-bold">@p.Name</span> *@
+                                </div>
+                            </td>
                             <td>@p.Type</td>
                             <td>@p.Price.ToString("0.##") @p.Currency</td>
                             <td>@p.Stock</td>

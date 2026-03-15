@@ -13,7 +13,7 @@ namespace PANDACLINIC.Shared.Enums
         Cosmetics = 3,
         Accessories = 4,
         Vaccines = 5,
-        Supplements = 6,
+        Pharmacy = 6,
     }
     public enum HostingStayStatus
     {
@@ -58,5 +58,13 @@ namespace PANDACLINIC.Shared.Enums
         Staff = 2,
         Customer = 3
 
+    }
+
+    public enum AnimalType
+    {
+        Dog = 1,
+        Cat = 2,
+        OrnamentalBirds = 3,
+        TurtlesAndReptiles = 4
     }
 }

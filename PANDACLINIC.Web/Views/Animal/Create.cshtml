@@ -19,12 +19,23 @@
                             <label asp-for="Name">اسم الحيوان</label>
                             <span asp-validation-for="Name" class="text-danger small"></span>
                         </div>
+                        <div class="mb-3">
+                            <label asp-for="AnimalType" class="form-label">نوع الحيوان</label>
+                            <select asp-for="AnimalType" class="form-select">
+                                <option value="">-- اختر النوع --</option>
+                                <option value="1">كلب (Dog)</option>
+                                <option value="2">قطة (Cat)</option>
+                                <option value="3">عصافير زينة (Birds)</option>
+                                <option value="4">سلاحف وزواحف (Reptiles)</option>
+                            </select>
+                            <span asp-validation-for="AnimalType" class="text-danger small"></span>
+                        </div>
 
                         <div class="mb-3">
                             <label class="form-label text-muted">صورة الحيوان</label>
-                            <input type="file" name="imageFile" class="form-control" id="imageInput" accept="image/*" />
+                            <input type="file" name="ImageFile" class="form-control" id="imageInput" accept="image/*" />
                             <input type="hidden" asp-for="Imgageurl" />
-                            <span asp-validation-for="Imgageurl" class="text-danger small"></span>
+                            <span asp-validation-for="ImageFile" class="text-danger small"></span>
 
                             <div class="mt-3 text-center">
                                 <img id="preview" src="#" alt="Preview" class="img-thumbnail d-none" style="max-height: 200px; border-radius: 15px;" />
@@ -40,3 +51,17 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        imageInput.onchange = evt => {
+            const [file] = imageInput.files;
+            if (file) {
+                preview.src = URL.createObjectURL(file);
+                preview.classList.remove('d-none');
+            }
+        }
+    </script>
+}

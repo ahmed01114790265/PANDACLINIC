@@ -60,7 +60,7 @@ app.UseStaticFiles(new StaticFileOptions
     FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(globalUploadsPath),
     RequestPath = "/uploads"
 });
-
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseSession();

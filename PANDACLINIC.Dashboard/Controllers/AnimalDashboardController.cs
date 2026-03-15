@@ -148,7 +148,7 @@ namespace PANDACLINIC.Dashboard.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromForm] AnimalRequestDto dto)
+        public async Task<IActionResult> Create( AnimalRequestDto dto)
         {
             var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
             dto.UserId = Guid.Parse(userIdClaim!);

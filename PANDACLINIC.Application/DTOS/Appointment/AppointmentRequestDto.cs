@@ -6,6 +6,7 @@ namespace PANDACLINIC.Application.DTOS.Appointment
     {
         public Guid AnimalId { get; set; }
         public AppointmentType TypeOfAppoinment { get; set; }
+        //public AnimalType AnimalType { get; set; }
         public DateTime AppointmentDate { get; set; }
         public string? CreatedBy { get; set; }
     }
