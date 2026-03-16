@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PANDACLINIC.Application.DTOS.Animal;
 using PANDACLINIC.Application.InterfacesService.AnimalService;
 using System.Security.Claims;
 
 namespace PANDACLINIC.Dashboard.Controllers
 {
+    [Authorize(Roles = "Admin,Staff")]
     public class AnimalDashboardController : Controller
     {
         private readonly IAnimalService _animalService;
@@ -86,6 +88,7 @@ namespace PANDACLINIC.Dashboard.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RecycleBin()
         {
             var result = await _animalService.GetDeletedAnimalsAsync();
@@ -93,6 +96,7 @@ namespace PANDACLINIC.Dashboard.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Restore(Guid id)
         {
@@ -109,6 +113,7 @@ namespace PANDACLINIC.Dashboard.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -148,7 +153,7 @@ namespace PANDACLINIC.Dashboard.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( AnimalRequestDto dto)
+        public async Task<IActionResult> Create(AnimalRequestDto dto)
         {
             var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
             dto.UserId = Guid.Parse(userIdClaim!);

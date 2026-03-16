@@ -1,4 +1,4 @@
-﻿@using PANDACLINIC.Application.DTOS.Appointment
+﻿﻿@using PANDACLINIC.Application.DTOS.Appointment
 @using PANDACLINIC.Shared.Enums
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
@@ -82,7 +82,10 @@
                                 <div class="btn-group shadow-sm">
                                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm"><i class="bi bi-eye"></i></a>
                                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm"><i class="bi bi-pencil"></i></a>
-                                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmDelete('@item.Id')"><i class="bi bi-trash"></i></button>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmDelete('@item.Id')"><i class="bi bi-trash"></i></button>
+                                    }
                                 </div>
                             </td>
                         </tr>

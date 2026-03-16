@@ -3,6 +3,7 @@
 @inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = Localizer["Title"];
+    var isAdmin = User.IsInRole("Admin");
 }
 
 <div class="dashboard-home">
@@ -68,25 +69,28 @@
             <p class="kpi-foot">@Localizer["LowStock", Model.LowStockProducts]</p>
         </article>
 
-        <article class="kpi-card">
-            <div class="kpi-icon bg-soft-amber"><i class="bi bi-receipt-cutoff"></i></div>
-            <p class="kpi-label">@Localizer["PendingOrders"]</p>
-            <h3 class="kpi-value">@Model.PendingOrders</h3>
-            <p class="kpi-foot">@Localizer["TotalOrders", Model.TotalOrders]</p>
-        </article>
+        @if (isAdmin)
+        {
+            <article class="kpi-card">
+                <div class="kpi-icon bg-soft-amber"><i class="bi bi-receipt-cutoff"></i></div>
+                <p class="kpi-label">@Localizer["PendingOrders"]</p>
+                <h3 class="kpi-value">@Model.PendingOrders</h3>
+                <p class="kpi-foot">@Localizer["TotalOrders", Model.TotalOrders]</p>
+            </article>
 
-        <article class="kpi-card">
-            <div class="kpi-icon bg-soft-violet"><i class="bi bi-wallet2"></i></div>
-            <p class="kpi-label">@Localizer["PaymentFollowUp"]</p>
-            <h3 class="kpi-value">@Model.NewPayments</h3>
-            <p class="kpi-foot">@Localizer["NeedConfirmation"]</p>
-        </article>
+            <article class="kpi-card">
+                <div class="kpi-icon bg-soft-violet"><i class="bi bi-wallet2"></i></div>
+                <p class="kpi-label">@Localizer["PaymentFollowUp"]</p>
+                <h3 class="kpi-value">@Model.NewPayments</h3>
+                <p class="kpi-foot">@Localizer["NeedConfirmation"]</p>
+            </article>
 
-        <article class="kpi-card">
-            <div class="kpi-icon bg-soft-rose"><i class="bi bi-cash-stack"></i></div>
-            <p class="kpi-label">@Localizer["CompletedRevenue"]</p>
-            <h3 class="kpi-value">@Model.TotalRevenue.ToString("0.##") @Localizer["Currency"]</h3>
-            <p class="kpi-foot">@Localizer["CompletedOrders", Model.CompletedOrders]</p>
-        </article>
+            <article class="kpi-card">
+                <div class="kpi-icon bg-soft-rose"><i class="bi bi-cash-stack"></i></div>
+                <p class="kpi-label">@Localizer["CompletedRevenue"]</p>
+                <h3 class="kpi-value">@Model.TotalRevenue.ToString("0.##") @Localizer["Currency"]</h3>
+                <p class="kpi-foot">@Localizer["CompletedOrders", Model.CompletedOrders]</p>
+            </article>
+        }
     </section>
 </div>

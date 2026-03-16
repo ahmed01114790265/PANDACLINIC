@@ -10,6 +10,7 @@ using System.Security.Claims;
 
 namespace PANDACLINIC.Dashboard.Controllers
 {
+    [Authorize(Roles = "Admin,Staff")]
     public class AppointmentDashboardController : Controller
     {
         private readonly IAppointmentService _appointmentService;
@@ -157,6 +158,7 @@ namespace PANDACLINIC.Dashboard.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -192,52 +194,6 @@ namespace PANDACLINIC.Dashboard.Controllers
             return RedirectToAction(nameof(RecycleBin));
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        public async Task<IActionResult> ArchiveApi()
-        {
-            var result = await _appointmentService.GetDeletedAppointmentsAsync();
-            if (!result.IsSuccess)
-            {
-                return BadRequest(new
-                {
-                    result.IsSuccess,
-                    result.Message,
-                    result.Errors
-                });
-            }
-
-            return Json(new
-            {
-                result.IsSuccess,
-                result.Message,
-                Data = result.Data
-            });
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RestoreApi(Guid id)
-        {
-            var result = await _appointmentService.RestoreAsync(id);
-            if (!result.IsSuccess)
-            {
-                return BadRequest(new
-                {
-                    result.IsSuccess,
-                    result.Message,
-                    result.Errors
-                });
-            }
-
-            return Json(new
-            {
-                result.IsSuccess,
-                result.Message
-            });
-        }
-
         private async Task<PANDACLINIC.Shared.ResultModel.Result<IEnumerable<AppointmentSummaryDto>>> GetMineAppointmentsAsync()
         {
             var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -251,7 +207,10 @@ namespace PANDACLINIC.Dashboard.Controllers
 
         private async Task LoadAnimalsAsync()
         {
-            var animalsResult = await _animalService.GetAllAsync();
+            var animalsResult = User.IsInRole("Staff")
+                ? await _animalService.GetByOwnerAsync(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!))
+                : await _animalService.GetAllAsync();
+
             var animals = animalsResult.IsSuccess
                 ? animalsResult.Data ?? Enumerable.Empty<AnimalSummaryDto>()
                 : Enumerable.Empty<AnimalSummaryDto>();

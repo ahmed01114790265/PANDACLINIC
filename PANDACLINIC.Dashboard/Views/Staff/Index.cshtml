@@ -1,0 +1,48 @@
+﻿@model IEnumerable<PANDACLINIC.Domain.Entity.ApplicationUser>
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-bold">Staff Accounts</h2>
+        <div class="d-flex gap-2">
+            <a asp-action="RecycleBin" class="btn btn-outline-secondary">Recycle Bin</a>
+            <a asp-action="Create" class="btn btn-primary">Add Staff</a>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.fullName</td>
+                            <td>@user.Email</td>
+                            <td>@user.PhoneNumber</td>
+                            <td class="text-end">
+                                <form asp-action="Delete" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@user.Id" />
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="4" class="text-center text-muted">No staff users yet.</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

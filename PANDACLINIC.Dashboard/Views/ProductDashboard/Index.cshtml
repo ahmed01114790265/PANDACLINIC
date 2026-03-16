@@ -1,4 +1,4 @@
-﻿@using PANDACLINIC.Application.DTOS.Product
+﻿﻿@using PANDACLINIC.Application.DTOS.Product
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 @model IEnumerable<ProductSummaryDto>
@@ -8,7 +8,10 @@
         <h2 class="fw-bold text-dark mb-0"><i class="bi bi-bag-check me-2"></i>@Localizer["Title"]</h2>
         <div class="d-flex flex-wrap gap-2">
             <a asp-action="Create" class="btn btn-primary">@Localizer["Add"]</a>
-            <a asp-action="RecycleBin" class="btn btn-outline-secondary">@Localizer["Archive"]</a>
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-action="RecycleBin" class="btn btn-outline-secondary">@Localizer["Archive"]</a>
+            }
         </div>
     </div>
 
@@ -46,11 +49,14 @@
                             </td>
                             <td class="text-end">
                                 <a asp-action="Edit" asp-route-id="@p.Id" class="btn btn-outline-primary btn-sm">@Localizer["Edit"]</a>
-                                <form asp-action="Delete" method="post" class="d-inline" onsubmit="return confirm('@Localizer["ConfirmDelete"]');">
-                                    @Html.AntiForgeryToken()
-                                    <input type="hidden" name="id" value="@p.Id" />
-                                    <button type="submit" class="btn btn-outline-danger btn-sm">@Localizer["Delete"]</button>
-                                </form>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <form asp-action="Delete" method="post" class="d-inline" onsubmit="return confirm('@Localizer["ConfirmDelete"]');">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@p.Id" />
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">@Localizer["Delete"]</button>
+                                    </form>
+                                }
                             </td>
                         </tr>
                     }

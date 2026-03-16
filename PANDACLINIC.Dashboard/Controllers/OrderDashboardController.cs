@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PANDACLINIC.Application.DTOS.Order;
 using PANDACLINIC.Application.InterfacesService.OrderService;
 using PANDACLINIC.Shared.Enums;
 
 namespace PANDACLINIC.Dashboard.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class OrderDashboardController : Controller
     {
         private readonly IOrderService _orderService;
