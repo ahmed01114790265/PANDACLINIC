@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Title" xml:space="preserve"><value>تسجيل الدخول</value></data>
+  <data name="Header" xml:space="preserve"><value>تسجيل الدخول</value></data>
+  <data name="Subtitle" xml:space="preserve"><value>ادخل برقم الهاتف وكلمة المرور</value></data>
+  <data name="PendingCart" xml:space="preserve"><value>بعد تسجيل الدخول سيتم إضافة المنتج إلى السلة تلقائيًا.</value></data>
+  <data name="Phone" xml:space="preserve"><value>رقم الهاتف</value></data>
+  <data name="Password" xml:space="preserve"><value>كلمة المرور</value></data>
+  <data name="RememberMe" xml:space="preserve"><value>تذكرني</value></data>
+  <data name="Submit" xml:space="preserve"><value>دخول</value></data>
+  <data name="RegisterLink" xml:space="preserve"><value>ليس لديك حساب؟ أنشئ حسابًا جديدًا</value></data>
+</root>

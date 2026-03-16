@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Title" xml:space="preserve"><value>Animal information</value></data>
+  <data name="Hosted" xml:space="preserve"><value>Currently hosted</value></data>
+  <data name="Home" xml:space="preserve"><value>At home</value></data>
+  <data name="Owner" xml:space="preserve"><value>Owner</value></data>
+  <data name="Birth" xml:space="preserve"><value>Birth date</value></data>
+  <data name="Type" xml:space="preserve"><value>Type</value></data>
+  <data name="Appointments" xml:space="preserve"><value>Appointments count</value></data>
+  <data name="Back" xml:space="preserve"><value>Back to list</value></data>
+</root>

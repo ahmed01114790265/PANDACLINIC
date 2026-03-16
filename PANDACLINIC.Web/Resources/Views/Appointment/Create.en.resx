@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Title" xml:space="preserve"><value>Book appointment</value></data>
+  <data name="Subtitle" xml:space="preserve"><value>Select pet, type, and time</value></data>
+  <data name="Animal" xml:space="preserve"><value>Pet</value></data>
+  <data name="SelectAnimal" xml:space="preserve"><value>-- Select pet --</value></data>
+  <data name="Type" xml:space="preserve"><value>Appointment type</value></data>
+  <data name="Date" xml:space="preserve"><value>Appointment time</value></data>
+  <data name="Submit" xml:space="preserve"><value>Confirm booking</value></data>
+  <data name="ClinicalExamination" xml:space="preserve"><value>Clinic check</value></data>
+  <data name="HomeExamination" xml:space="preserve"><value>Home visit</value></data>
+  <data name="Surgery" xml:space="preserve"><value>Surgery</value></data>
+  <data name="Grooming" xml:space="preserve"><value>Grooming</value></data>
+  <data name="Bording" xml:space="preserve"><value>Boarding</value></data>
+</root>

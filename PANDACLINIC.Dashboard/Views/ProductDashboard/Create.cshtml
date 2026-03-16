@@ -1,25 +1,27 @@
-@using PANDACLINIC.Application.DTOS.Product
+﻿@using PANDACLINIC.Application.DTOS.Product
 @using PANDACLINIC.Shared.Enums
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model ProductRequestDto
 
 <div class="container py-4">
-    <h3 class="fw-bold mb-3">Create Product</h3>
+    <h3 class="fw-bold mb-3">@Localizer["Title"]</h3>
     <form method="post" enctype="multipart/form-data">
         @Html.AntiForgeryToken()
         <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
         <div class="row g-3">
-            <div class="col-md-6"><label class="form-label">Name</label><input asp-for="Name" class="form-control" /></div>
-            <div class="col-md-6"><label class="form-label">Type</label><select asp-for="Type" class="form-select" asp-items="Html.GetEnumSelectList<ProductType>()"></select></div>
-            <div class="col-md-6"><label class="form-label">Price</label><input asp-for="Price" type="number" step="0.01" class="form-control" /></div>
-            <div class="col-md-6"><label class="form-label">Currency</label><input asp-for="Currency" class="form-control" /></div>
-            <div class="col-md-6"><label class="form-label">Stock</label><input asp-for="Stock" type="number" class="form-control" /></div>
-            <div class="col-md-6"><label class="form-label">Discount %</label><input asp-for="DiscountPercentage" type="number" class="form-control" /></div>
-            <div class="col-md-6"><label class="form-label">Weight</label><input asp-for="Weight" type="number" step="0.001" class="form-control" /></div>
-            <div class="col-md-6"><label class="form-label">Taste</label><input asp-for="Taste" class="form-control" /></div>
+            <div class="col-md-6"><label class="form-label">@Localizer["Name"]</label><input asp-for="Name" class="form-control" /></div>
+            <div class="col-md-6"><label class="form-label">@Localizer["Type"]</label><select asp-for="Type" class="form-select" asp-items="Html.GetEnumSelectList<ProductType>()"></select></div>
+            <div class="col-md-6"><label class="form-label">@Localizer["Price"]</label><input asp-for="Price" type="number" step="0.01" class="form-control" /></div>
+            <div class="col-md-6"><label class="form-label">@Localizer["Currency"]</label><input asp-for="Currency" class="form-control" /></div>
+            <div class="col-md-6"><label class="form-label">@Localizer["Stock"]</label><input asp-for="Stock" type="number" class="form-control" /></div>
+            <div class="col-md-6"><label class="form-label">@Localizer["Discount"]</label><input asp-for="DiscountPercentage" type="number" class="form-control" /></div>
+            <div class="col-md-6"><label class="form-label">@Localizer["Weight"]</label><input asp-for="Weight" type="number" step="0.001" class="form-control" /></div>
+            <div class="col-md-6"><label class="form-label">@Localizer["Taste"]</label><input asp-for="Taste" class="form-control" /></div>
 
             <div class="col-12">
-                <label class="form-label">Product Image</label>
+                <label class="form-label">@Localizer["Image"]</label>
                 <input asp-for="ImageFile" type="file" class="form-control" id="imageInput" accept="image/*" />
                 <input type="hidden" asp-for="ImageUrl" />
                 <span asp-validation-for="ImageFile" class="text-danger small"></span>
@@ -28,23 +30,27 @@
                 </div>
             </div>
 
-            <div class="col-12"><label class="form-label">Description</label><textarea asp-for="Description" class="form-control" rows="3"></textarea></div>
-            <div class="col-12 form-check"><input asp-for="IsActive" class="form-check-input" /><label class="form-check-label" asp-for="IsActive">Is Active</label></div>
+            <div class="col-12"><label class="form-label">@Localizer["Description"]</label><textarea asp-for="Description" class="form-control" rows="3"></textarea></div>
+            <div class="col-12 form-check"><input asp-for="IsActive" class="form-check-input" /><label class="form-check-label" asp-for="IsActive">@Localizer["IsActive"]</label></div>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Save</button>
-        <a asp-action="Index" class="btn btn-outline-secondary mt-3">Back</a>
+        <button type="submit" class="btn btn-primary mt-3">@Localizer["Save"]</button>
+        <a asp-action="Index" class="btn btn-outline-secondary mt-3">@Localizer["Back"]</a>
     </form>
 </div>
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
     <script>
-        imageInput.onchange = evt => {
-            const [file] = imageInput.files;
-            if (file) {
-                preview.src = URL.createObjectURL(file);
-                preview.classList.remove('d-none');
+        const imageInput = document.getElementById('imageInput');
+        const preview = document.getElementById('preview');
+        if (imageInput) {
+            imageInput.onchange = evt => {
+                const [file] = imageInput.files;
+                if (file) {
+                    preview.src = URL.createObjectURL(file);
+                    preview.classList.remove('d-none');
+                }
             }
         }
     </script>

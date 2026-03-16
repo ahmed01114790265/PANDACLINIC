@@ -1,4 +1,7 @@
 ﻿@using PANDACLINIC.Application.DTOS.Order
+@using PANDACLINIC.Shared.Enums
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model OrderDetailDto
 
 @{
@@ -6,21 +9,25 @@
 }
 
 <div class="container py-4">
-    <h3 class="fw-bold mb-3">Order Details</h3>
+    <h3 class="fw-bold mb-3">@Localizer["Title"]</h3>
 
     <div class="row g-4">
         <div class="col-md-5">
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
-                    <p><strong>Order No.:</strong> @orderNo</p>
-                    <p><strong>Date:</strong> @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</p>
-                    <p><strong>Client:</strong> @Model.ClientName</p>
-                    <p><strong>Phone:</strong> @Model.ClientPhone</p>
-                    <p><strong>Address:</strong> @Model.ClientAddress</p>
-                    <p><strong>Payment Method:</strong> @Model.PaymentMethod</p>
-                    <p><strong>Payment Status:</strong> @Model.PaymentStatus</p>
-                    <p><strong>Order Status:</strong> @Model.Status</p>
-                    <p><strong>Total:</strong> @Model.TotalAmount.ToString("0.##") EGP</p>
+                    <p><strong>@Localizer["OrderNumber"]:</strong> @orderNo</p>
+                    <p><strong>@Localizer["CreatedAt"]:</strong> @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</p>
+                    <p><strong>@Localizer["Client"]:</strong> @Model.ClientName</p>
+                    <p><strong>@Localizer["Phone"]:</strong> @Model.ClientPhone</p>
+                    <p><strong>@Localizer["Address"]:</strong> @Model.ClientAddress</p>
+                    <p><strong>@Localizer["PaymentMethod"]:</strong> @Localizer[Model.PaymentMethod]</p>
+                    <p><strong>@Localizer["PaymentStatus"]:</strong> @Localizer[Model.PaymentStatus.ToString()]</p>
+                    <p><strong>@Localizer["OrderStatus"]:</strong> @Localizer[Model.Status.ToString()]</p>
+                    <p><strong>@Localizer["Total"]:</strong> @Model.TotalAmount.ToString("0.##")</p>
+                    @if (!string.IsNullOrWhiteSpace(Model.Notes))
+                    {
+                        <p><strong>@Localizer["Notes"]:</strong> @Model.Notes</p>
+                    }
                 </div>
             </div>
         </div>
@@ -28,9 +35,9 @@
         <div class="col-md-7">
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
-                    <h5 class="fw-bold">Items</h5>
+                    <h5 class="fw-bold">@Localizer["Items"]</h5>
                     <table class="table table-bordered">
-                        <thead><tr><th>Product</th><th>Qty</th><th>Unit Price</th><th>Total</th></tr></thead>
+                        <thead><tr><th>@Localizer["Product"]</th><th>@Localizer["Quantity"]</th><th>@Localizer["UnitPrice"]</th><th>@Localizer["LineTotal"]</th></tr></thead>
                         <tbody>
                             @foreach (var item in Model.Items)
                             {
@@ -48,5 +55,5 @@
         </div>
     </div>
 
-    <a asp-action="Index" class="btn btn-outline-secondary mt-3">Back to Orders</a>
+    <a asp-action="Index" class="btn btn-outline-secondary mt-3">@Localizer["Back"]</a>
 </div>

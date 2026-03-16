@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Title" xml:space="preserve"><value>Currently hosted animals</value></data>
+  <data name="Subtitle" xml:space="preserve"><value>List of animals currently staying at the clinic facility.</value></data>
+  <data name="Total" xml:space="preserve"><value>Total hosted</value></data>
+  <data name="EmptyTitle" xml:space="preserve"><value>No animals are currently hosted.</value></data>
+  <data name="EmptySubtitle" xml:space="preserve"><value>When an animal is checked in without a checkout date, they will appear here.</value></data>
+  <data name="BackToAll" xml:space="preserve"><value>Show all animals</value></data>
+  <data name="View" xml:space="preserve"><value>View vitals &amp; history</value></data>
+  <data name="Register" xml:space="preserve"><value>Register hosting</value></data>
+</root>

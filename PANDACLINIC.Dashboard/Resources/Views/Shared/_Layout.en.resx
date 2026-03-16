@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="DashboardTitle" xml:space="preserve">
+    <value>PANDACLINIC Dashboard</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="MyPets" xml:space="preserve">
+    <value>My Pets</value>
+  </data>
+  <data name="TodayAppointments" xml:space="preserve">
+    <value>Today Appointments</value>
+  </data>
+  <data name="Hosting" xml:space="preserve">
+    <value>Hosting</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="Payments" xml:space="preserve">
+    <value>Payments</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Arabic" xml:space="preserve">
+    <value>Arabic</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Management" xml:space="preserve">
+    <value>Management</value>
+  </data>
+  <data name="AllAnimals" xml:space="preserve">
+    <value>All Animals</value>
+  </data>
+  <data name="MyAnimals" xml:space="preserve">
+    <value>My Animals</value>
+  </data>
+  <data name="Appointments" xml:space="preserve">
+    <value>Appointments</value>
+  </data>
+  <data name="MyAppointments" xml:space="preserve">
+    <value>My Appointments</value>
+  </data>
+  <data name="Hostings" xml:space="preserve">
+    <value>Hostings</value>
+  </data>
+  <data name="MyHostings" xml:space="preserve">
+    <value>My Hostings</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>Products</value>
+  </data>
+  <data name="OrdersReview" xml:space="preserve">
+    <value>Orders Review</value>
+  </data>
+</root>

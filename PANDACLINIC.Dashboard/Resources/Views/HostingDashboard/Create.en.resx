@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Title" xml:space="preserve"><value>Create hosting</value></data>
+  <data name="Subtitle" xml:space="preserve"><value>Assign a pet to a room and dates</value></data>
+  <data name="Animal" xml:space="preserve"><value>Animal</value></data>
+  <data name="SelectAnimal" xml:space="preserve"><value>-- Select animal --</value></data>
+  <data name="Status" xml:space="preserve"><value>Status</value></data>
+  <data name="CheckIn" xml:space="preserve"><value>Check-in</value></data>
+  <data name="CheckOut" xml:space="preserve"><value>Check-out</value></data>
+  <data name="Submit" xml:space="preserve"><value>Create hosting</value></data>
+  <data name="Pending" xml:space="preserve"><value>Pending</value></data>
+  <data name="Approved" xml:space="preserve"><value>Approved</value></data>
+  <data name="Rejected" xml:space="preserve"><value>Rejected</value></data>
+  <data name="Completed" xml:space="preserve"><value>Completed</value></data>
+  <data name="Ongoing" xml:space="preserve"><value>Ongoing</value></data>
+</root>

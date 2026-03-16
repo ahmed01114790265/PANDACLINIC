@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Taste" xml:space="preserve"><value>النكهة</value></data>
+  <data name="Weight" xml:space="preserve"><value>الوزن</value></data>
+  <data name="Stock" xml:space="preserve"><value>المخزون</value></data>
+  <data name="Currency" xml:space="preserve"><value>جنيه</value></data>
+  <data name="AddToCart" xml:space="preserve"><value>أضف للسلة</value></data>
+  <data name="Back" xml:space="preserve"><value>رجوع</value></data>
+</root>

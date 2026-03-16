@@ -1,4 +1,6 @@
 ﻿@using PANDACLINIC.Application.DTOS.Animal
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model AnimalDetailDto
 
 <div class="container py-5">
@@ -7,9 +9,9 @@
             <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
                 <div class="card-header bg-white py-4 border-0">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h3 class="mb-0 fw-bold">AnimalInformation </h3>
+                        <h3 class="mb-0 fw-bold">@Localizer["Title"]</h3>
                         <span class="badge @(Model.IsHostedNow ? "bg-success" : "bg-secondary") rounded-pill p-2 px-3">
-                            @(Model.IsHostedNow ? "Currently Hosted" : "At Home")
+                            @(Model.IsHostedNow ? Localizer["Hosted"] : Localizer["Home"])
                         </span>
                     </div>
                 </div>
@@ -17,13 +19,7 @@
                     <div class="row g-4">
                         <div class="col-12 col-md-6 text-center border-end">
                             <div class="rounded-circle shadow-sm d-inline-flex align-items-center justify-content-center mb-3"
-                                 style="width: 140px;
-                                                   height: 140px;
-                                                    background-image: url('@(string.IsNullOrEmpty(Model.Imgageurl) ? "/images/default-animal.png" : Model.Imgageurl)');
-                                                    background-size: cover;
-                                                     background-position: center;
-                                                     border: 3px solid #f8f9fa;">
-
+                                 style="width: 140px; height: 140px; background-image: url('@(string.IsNullOrEmpty(Model.Imgageurl) ? "/images/default-animal.png" : Model.Imgageurl)'); background-size: cover; background-position: center; border: 3px solid #f8f9fa;">
                                 @if (string.IsNullOrEmpty(Model.Imgageurl))
                                 {
                                     <i class="bi bi-paw text-primary display-4"></i>
@@ -34,19 +30,19 @@
                         <div class="col-12 col-md-6">
                             <ul class="list-group list-group-flush small">
                                 <li class="list-group-item d-flex justify-content-between bg-transparent px-0">
-                                    <span class="text-muted"> Owner </span>
+                                    <span class="text-muted">@Localizer["Owner"]</span>
                                     <span class="fw-bold">@Model.OwnerName</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between bg-transparent px-0">
-                                    <span class="text-muted">DateOfRegesterAnamil </span>
+                                    <span class="text-muted">@Localizer["Birth"]</span>
                                     <span class="fw-bold">@Model.BirthDate.ToShortDateString()</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between bg-transparent px-0">
-                                    <span class="text-muted"> TypeOfAnimal </span>
+                                    <span class="text-muted">@Localizer["Type"]</span>
                                     <span class="fw-bold">@Model.AnimalType.ToString()</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between bg-transparent px-0">
-                                    <span class="text-muted"> NumberofHisAppointment </span>
+                                    <span class="text-muted">@Localizer["Appointments"]</span>
                                     <span class="badge bg-dark rounded-pill">@Model.AppointmentCount</span>
                                 </li>
 
@@ -55,10 +51,9 @@
                     </div>
                 </div>
                 <div class="card-footer bg-light border-0 py-3 text-center">
-                    <a asp-action="Index" class="btn btn-link text-decoration-none text-dark"> BackToList  </a>
+                    <a asp-action="Index" class="btn btn-link text-decoration-none text-dark">@Localizer["Back"]</a>
                 </div>
             </div>
         </div>
     </div>
 </div> 
-

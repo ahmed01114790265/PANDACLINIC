@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Title" xml:space="preserve"><value>Dashboard</value></data>
+  <data name="Kicker" xml:space="preserve"><value>Operations Overview</value></data>
+  <data name="Welcome" xml:space="preserve"><value>Welcome back, {0}</value></data>
+  <data name="Snapshot" xml:space="preserve"><value>Live snapshot of appointments, hosting, inventory, and orders.</value></data>
+  <data name="Updated" xml:space="preserve"><value>Updated {0}</value></data>
+  <data name="QuickActions" xml:space="preserve"><value>Quick actions</value></data>
+  <data name="CreateAppointment" xml:space="preserve"><value>New appointment</value></data>
+  <data name="CreateHosting" xml:space="preserve"><value>New hosting</value></data>
+  <data name="AddProduct" xml:space="preserve"><value>Add product</value></data>
+  <data name="AddAnimal" xml:space="preserve"><value>Add animal</value></data>
+  <data name="AppointmentsToday" xml:space="preserve"><value>Appointments Today</value></data>
+  <data name="Scheduled" xml:space="preserve"><value>Scheduled: {0}</value></data>
+  <data name="CurrentHosting" xml:space="preserve"><value>Current Hosting</value></data>
+  <data name="TotalHostings" xml:space="preserve"><value>Total hostings: {0}</value></data>
+  <data name="ActiveProducts" xml:space="preserve"><value>Active Products</value></data>
+  <data name="LowStock" xml:space="preserve"><value>Low stock: {0}</value></data>
+  <data name="PendingOrders" xml:space="preserve"><value>Pending Orders</value></data>
+  <data name="TotalOrders" xml:space="preserve"><value>Total orders: {0}</value></data>
+  <data name="PaymentFollowUp" xml:space="preserve"><value>Payment Follow-up</value></data>
+  <data name="NeedConfirmation" xml:space="preserve"><value>Need confirmation</value></data>
+  <data name="CompletedRevenue" xml:space="preserve"><value>Completed Revenue</value></data>
+  <data name="Currency" xml:space="preserve"><value>EGP</value></data>
+  <data name="CompletedOrders" xml:space="preserve"><value>Completed orders: {0}</value></data>
+</root>

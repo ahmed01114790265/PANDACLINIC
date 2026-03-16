@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Title" xml:space="preserve"><value>Hosting request</value></data>
+  <data name="Selected" xml:space="preserve"><value>Selected pet: {0}</value></data>
+  <data name="Info" xml:space="preserve"><value>Hosting service will be linked to booking soon. You can go to appointments now.</value></data>
+  <data name="GoToAppointment" xml:space="preserve"><value>Go to appointment</value></data>
+  <data name="Back" xml:space="preserve"><value>Back</value></data>
+</root>

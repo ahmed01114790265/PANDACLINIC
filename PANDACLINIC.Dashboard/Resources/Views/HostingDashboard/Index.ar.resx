@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Title" xml:space="preserve"><value>إدارة الاستضافات</value></data>
+  <data name="Current" xml:space="preserve"><value>الاستضافات الحالية</value></data>
+  <data name="All" xml:space="preserve"><value>كل الاستضافات</value></data>
+  <data name="Mine" xml:space="preserve"><value>استضافاتي المضافة</value></data>
+  <data name="Add" xml:space="preserve"><value>إضافة استضافة</value></data>
+  <data name="Filter" xml:space="preserve"><value>فلترة</value></data>
+  <data name="Reset" xml:space="preserve"><value>إعادة تعيين</value></data>
+  <data name="AnimalName" xml:space="preserve"><value>الحيوان</value></data>
+  <data name="ClientName" xml:space="preserve"><value>اسم العميل</value></data>
+  <data name="ClientPhone" xml:space="preserve"><value>هاتف العميل</value></data>
+  <data name="Room" xml:space="preserve"><value>الغرفة</value></data>
+  <data name="Status" xml:space="preserve"><value>الحالة</value></data>
+  <data name="CheckIn" xml:space="preserve"><value>الدخول</value></data>
+  <data name="CheckOut" xml:space="preserve"><value>الخروج</value></data>
+  <data name="Actions" xml:space="preserve"><value>إجراءات</value></data>
+  <data name="Empty" xml:space="preserve"><value>لا توجد استضافات.</value></data>
+  <data name="ConfirmDelete" xml:space="preserve"><value>حذف هذه الاستضافة؟</value></data>
+  <data name="Pending" xml:space="preserve"><value>قيد الانتظار</value></data>
+  <data name="Approved" xml:space="preserve"><value>موافق عليها</value></data>
+  <data name="Rejected" xml:space="preserve"><value>مرفوضة</value></data>
+  <data name="Completed" xml:space="preserve"><value>مكتملة</value></data>
+  <data name="Ongoing" xml:space="preserve"><value>جارية</value></data>
+</root>

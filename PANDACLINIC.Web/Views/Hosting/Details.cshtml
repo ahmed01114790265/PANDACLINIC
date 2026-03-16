@@ -1,4 +1,6 @@
 ﻿@using PANDACLINIC.Application.DTOS.Hosting
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model HostingDetailDto
 
 <div class="container py-5">
@@ -6,23 +8,22 @@
         <div class="col-lg-8">
             <div class="card border-0 shadow-lg rounded-4">
                 <div class="card-header bg-white py-4 border-0">
-                    <h3 class="mb-0 fw-bold">تفاصيل الاستضافة</h3>
+                    <h3 class="mb-0 fw-bold">@Localizer["Title"]</h3>
                 </div>
                 <div class="card-body p-4">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item d-flex justify-content-between"><span>الحيوان</span><span class="fw-bold">@Model.AnimalName</span></li>
-                        <li class="list-group-item d-flex justify-content-between"><span>المالك</span><span class="fw-bold">@Model.OwnerName</span></li>
-                        <li class="list-group-item d-flex justify-content-between"><span>الغرفة</span><span class="fw-bold">@Model.RoomNumber</span></li>
-                        <li class="list-group-item d-flex justify-content-between"><span>الحالة</span><span class="fw-bold">@Model.Status</span></li>
-                        <li class="list-group-item d-flex justify-content-between"><span>الدخول</span><span class="fw-bold">@Model.CheckInDate.ToString("yyyy-MM-dd HH:mm")</span></li>
-                        <li class="list-group-item d-flex justify-content-between"><span>الخروج</span><span class="fw-bold">@(Model.CheckOutDate.HasValue ? Model.CheckOutDate.Value.ToString("yyyy-MM-dd HH:mm") : "-")</span></li>
+                        <li class="list-group-item d-flex justify-content-between"><span>@Localizer["Pet"]</span><span class="fw-bold">@Model.AnimalName</span></li>
+                        <li class="list-group-item d-flex justify-content-between"><span>@Localizer["Owner"]</span><span class="fw-bold">@Model.OwnerName</span></li>
+                        <li class="list-group-item d-flex justify-content-between"><span>@Localizer["Room"]</span><span class="fw-bold">@Model.RoomNumber</span></li>
+                        <li class="list-group-item d-flex justify-content-between"><span>@Localizer["Status"]</span><span class="fw-bold">@Localizer[Model.Status.ToString()]</span></li>
+                        <li class="list-group-item d-flex justify-content-between"><span>@Localizer["CheckIn"]</span><span class="fw-bold">@Model.CheckInDate.ToString("yyyy-MM-dd HH:mm")</span></li>
+                        <li class="list-group-item d-flex justify-content-between"><span>@Localizer["CheckOut"]</span><span class="fw-bold">@(Model.CheckOutDate.HasValue ? Model.CheckOutDate.Value.ToString("yyyy-MM-dd HH:mm") : "-")</span></li>
                     </ul>
                 </div>
                 <div class="card-footer bg-light border-0 py-3 text-center">
-                    <a asp-action="MyHostings" class="btn btn-link text-decoration-none text-dark">الرجوع للقائمة</a>
+                    <a asp-action="MyHostings" class="btn btn-link text-decoration-none text-dark">@Localizer["Back"]</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-

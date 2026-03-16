@@ -1,21 +1,19 @@
 ﻿@using PANDACLINIC.Application.DTOS.Animal
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model IEnumerable<AnimalSummaryDto>
-
-@{
-    ViewData["Title"] = "Currently Hosted Animals";
-}
 
 <div class="container-fluid py-4 bg-white">
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 border-bottom pb-3">
         <div>
             <h2 class="fw-bold text-dark mb-1">
-                <i class="bi bi-hospital text-primary me-2"></i>In-Patient Monitoring
+                <i class="bi bi-hospital text-primary me-2"></i>@Localizer["Title"]
             </h2>
-            <p class="text-muted mb-0">List of animals currently staying at the clinic facility.</p>
+            <p class="text-muted mb-0">@Localizer["Subtitle"]</p>
         </div>
         <div class="mt-3 mt-md-0">
             <span class="badge bg-primary rounded-pill px-3 py-2">
-                Total Hosted: @Model.Count()
+                @Localizer["Total"]: @Model.Count()
             </span>
         </div>
     </div>
@@ -26,9 +24,9 @@
             <div class="mb-3">
                 <i class="bi bi-calendar-check text-light display-1"></i>
             </div>
-            <h4 class="text-secondary"> لا يوجد حيوانات في الاستاضفه الان </h4>
-            <p class="text-muted">When an animal is checked in without a checkout date, they will appear here.</p>
-            <a asp-action="Index" class="btn btn-outline-primary rounded-pill"> عرض كل الحيوانات الموجوده </a>
+            <h4 class="text-secondary">@Localizer["EmptyTitle"]</h4>
+            <p class="text-muted">@Localizer["EmptySubtitle"]</p>
+            <a asp-action="Index" class="btn btn-outline-primary rounded-pill">@Localizer["BackToAll"]</a>
         </div>
     }
     else
@@ -49,13 +47,7 @@
                                     <h5 class="card-title fw-bold mb-0">@item.Name</h5>
                                 </div>
                                 <div class="rounded-circle shadow-sm d-inline-flex align-items-center justify-content-center mb-3"
-                                     style="width: 140px;
-                    height: 140px;
-                                    background-image: url('@(string.IsNullOrEmpty(@item.Imgageurl) ? "/images/default-animal.png" : @item.Imgageurl)');
-                    background-size: cover;
-                    background-position: center;
-                    border: 3px solid #f8f9fa;">
-
+                                     style="width: 140px; height: 140px; background-image: url('@(string.IsNullOrEmpty(@item.Imgageurl) ? "/images/default-animal.png" : @item.Imgageurl)'); background-size: cover; background-position: center; border: 3px solid #f8f9fa;">
                                     @if (string.IsNullOrEmpty(@item.Imgageurl))
                                     {
                                         <i class="bi bi-paw text-primary display-4"></i>
@@ -68,16 +60,12 @@
                                 </div>
                             </div>
 
-                            <div class="bg-light rounded-3 p-3 mb-3 small">
-                              
-                            </div>
-
                             <div class="d-grid gap-2">
                                 <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-white border rounded-pill btn-sm fw-bold">
-                                    View Vitals & History
+                                    @Localizer["View"]
                                 </a>
                                 <button type="button" class="btn btn-outline-primary rounded-pill btn-sm">
-                                   تسجبل في الاستضافه 
+                                    @Localizer["Register"]
                                 </button>
                             </div>
                         </div>
@@ -89,16 +77,7 @@
 </div>
 
 <style>
-    .hover-shadow:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.08) !important;
-    }
-
-    .transition {
-        transition: all 0.3s ease-in-out;
-    }
-
-    .btn-white:hover {
-        background-color: #f8f9fa;
-    }
+    .hover-shadow:hover { transform: translateY(-5px); box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.08) !important; }
+    .transition { transition: all 0.3s ease-in-out; }
+    .btn-white:hover { background-color: #f8f9fa; }
 </style>

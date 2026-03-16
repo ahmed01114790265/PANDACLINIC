@@ -1,4 +1,6 @@
 ﻿@using PANDACLINIC.Application.DTOS.Product
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model ProductDetailDto
 
 <div class="container py-4">
@@ -10,15 +12,15 @@
             <h2 class="fw-bold">@Model.Name</h2>
             <p class="text-muted">@Model.Type</p>
             <p>@Model.Description</p>
-            <p class="mb-2">النكهة: @Model.Taste</p>
-            <p class="mb-2">الوزن: @Model.Weight</p>
-            <p class="mb-2">المخزون: @Model.Stock</p>
-            <h4 class="text-primary">@Model.Price.ToString("0.##") جنيه</h4>
+            <p class="mb-2">@Localizer["Taste"]: @Model.Taste</p>
+            <p class="mb-2">@Localizer["Weight"]: @Model.Weight</p>
+            <p class="mb-2">@Localizer["Stock"]: @Model.Stock</p>
+            <h4 class="text-primary">@Model.Price.ToString("0.##") @Localizer["Currency"]</h4>
 
             <div class="mt-4 d-flex gap-2">
                 <input type="number" id="qtyInput" min="1" value="1" class="form-control" style="max-width:120px;" />
-                <a id="addToCartLink" asp-controller="Order" asp-action="AddToCart" asp-route-productId="@Model.Id" asp-route-quantity="1" class="btn btn-primary">أضف للسلة</a>
-                <a asp-action="Index" class="btn btn-outline-secondary">رجوع</a>
+                <a id="addToCartLink" asp-controller="Order" asp-action="AddToCart" asp-route-productId="@Model.Id" asp-route-quantity="1" class="btn btn-primary">@Localizer["AddToCart"]</a>
+                <a asp-action="Index" class="btn btn-outline-secondary">@Localizer["Back"]</a>
             </div>
         </div>
     </div>

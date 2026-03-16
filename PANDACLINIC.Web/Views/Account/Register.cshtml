@@ -1,7 +1,9 @@
 ﻿@model PANDACLINIC.Web.Models.AccountViewModel.RegisterPhoneVM
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "إنشاء حساب";
+    ViewData["Title"] = Localizer["Title"];
 }
 
 <div class="container py-5">
@@ -9,42 +11,42 @@
         <div class="col-lg-6 col-md-8">
             <div class="card border-0 shadow-lg">
                 <div class="card-body p-5">
-                    <h2 class="text-center mb-3">إنشاء حساب جديد</h2>
-                    <p class="text-center text-muted mb-4">ادخل الاسم ورقم الهاتف وكلمة المرور</p>
+                    <h2 class="text-center mb-3">@Localizer["Header"]</h2>
+                    <p class="text-center text-muted mb-4">@Localizer["Subtitle"]</p>
 
                     <form asp-action="Register" method="post">
                         @Html.AntiForgeryToken()
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
                         <div class="mb-3">
-                            <label asp-for="FullName" class="form-label">الاسم الكامل</label>
-                            <input asp-for="FullName" class="form-control" placeholder="مثال: أحمد علي" />
+                            <label asp-for="FullName" class="form-label">@Localizer["FullName"]</label>
+                            <input asp-for="FullName" class="form-control" placeholder="@Localizer["FullNamePlaceholder"]" />
                             <span asp-validation-for="FullName" class="text-danger small"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="PhoneNumber" class="form-label">رقم الهاتف</label>
+                            <label asp-for="PhoneNumber" class="form-label">@Localizer["Phone"]</label>
                             <input asp-for="PhoneNumber" class="form-control" placeholder="01xxxxxxxxx" />
                             <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="Password" class="form-label">كلمة المرور</label>
+                            <label asp-for="Password" class="form-label">@Localizer["Password"]</label>
                             <input asp-for="Password" type="password" class="form-control" />
                             <span asp-validation-for="Password" class="text-danger small"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="ConfirmPassword" class="form-label">تأكيد كلمة المرور</label>
+                            <label asp-for="ConfirmPassword" class="form-label">@Localizer["ConfirmPassword"]</label>
                             <input asp-for="ConfirmPassword" type="password" class="form-control" />
                             <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
                         </div>
 
-                        <button type="submit" class="btn btn-success w-100 btn-lg">إنشاء الحساب</button>
+                        <button type="submit" class="btn btn-success w-100 btn-lg">@Localizer["Submit"]</button>
                     </form>
 
                     <div class="text-center mt-3">
-                        <a asp-action="Login" class="text-decoration-none">لديك حساب بالفعل؟ تسجيل الدخول</a>
+                        <a asp-action="Login" class="text-decoration-none">@Localizer["LoginLink"]</a>
                     </div>
                 </div>
             </div>

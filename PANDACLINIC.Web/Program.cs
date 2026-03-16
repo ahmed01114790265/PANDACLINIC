@@ -1,13 +1,27 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using PANDACLINIC.Domain.Entity;
 using PANDACLINIC.Persistence.Context;
 using PANDACLINIC.Persistence.Seed;
 using PANDACLINIC.Application;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddPersistence(builder.Configuration);
 builder.Services.AddApplication(builder.Configuration);
+
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+var supportedCultures = new[] { new CultureInfo("en"), new CultureInfo("ar") };
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new RequestCulture("ar");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+    options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
+});
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
 {
@@ -21,7 +35,9 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
 .AddEntityFrameworkStores<ClinicDbContext>()
 .AddDefaultTokenProviders();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+    .AddDataAnnotationsLocalization();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -55,6 +71,8 @@ using (var scope = app.Services.CreateScope())
 }
 
 var globalUploadsPath = builder.Configuration["FileStorage:Path"];
+var localizationOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value;
+app.UseRequestLocalization(localizationOptions);
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(globalUploadsPath),

@@ -1,10 +1,12 @@
 ﻿@using PANDACLINIC.Application.DTOS.Order
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model IEnumerable<OrderItemSummaryDto>
 
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="fw-bold">سلة المشتريات</h2>
-        <a asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary">متابعة التسوق</a>
+        <h2 class="fw-bold">@Localizer["Title"]</h2>
+        <a asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary">@Localizer["Continue"]</a>
     </div>
 
     @if (Model.Any())
@@ -13,10 +15,10 @@
             <table class="table table-bordered align-middle">
                 <thead>
                     <tr>
-                        <th>المنتج</th>
-                        <th>الكمية</th>
-                        <th>سعر الوحدة</th>
-                        <th>الإجمالي</th>
+                        <th>@Localizer["Product"]</th>
+                        <th>@Localizer["Quantity"]</th>
+                        <th>@Localizer["UnitPrice"]</th>
+                        <th>@Localizer["Total"]</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -30,7 +32,7 @@
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="productId" value="@item.ProductId" />
                                     <input type="number" name="quantity" min="0" value="@item.Quantity" class="form-control" style="max-width:100px;" />
-                                    <button type="submit" class="btn btn-sm btn-outline-primary">تحديث</button>
+                                    <button type="submit" class="btn btn-sm btn-outline-primary">@Localizer["Update"]</button>
                                 </form>
                             </td>
                             <td>@item.UnitPrice.ToString("0.##")</td>
@@ -39,7 +41,7 @@
                                 <form asp-action="RemoveFromCart" method="post">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="productId" value="@item.ProductId" />
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">حذف</button>
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">@Localizer["Delete"]</button>
                                 </form>
                             </td>
                         </tr>
@@ -49,12 +51,12 @@
         </div>
 
         <div class="d-flex justify-content-between align-items-center mt-3">
-            <h4>الإجمالي: @(((decimal)ViewBag.Total).ToString("0.##")) جنيه</h4>
-            <a asp-action="Checkout" class="btn btn-primary btn-lg">إتمام الطلب</a>
+            <h4>@Localizer["GrandTotal"]: @(((decimal)ViewBag.Total).ToString("0.##")) @Localizer["Currency"]</h4>
+            <a asp-action="Checkout" class="btn btn-primary btn-lg">@Localizer["Checkout"]</a>
         </div>
     }
     else
     {
-        <div class="alert alert-info">السلة فارغة.</div>
+        <div class="alert alert-info">@Localizer["Empty"]</div>
     }
 </div>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Title" xml:space="preserve"><value>My orders</value></data>
+  <data name="OrderNumber" xml:space="preserve"><value>Order #</value></data>
+  <data name="Date" xml:space="preserve"><value>Date</value></data>
+  <data name="PaymentMethod" xml:space="preserve"><value>Payment method</value></data>
+  <data name="PaymentStatus" xml:space="preserve"><value>Payment status</value></data>
+  <data name="Status" xml:space="preserve"><value>Order status</value></data>
+  <data name="Total" xml:space="preserve"><value>Total</value></data>
+  <data name="Currency" xml:space="preserve"><value>EGP</value></data>
+  <data name="Details" xml:space="preserve"><value>Details</value></data>
+  <data name="Empty" xml:space="preserve"><value>No orders yet.</value></data>
+</root>

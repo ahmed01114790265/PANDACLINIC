@@ -1,21 +1,22 @@
 ﻿@using PANDACLINIC.Application.DTOS.Hosting
 @using PANDACLINIC.Shared.Enums
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model IEnumerable<HostingSummaryDto>
 
 @{
     var isCurrentHostingView = ViewBag.SelectedStatus != null && ViewBag.SelectedStatus.ToString() == "Ongoing";
     var mine = ViewBag.Mine is bool b && b;
-    var pageTitle = isCurrentHostingView ? "Current Hostings" : "Hosting Management";
 }
 
 <div class="container-fluid py-4 bg-white">
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4 border-bottom pb-3 gap-2">
-        <h2 class="fw-bold text-dark mb-0"><i class="bi bi-house-heart me-2"></i>@pageTitle</h2>
+        <h2 class="fw-bold text-dark mb-0"><i class="bi bi-house-heart me-2"></i>@(isCurrentHostingView ? Localizer["Current"] : Localizer["Title"])</h2>
         <div class="d-flex flex-wrap gap-2">
-            <a asp-action="Index" asp-route-mine="false" class="btn @(!mine && !isCurrentHostingView ? "btn-dark" : "btn-outline-secondary")">All Hostings</a>
-            <a asp-action="CurrentlyHosted" asp-route-mine="false" class="btn @(!mine && isCurrentHostingView ? "btn-dark" : "btn-outline-secondary")">Current Hosting</a>
-            <a asp-action="Index" asp-route-mine="true" class="btn @(mine ? "btn-dark" : "btn-outline-secondary")">My Created Hostings</a>
-            <a asp-action="Create" class="btn btn-primary btn-lg shadow-sm rounded-pill px-4">Add Hosting</a>
+            <a asp-action="Index" asp-route-mine="false" class="btn @(!mine && !isCurrentHostingView ? "btn-dark" : "btn-outline-secondary")">@Localizer["All"]</a>
+            <a asp-action="CurrentlyHosted" asp-route-mine="false" class="btn @(!mine && isCurrentHostingView ? "btn-dark" : "btn-outline-secondary")">@Localizer["Current"]</a>
+            <a asp-action="Index" asp-route-mine="true" class="btn @(mine ? "btn-dark" : "btn-outline-secondary")">@Localizer["Mine"]</a>
+            <a asp-action="Create" class="btn btn-primary btn-lg shadow-sm rounded-pill px-4">@Localizer["Add"]</a>
         </div>
     </div>
 
@@ -26,12 +27,12 @@
                 <div class="col-12 col-md-4"><input type="date" name="date" value="@ViewBag.SelectedDate" class="form-control" /></div>
                 <div class="col-12 col-md-4">
                     <select id="filterStatus" name="status" asp-items="Html.GetEnumSelectList<HostingStayStatus>()" class="form-select">
-                        <option value="">All</option>
+                        <option value="">@Localizer["All"]</option>
                     </select>
                 </div>
                 <div class="col-12 col-md-4 d-flex gap-2">
-                    <button type="submit" class="btn btn-dark flex-grow-1">Filter</button>
-                    <a asp-action="Index" asp-route-mine="@mine" class="btn btn-outline-secondary">Reset</a>
+                    <button type="submit" class="btn btn-dark flex-grow-1">@Localizer["Filter"]</button>
+                    <a asp-action="Index" asp-route-mine="@mine" class="btn btn-outline-secondary">@Localizer["Reset"]</a>
                 </div>
             </form>
         </div>
@@ -40,7 +41,7 @@
     <div class="table-responsive shadow-sm rounded-3">
         <table class="table table-hover align-middle bg-white mb-0">
             <thead class="table-light">
-                <tr><th>Animal Name</th><th>Client Name</th><th>Client Phone</th><th>Room</th><th>Status</th><th>Check-In</th><th>Check-Out</th><th class="text-end">Actions</th></tr>
+                <tr><th>@Localizer["AnimalName"]</th><th>@Localizer["ClientName"]</th><th>@Localizer["ClientPhone"]</th><th>@Localizer["Room"]</th><th>@Localizer["Status"]</th><th>@Localizer["CheckIn"]</th><th>@Localizer["CheckOut"]</th><th class="text-end">@Localizer["Actions"]</th></tr>
             </thead>
             <tbody>
                 @if (Model != null && Model.Any())
@@ -57,8 +58,10 @@
                                     <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
                                         @foreach (var st in Enum.GetValues<HostingStayStatus>())
                                         {
-                                            if (st == item.Status) { <option value="@st" selected>@st</option> }
-                                            else { <option value="@st">@st</option> }
+                                            @* نستخدم selected="@(شرط)" بدلاً من ternary operator داخل الـ attribute *@
+                                            <option value="@st" selected="@(st == item.Status)">
+                                                @Localizer[st.ToString()]
+                                            </option>
                                         }
                                     </select>
                                 </form>
@@ -75,7 +78,7 @@
                 }
                 else
                 {
-                    <tr><td colspan="8" class="text-center text-muted py-4">No hosting stays found.</td></tr>
+                    <tr><td colspan="8" class="text-center text-muted py-4">@Localizer["Empty"]</td></tr>
                 }
             </tbody>
         </table>
@@ -89,7 +92,7 @@
 
 <script>
     function confirmDelete(id) {
-        if (confirm('Delete this hosting stay?')) {
+        if (confirm('@Localizer["ConfirmDelete"]')) {
             document.getElementById('deleteId').value = id;
             document.getElementById('deleteForm').submit();
         }

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Title" xml:space="preserve"><value>إدارة المواعيد</value></data>
+  <data name="All" xml:space="preserve"><value>كل المواعيد</value></data>
+  <data name="Mine" xml:space="preserve"><value>مواعيدي المضافة</value></data>
+  <data name="Add" xml:space="preserve"><value>إضافة موعد</value></data>
+  <data name="Date" xml:space="preserve"><value>التاريخ</value></data>
+  <data name="Status" xml:space="preserve"><value>الحالة</value></data>
+  <data name="Filter" xml:space="preserve"><value>فلترة</value></data>
+  <data name="Reset" xml:space="preserve"><value>إعادة تعيين</value></data>
+  <data name="AnimalName" xml:space="preserve"><value>الحيوان</value></data>
+  <data name="Type" xml:space="preserve"><value>النوع</value></data>
+  <data name="DateTime" xml:space="preserve"><value>التاريخ/الوقت</value></data>
+  <data name="AnimalType" xml:space="preserve"><value>نوع الحيوان</value></data>
+  <data name="Actions" xml:space="preserve"><value>إجراءات</value></data>
+  <data name="Empty" xml:space="preserve"><value>لا توجد مواعيد.</value></data>
+  <data name="ConfirmDelete" xml:space="preserve"><value>حذف هذا الموعد؟</value></data>
+  <data name="ClinicalExamination" xml:space="preserve"><value>كشف عيادة</value></data>
+  <data name="HomeExamination" xml:space="preserve"><value>كشف منزلي</value></data>
+  <data name="Surgery" xml:space="preserve"><value>جراحة</value></data>
+  <data name="Grooming" xml:space="preserve"><value>تجميل</value></data>
+  <data name="Bording" xml:space="preserve"><value>إقامة</value></data>
+  <data name="Scheduled" xml:space="preserve"><value>محجوز</value></data>
+  <data name="Completed" xml:space="preserve"><value>مكتمل</value></data>
+  <data name="Canceled" xml:space="preserve"><value>ملغي</value></data>
+</root>

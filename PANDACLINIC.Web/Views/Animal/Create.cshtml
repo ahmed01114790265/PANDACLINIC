@@ -1,4 +1,6 @@
 ﻿@using PANDACLINIC.Application.DTOS.Animal
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model AnimalRequestDto
 
 <div class="container py-5">
@@ -6,8 +8,8 @@
         <div class="col-lg-6">
             <div class="card border-0 shadow-lg">
                 <div class="card-body p-5">
-                    <h2 class="text-center mb-4">تسجيل الحيوان</h2>
-                    <p class="text-muted text-center mb-4">أخبرنا عن صديقك الأليف</p>
+                    <h2 class="text-center mb-4">@Localizer["Title"]</h2>
+                    <p class="text-muted text-center mb-4">@Localizer["Subtitle"]</p>
 
                     <form asp-action="Create" method="post" enctype="multipart/form-data">
                         @Html.AntiForgeryToken()
@@ -15,24 +17,24 @@
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
 
                         <div class="form-floating mb-3">
-                            <input asp-for="Name" class="form-control" id="floatingName" placeholder="اسم الحيوان" />
-                            <label asp-for="Name">اسم الحيوان</label>
+                            <input asp-for="Name" class="form-control" id="floatingName" placeholder="@Localizer["NamePlaceholder"]" />
+                            <label asp-for="Name">@Localizer["Name"]</label>
                             <span asp-validation-for="Name" class="text-danger small"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="AnimalType" class="form-label">نوع الحيوان</label>
+                            <label asp-for="AnimalType" class="form-label">@Localizer["Type"]</label>
                             <select asp-for="AnimalType" class="form-select">
-                                <option value="">-- اختر النوع --</option>
-                                <option value="1">كلب (Dog)</option>
-                                <option value="2">قطة (Cat)</option>
-                                <option value="3">عصافير زينة (Birds)</option>
-                                <option value="4">سلاحف وزواحف (Reptiles)</option>
+                                <option value="">@Localizer["SelectType"]</option>
+                                <option value="1">@Localizer["Dog"]</option>
+                                <option value="2">@Localizer["Cat"]</option>
+                                <option value="3">@Localizer["Birds"]</option>
+                                <option value="4">@Localizer["Reptiles"]</option>
                             </select>
                             <span asp-validation-for="AnimalType" class="text-danger small"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label text-muted">صورة الحيوان</label>
+                            <label class="form-label text-muted">@Localizer["Image"]</label>
                             <input type="file" name="ImageFile" class="form-control" id="imageInput" accept="image/*" />
                             <input type="hidden" asp-for="Imgageurl" />
                             <span asp-validation-for="ImageFile" class="text-danger small"></span>
@@ -43,7 +45,7 @@
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100 btn-lg shadow-sm mt-3">
-                            <i class="bi bi-plus-circle me-2"></i>تسجيل الحيوان
+                            <i class="bi bi-plus-circle me-2"></i>@Localizer["Submit"]
                         </button>
                     </form>
                 </div>

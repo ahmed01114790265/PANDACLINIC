@@ -1,5 +1,7 @@
 ﻿@using PANDACLINIC.Application.DTOS.Hosting
 @using PANDACLINIC.Shared.Enums
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model HostingUpdateDto
 
 <div class="container py-5">
@@ -7,21 +9,34 @@
         <div class="col-lg-7">
             <div class="card border-0 shadow-lg">
                 <div class="card-body p-5">
-                    <h2 class="text-center mb-4">Edit Hosting</h2>
+                    <h2 class="text-center mb-4">@Localizer["Title"]</h2>
                     <form asp-action="Edit" method="post">
                         @Html.AntiForgeryToken()
                         <input type="hidden" asp-for="Id" />
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
-                        <div class="mb-3"><label asp-for="AnimalId"></label><select asp-for="AnimalId" asp-items="ViewBag.Animals" class="form-select"><option value="">-- Select Animal --</option></select></div>
+                        <div class="mb-3">
+                            <label class="form-label" asp-for="AnimalId">@Localizer["Animal"]</label>
+                            <select asp-for="AnimalId" asp-items="ViewBag.Animals" class="form-select">
+                                <option value="">@Localizer["SelectAnimal"]</option>
+                            </select>
+                        </div>
                         <input asp-for="RoomNumber" type="hidden" />
-                        <div class="mb-3"><label asp-for="Status"></label><select asp-for="Status" asp-items="Html.GetEnumSelectList<HostingStayStatus>()" class="form-select"></select></div>
-                        <div class="mb-3"><label asp-for="CheckInDate"></label><input asp-for="CheckInDate" type="datetime-local" class="form-control" value="@Model.CheckInDate.ToString("yyyy-MM-ddTHH:mm")" /></div>
-                        <div class="mb-3"><label asp-for="CheckOutDate"></label><input asp-for="CheckOutDate" type="datetime-local" class="form-control" value="@(Model.CheckOutDate.HasValue ? Model.CheckOutDate.Value.ToString("yyyy-MM-ddTHH:mm") : string.Empty)" /></div>
-                        <button type="submit" class="btn btn-primary w-100">Save</button>
+                        <div class="mb-3">
+                            <label class="form-label" asp-for="Status">@Localizer["Status"]</label>
+                            <select asp-for="Status" asp-items="Html.GetEnumSelectList<HostingStayStatus>()" class="form-select"></select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" asp-for="CheckInDate">@Localizer["CheckIn"]</label>
+                            <input asp-for="CheckInDate" type="datetime-local" class="form-control" value="@Model.CheckInDate.ToString("yyyy-MM-ddTHH:mm")" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" asp-for="CheckOutDate">@Localizer["CheckOut"]</label>
+                            <input asp-for="CheckOutDate" type="datetime-local" class="form-control" value="@(Model.CheckOutDate.HasValue ? Model.CheckOutDate.Value.ToString("yyyy-MM-ddTHH:mm") : string.Empty)" />
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">@Localizer["Save"]</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-

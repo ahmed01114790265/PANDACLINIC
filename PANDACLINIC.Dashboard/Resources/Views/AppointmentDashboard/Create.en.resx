@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Title" xml:space="preserve"><value>Create appointment</value></data>
+  <data name="Subtitle" xml:space="preserve"><value>Schedule a new clinical visit</value></data>
+  <data name="Animal" xml:space="preserve"><value>Animal</value></data>
+  <data name="SelectAnimal" xml:space="preserve"><value>-- Select animal --</value></data>
+  <data name="Type" xml:space="preserve"><value>Appointment type</value></data>
+  <data name="Date" xml:space="preserve"><value>Appointment date</value></data>
+  <data name="Submit" xml:space="preserve"><value>Create appointment</value></data>
+  <data name="Back" xml:space="preserve"><value>Back to appointments</value></data>
+</root>

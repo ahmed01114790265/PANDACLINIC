@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Title" xml:space="preserve"><value>إنشاء منتج</value></data>
+  <data name="Name" xml:space="preserve"><value>الاسم</value></data>
+  <data name="Type" xml:space="preserve"><value>النوع</value></data>
+  <data name="Price" xml:space="preserve"><value>السعر</value></data>
+  <data name="Currency" xml:space="preserve"><value>العملة</value></data>
+  <data name="Stock" xml:space="preserve"><value>المخزون</value></data>
+  <data name="Discount" xml:space="preserve"><value>الخصم %</value></data>
+  <data name="Weight" xml:space="preserve"><value>الوزن</value></data>
+  <data name="Taste" xml:space="preserve"><value>الطعم</value></data>
+  <data name="Image" xml:space="preserve"><value>صورة المنتج</value></data>
+  <data name="Description" xml:space="preserve"><value>الوصف</value></data>
+  <data name="IsActive" xml:space="preserve"><value>نشط</value></data>
+  <data name="Save" xml:space="preserve"><value>حفظ</value></data>
+  <data name="Update" xml:space="preserve"><value>تحديث</value></data>
+  <data name="Back" xml:space="preserve"><value>رجوع</value></data>
+  <data name="DryFood" xml:space="preserve"><value>طعام جاف</value></data>
+  <data name="WetFood" xml:space="preserve"><value>طعام رطب</value></data>
+  <data name="Cosmetics" xml:space="preserve"><value>مستحضرات تجميل</value></data>
+  <data name="Accessories" xml:space="preserve"><value>إكسسوارات</value></data>
+  <data name="Vaccines" xml:space="preserve"><value>لقاحات</value></data>
+  <data name="Pharmacy" xml:space="preserve"><value>صيدلة</value></data>
+</root>

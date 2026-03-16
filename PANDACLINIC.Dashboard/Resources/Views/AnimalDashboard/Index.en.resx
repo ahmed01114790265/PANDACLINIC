@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Title" xml:space="preserve"><value>Animal management</value></data>
+  <data name="All" xml:space="preserve"><value>All animals</value></data>
+  <data name="Mine" xml:space="preserve"><value>My created animals</value></data>
+  <data name="Add" xml:space="preserve"><value>Add new animal</value></data>
+  <data name="Search" xml:space="preserve"><value>Search by animal name...</value></data>
+  <data name="Filter" xml:space="preserve"><value>Filter</value></data>
+  <data name="Name" xml:space="preserve"><value>Name</value></data>
+  <data name="Image" xml:space="preserve"><value>Image</value></data>
+  <data name="Type" xml:space="preserve"><value>Type</value></data>
+  <data name="Actions" xml:space="preserve"><value>Actions</value></data>
+  <data name="Empty" xml:space="preserve"><value>No animals found.</value></data>
+  <data name="ConfirmDelete" xml:space="preserve"><value>Move this animal to Recycle Bin?</value></data>
+</root>

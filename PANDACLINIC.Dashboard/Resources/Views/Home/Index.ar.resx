@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Title" xml:space="preserve"><value>لوحة التحكم</value></data>
+  <data name="Kicker" xml:space="preserve"><value>نظرة على العمليات</value></data>
+  <data name="Welcome" xml:space="preserve"><value>مرحباً بعودتك، {0}</value></data>
+  <data name="Snapshot" xml:space="preserve"><value>صورة حية للمواعيد والاستضافة والمخزون والطلبات.</value></data>
+  <data name="Updated" xml:space="preserve"><value>تم التحديث في {0}</value></data>
+  <data name="QuickActions" xml:space="preserve"><value>إجراءات سريعة</value></data>
+  <data name="CreateAppointment" xml:space="preserve"><value>موعد جديد</value></data>
+  <data name="CreateHosting" xml:space="preserve"><value>استضافة جديدة</value></data>
+  <data name="AddProduct" xml:space="preserve"><value>إضافة منتج</value></data>
+  <data name="AddAnimal" xml:space="preserve"><value>إضافة حيوان</value></data>
+  <data name="AppointmentsToday" xml:space="preserve"><value>مواعيد اليوم</value></data>
+  <data name="Scheduled" xml:space="preserve"><value>محجوز: {0}</value></data>
+  <data name="CurrentHosting" xml:space="preserve"><value>الاستضافة الحالية</value></data>
+  <data name="TotalHostings" xml:space="preserve"><value>إجمالي الاستضافات: {0}</value></data>
+  <data name="ActiveProducts" xml:space="preserve"><value>المنتجات الفعّالة</value></data>
+  <data name="LowStock" xml:space="preserve"><value>منخفض المخزون: {0}</value></data>
+  <data name="PendingOrders" xml:space="preserve"><value>الطلبات المعلقة</value></data>
+  <data name="TotalOrders" xml:space="preserve"><value>إجمالي الطلبات: {0}</value></data>
+  <data name="PaymentFollowUp" xml:space="preserve"><value>متابعة المدفوعات</value></data>
+  <data name="NeedConfirmation" xml:space="preserve"><value>تحتاج تأكيد</value></data>
+  <data name="CompletedRevenue" xml:space="preserve"><value>الإيرادات المكتملة</value></data>
+  <data name="Currency" xml:space="preserve"><value>جنيه</value></data>
+  <data name="CompletedOrders" xml:space="preserve"><value>الطلبات المكتملة: {0}</value></data>
+</root>

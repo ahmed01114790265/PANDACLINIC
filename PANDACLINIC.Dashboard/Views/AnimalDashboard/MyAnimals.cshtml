@@ -1,18 +1,16 @@
 ﻿@using PANDACLINIC.Application.DTOS.Animal
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model IEnumerable<AnimalSummaryDto>
-
-@{
-    ViewData["Title"] = "My Registered Pets";
-}
 
 <div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h2 class="fw-bold text-primary mb-1">My RegeserationAnimal for me  </h2>
-            <p class="text-muted">Manage the pets you have registered in our system.</p>
+            <h2 class="fw-bold text-primary mb-1">@Localizer["Title"]</h2>
+            <p class="text-muted">@Localizer["Subtitle"]</p>
         </div>
         <a asp-action="Create" class="btn btn-success btn-lg shadow-sm">
-            <i class="bi bi-plus-lg"></i> AddNewAnimal
+            <i class="bi bi-plus-lg"></i> @Localizer["Add"]
         </a>
     </div>
 
@@ -35,26 +33,29 @@
                             <div class="d-flex justify-content-between align-items-start mb-3">
                                 <div>
                                     <h5 class="card-title fw-bold mb-0">@animal.Name</h5>
-                                    <h5 class="card-img fw-bold mb-0">@animal.Imgageurl</h5>
-                                    <h5 class="hover-shadow fw-bold mb-0">@animal.AnimalType</h5>
-                                   
+                                    <small class="text-muted">@animal.AnimalType</small>
                                 </div>
                                 <div class="dropdown">
                                     <button class="btn btn-light btn-sm rounded-circle" type="button" data-bs-toggle="dropdown">
                                         <i class="bi bi-three-dots-vertical"></i>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end shadow">
-                                        <li><a class="dropdown-item" asp-action="Details" asp-route-id="@animal.Id">View Details</a></li>
-                                        <li><a class="dropdown-item text-danger" href="#" onclick="confirmDelete('@animal.Id')"> ArchiveAnimal </a></li>
+                                        <li><a class="dropdown-item" asp-action="Details" asp-route-id="@animal.Id">@Localizer["ViewDetails"]</a></li>
+                                        <li>
+                                            <form asp-action="Delete" method="post" class="px-3 py-1" onsubmit="return confirm('@Localizer["Archive"]');">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="id" value="@animal.Id" />
+                                                <button type="submit" class="btn btn-link p-0 text-danger">@Localizer["Archive"]</button>
+                                            </form>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
-
-                            
+                            <div class="rounded-3 mb-3" style="height: 180px; background-size: cover; background-position: center; background-image: url('@(string.IsNullOrEmpty(animal.Imgageurl) ? "/images/default-animal.png" : animal.Imgageurl)');"></div>
                         </div>
                         <div class="card-footer bg-transparent border-top-0 pb-3">
                             <a asp-action="Details" asp-route-id="@animal.Id" class="btn btn-outline-primary w-100 btn-sm">
-                               AnimalInformation 
+                                @Localizer["Info"]
                             </a>
                         </div>
                     </div>
@@ -67,21 +68,15 @@
                 <div class="mb-3">
                     <i class="bi bi-clipboard-x display-1 text-muted"></i>
                 </div>
-                <h4 class="text-muted">you did Not Have AnyAnimal .</h4>
-                <p>لم تسجل حيوات بعد .</p>
-                <a asp-action="Create" class="btn btn-primary">Get Started Now</a>
+                <h4 class="text-muted">@Localizer["EmptyTitle"]</h4>
+                <p>@Localizer["EmptySubtitle"]</p>
+                <a asp-action="Create" class="btn btn-primary">@Localizer["GetStarted"]</a>
             </div>
         }
     </div>
 </div>
 
 <style>
-    .hover-shadow:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.1) !important;
-    }
-
-    .transition {
-        transition: all 0.3s ease;
-    }
+    .hover-shadow:hover { transform: translateY(-5px); box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.1) !important; }
+    .transition { transition: all 0.3s ease; }
 </style>

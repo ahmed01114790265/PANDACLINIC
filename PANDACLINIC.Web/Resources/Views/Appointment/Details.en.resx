@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Title" xml:space="preserve"><value>Appointment details</value></data>
+  <data name="Pet" xml:space="preserve"><value>Pet</value></data>
+  <data name="Owner" xml:space="preserve"><value>Owner</value></data>
+  <data name="Type" xml:space="preserve"><value>Type</value></data>
+  <data name="Status" xml:space="preserve"><value>Status</value></data>
+  <data name="Date" xml:space="preserve"><value>Visit time</value></data>
+  <data name="Back" xml:space="preserve"><value>Back to list</value></data>
+  <data name="ClinicalExamination" xml:space="preserve"><value>Clinic check</value></data>
+  <data name="HomeExamination" xml:space="preserve"><value>Home visit</value></data>
+  <data name="Surgery" xml:space="preserve"><value>Surgery</value></data>
+  <data name="Grooming" xml:space="preserve"><value>Grooming</value></data>
+  <data name="Bording" xml:space="preserve"><value>Boarding</value></data>
+  <data name="Scheduled" xml:space="preserve"><value>Scheduled</value></data>
+  <data name="Completed" xml:space="preserve"><value>Completed</value></data>
+  <data name="Canceled" xml:space="preserve"><value>Canceled</value></data>
+</root>

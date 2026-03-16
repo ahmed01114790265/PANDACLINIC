@@ -1,7 +1,9 @@
 ﻿@model PANDACLINIC.Web.Models.AccountViewModel.LoginPhoneVM
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "تسجيل الدخول";
+    ViewData["Title"] = Localizer["Title"];
 }
 
 <div class="container py-5">
@@ -9,12 +11,12 @@
         <div class="col-lg-5 col-md-7">
             <div class="card border-0 shadow-lg">
                 <div class="card-body p-5">
-                    <h2 class="text-center mb-3">تسجيل الدخول</h2>
-                    <p class="text-center text-muted mb-4">ادخل برقم الهاتف وكلمة المرور</p>
+                    <h2 class="text-center mb-3">@Localizer["Header"]</h2>
+                    <p class="text-center text-muted mb-4">@Localizer["Subtitle"]</p>
 
                     @if (ViewBag.PendingAddToCart == true)
                     {
-                        <div class="alert alert-info">بعد تسجيل الدخول سيتم إضافة المنتج إلى السلة تلقائيًا.</div>
+                        <div class="alert alert-info">@Localizer["PendingCart"]</div>
                     }
 
                     <form asp-action="Login" method="post">
@@ -24,27 +26,27 @@
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
                         <div class="mb-3">
-                            <label asp-for="PhoneNumber" class="form-label">رقم الهاتف</label>
+                            <label asp-for="PhoneNumber" class="form-label">@Localizer["Phone"]</label>
                             <input asp-for="PhoneNumber" class="form-control" placeholder="01xxxxxxxxx" />
                             <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="Password" class="form-label">كلمة المرور</label>
+                            <label asp-for="Password" class="form-label">@Localizer["Password"]</label>
                             <input asp-for="Password" type="password" class="form-control" />
                             <span asp-validation-for="Password" class="text-danger small"></span>
                         </div>
 
                         <div class="form-check mb-3">
                             <input class="form-check-input" asp-for="RememberMe" />
-                            <label class="form-check-label" asp-for="RememberMe">تذكرني</label>
+                            <label class="form-check-label" asp-for="RememberMe">@Localizer["RememberMe"]</label>
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100 btn-lg">دخول</button>
+                        <button type="submit" class="btn btn-primary w-100 btn-lg">@Localizer["Submit"]</button>
                     </form>
 
                     <div class="text-center mt-3">
-                        <a asp-action="Register" class="text-decoration-none">ليس لديك حساب؟ أنشئ حسابًا جديدًا</a>
+                        <a asp-action="Register" class="text-decoration-none">@Localizer["RegisterLink"]</a>
                     </div>
                 </div>
             </div>

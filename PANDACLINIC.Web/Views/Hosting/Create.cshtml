@@ -1,5 +1,7 @@
 ﻿@using PANDACLINIC.Application.DTOS.Hosting
 @using PANDACLINIC.Shared.Enums
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model HostingRequestDto
 
 <div class="container py-5">
@@ -7,17 +9,17 @@
         <div class="col-lg-7">
             <div class="card border-0 shadow-lg">
                 <div class="card-body p-5">
-                    <h2 class="text-center mb-4">حجز استضافة</h2>
-                    <p class="text-muted text-center mb-4">اختر الحيوان ثم أدخل بياناتك لتأكيد الحجز</p>
+                    <h2 class="text-center mb-4">@Localizer["Title"]</h2>
+                    <p class="text-muted text-center mb-4">@Localizer["Subtitle"]</p>
 
                     <form asp-action="Create" method="post">
                         @Html.AntiForgeryToken()
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
 
                         <div class="mb-3">
-                            <label asp-for="AnimalId" class="form-label">الحيوان</label>
+                            <label asp-for="AnimalId" class="form-label">@Localizer["Animal"]</label>
                             <select asp-for="AnimalId" asp-items="ViewBag.Animals" class="form-select">
-                                <option value="">-- اختر الحيوان --</option>
+                                <option value="">@Localizer["SelectAnimal"]</option>
                             </select>
                             <span asp-validation-for="AnimalId" class="text-danger small"></span>
                         </div>
@@ -25,39 +27,39 @@
                         <input asp-for="RoomNumber" type="hidden" value="0" />
 
                         <div class="mb-3">
-                            <label asp-for="CheckInDate" class="form-label">تاريخ الدخول</label>
+                            <label asp-for="CheckInDate" class="form-label">@Localizer["CheckIn"]</label>
                             <input asp-for="CheckInDate" type="datetime-local" class="form-control" value="@Model.CheckInDate.ToString("yyyy-MM-ddTHH:mm")" />
                             <span asp-validation-for="CheckInDate" class="text-danger small"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="CheckOutDate" class="form-label">تاريخ الخروج</label>
+                            <label asp-for="CheckOutDate" class="form-label">@Localizer["CheckOut"]</label>
                             <input asp-for="CheckOutDate" type="datetime-local" class="form-control" value="@(Model.CheckOutDate.HasValue ? Model.CheckOutDate.Value.ToString("yyyy-MM-ddTHH:mm") : string.Empty)" />
                             <span asp-validation-for="CheckOutDate" class="text-danger small"></span>
                         </div>
 
                         <hr class="my-4" />
-                        <h5 class="mb-3">بيانات العميل للتأكيد</h5>
+                        <h5 class="mb-3">@Localizer["ClientHeading"]</h5>
 
                         <div class="mb-3">
-                            <label asp-for="ClientFullName" class="form-label">الاسم الكامل</label>
-                            <input asp-for="ClientFullName" class="form-control" placeholder="ادخل الاسم الكامل" />
+                            <label asp-for="ClientFullName" class="form-label">@Localizer["ClientName"]</label>
+                            <input asp-for="ClientFullName" class="form-control" placeholder="@Localizer["ClientNamePlaceholder"]" />
                             <span asp-validation-for="ClientFullName" class="text-danger small"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="ClientPhone" class="form-label">رقم الهاتف</label>
-                            <input asp-for="ClientPhone" class="form-control" placeholder="ادخل رقم الهاتف" />
+                            <label asp-for="ClientPhone" class="form-label">@Localizer["ClientPhone"]</label>
+                            <input asp-for="ClientPhone" class="form-control" placeholder="@Localizer["ClientPhonePlaceholder"]" />
                             <span asp-validation-for="ClientPhone" class="text-danger small"></span>
                         </div>
 
                         <div class="form-check mb-3">
                             <input asp-for="IsClientConfirmed" class="form-check-input" type="checkbox" id="confirmInfo" />
-                            <label class="form-check-label" for="confirmInfo">أؤكد أن البيانات صحيحة وأوافق على تأكيد الحجز</label>
+                            <label class="form-check-label" for="confirmInfo">@Localizer["Confirm"]</label>
                             <span asp-validation-for="IsClientConfirmed" class="text-danger small d-block"></span>
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100 btn-lg shadow-sm mt-3">تأكيد الاستضافة</button>
+                        <button type="submit" class="btn btn-primary w-100 btn-lg shadow-sm mt-3">@Localizer["Submit"]</button>
                     </form>
                 </div>
             </div>
@@ -68,4 +70,3 @@
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
-

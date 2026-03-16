@@ -1,12 +1,14 @@
 ﻿@using PANDACLINIC.Application.DTOS.Appointment
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model IEnumerable<AppointmentSummaryDto>
 
 <div class="container py-4">
     <div class="alert alert-warning d-flex align-items-center rounded-4 shadow-sm mb-4">
         <i class="bi bi-trash3-fill me-3 fs-3"></i>
         <div>
-            <h5 class="mb-0 fw-bold">Appointments Archive</h5>
-            <small>Soft-deleted appointments can be restored by Admin.</small>
+            <h5 class="mb-0 fw-bold">@Localizer["Title"]</h5>
+            <small>@Localizer["Subtitle"]</small>
         </div>
     </div>
 
@@ -14,11 +16,11 @@
         <table class="table table-hover align-middle bg-white mb-0">
             <thead class="table-light">
                 <tr>
-                    <th>Animal</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                    <th class="text-end">Actions</th>
+                    <th>@Localizer["Animal"]</th>
+                    <th>@Localizer["Type"]</th>
+                    <th>@Localizer["Status"]</th>
+                    <th>@Localizer["Date"]</th>
+                    <th class="text-end">@Localizer["Actions"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,15 +30,15 @@
                     {
                         <tr>
                             <td class="fw-bold">@item.AnimalName</td>
-                            <td>@item.TypeOfAppoinment</td>
-                            <td>@item.Status</td>
-                            <td>@item.AppointmentDate.ToString("yyyy-MM-dd hh:mm")</td>
+                            <td>@Localizer[item.TypeOfAppoinment.ToString()]</td>
+                            <td>@Localizer[item.Status.ToString()]</td>
+                            <td>@item.AppointmentDate.ToString("yyyy-MM-dd HH:mm")</td>
                             <td class="text-end">
                                 <form asp-action="Restore" method="post" class="d-inline">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="id" value="@item.Id" />
                                     <button type="submit" class="btn btn-sm btn-success">
-                                        <i class="bi bi-arrow-counterclockwise"></i> Restore
+                                        <i class="bi bi-arrow-counterclockwise"></i> @Localizer["Restore"]
                                     </button>
                                 </form>
                             </td>
@@ -46,7 +48,7 @@
                 else
                 {
                     <tr>
-                        <td colspan="5" class="text-center text-muted py-4">Archive is empty.</td>
+                        <td colspan="5" class="text-center text-muted py-4">@Localizer["Empty"]</td>
                     </tr>
                 }
             </tbody>

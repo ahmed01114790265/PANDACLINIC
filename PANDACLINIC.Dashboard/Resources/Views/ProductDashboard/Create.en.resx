@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Title" xml:space="preserve"><value>Create product</value></data>
+  <data name="Name" xml:space="preserve"><value>Name</value></data>
+  <data name="Type" xml:space="preserve"><value>Type</value></data>
+  <data name="Price" xml:space="preserve"><value>Price</value></data>
+  <data name="Currency" xml:space="preserve"><value>Currency</value></data>
+  <data name="Stock" xml:space="preserve"><value>Stock</value></data>
+  <data name="Discount" xml:space="preserve"><value>Discount %</value></data>
+  <data name="Weight" xml:space="preserve"><value>Weight</value></data>
+  <data name="Taste" xml:space="preserve"><value>Taste</value></data>
+  <data name="Image" xml:space="preserve"><value>Product image</value></data>
+  <data name="Description" xml:space="preserve"><value>Description</value></data>
+  <data name="IsActive" xml:space="preserve"><value>Is active</value></data>
+  <data name="Save" xml:space="preserve"><value>Save</value></data>
+  <data name="Update" xml:space="preserve"><value>Update</value></data>
+  <data name="Back" xml:space="preserve"><value>Back</value></data>
+  <data name="DryFood" xml:space="preserve"><value>Dry food</value></data>
+  <data name="WetFood" xml:space="preserve"><value>Wet food</value></data>
+  <data name="Cosmetics" xml:space="preserve"><value>Cosmetics</value></data>
+  <data name="Accessories" xml:space="preserve"><value>Accessories</value></data>
+  <data name="Vaccines" xml:space="preserve"><value>Vaccines</value></data>
+  <data name="Pharmacy" xml:space="preserve"><value>Pharmacy</value></data>
+</root>

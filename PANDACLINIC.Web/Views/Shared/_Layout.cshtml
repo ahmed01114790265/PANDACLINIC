@@ -1,7 +1,9 @@
-﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Globalization
+@using Microsoft.AspNetCore.Identity
 @using PANDACLINIC.Domain.Entity
 @inject UserManager<ApplicationUser> UserManager
-
+@inject IViewLocalizer Localizer
 @{
     ApplicationUser? currentUser = null;
     if (User.Identity?.IsAuthenticated == true)
@@ -12,18 +14,27 @@
     var displayName = !string.IsNullOrWhiteSpace(currentUser?.fullName)
         ? currentUser!.fullName
         : User.Identity?.Name;
+
+    var culture = CultureInfo.CurrentUICulture;
+    var isRtl = culture.TextInfo.IsRightToLeft;
+    var lang = culture.TwoLetterISOLanguageName;
+    var bootstrapHref = isRtl
+        ? "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css"
+        : "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css";
+    var fontHref = "https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap";
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
 }
 
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="@lang" dir="@(isRtl ? "rtl" : "ltr")">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - PANDAPETSCLINIC</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link href="@fontHref" rel="stylesheet">
+    <link rel="stylesheet" href="@bootstrapHref">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
@@ -33,7 +44,7 @@
             <div class="container">
                 <a class="navbar-brand brand" asp-controller="Product" asp-action="Index">
                     <span class="brand-icon"><i class="bi bi-heart-pulse-fill"></i></span>
-                    <span>PANDAPETSCLINIC</span>
+                    <span>@Localizer["Brand"]</span>
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,32 +53,43 @@
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto align-items-lg-center gap-lg-1 nav-links-wrap">
-                        <li class="nav-item"><a class="nav-link" asp-controller="Product" asp-action="Index">المنتجات</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Animal" asp-action="MyAnimals">حيواناتي المسجله  </a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Animal" asp-action="Create">إضافة حيوان</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Appointment" asp-action="MyAppointments">مواعيدي</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Appointment" asp-action="Create">حجز موعد</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Hosting" asp-action="MyHostings">استضافاتي</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Hosting" asp-action="Create">حجز استضافة</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Order" asp-action="Cart">السلة</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Order" asp-action="MyOrders">طلباتي</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Product" asp-action="Index">@Localizer["Products"]</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Animal" asp-action="MyAnimals">@Localizer["MyAnimals"]</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Animal" asp-action="Create">@Localizer["AddAnimal"]</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Appointment" asp-action="MyAppointments">@Localizer["MyAppointments"]</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Appointment" asp-action="Create">@Localizer["BookAppointment"]</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Hosting" asp-action="MyHostings">@Localizer["MyHostings"]</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Hosting" asp-action="Create">@Localizer["BookHosting"]</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Order" asp-action="Cart">@Localizer["Cart"]</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Order" asp-action="MyOrders">@Localizer["MyOrders"]</a></li>
                     </ul>
 
-                    <ul class="navbar-nav ms-auto align-items-lg-center auth-wrap">
+                    <ul class="navbar-nav ms-auto align-items-lg-center auth-wrap gap-2">
+                        <li class="nav-item">
+                            <form asp-controller="Localization" asp-action="SetLanguage" method="post" class="d-flex align-items-center">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="returnUrl" value="@returnUrl" />
+                                <label class="me-2 mb-0 fw-semibold">@Localizer["Language"]</label>
+                                <select name="culture" class="form-select form-select-sm" onchange="this.form.submit()">
+                                    <option value="ar" selected="@(lang == "ar")">@Localizer["Arabic"]</option>
+                                    <option value="en" selected="@(lang == "en")">@Localizer["English"]</option>
+                                </select>
+                            </form>
+                        </li>
                         @if (User.Identity?.IsAuthenticated == true)
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle user-chip" href="#" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="bi bi-person-circle ms-1"></i>
-                                    <span>أهلاً، @displayName</span>
+                                    <span>@Localizer["HelloUser", displayName]</span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3 mt-2">
-                                    <li><a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword"><i class="bi bi-key ms-2"></i>تغيير كلمة المرور</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword"><i class="bi bi-key ms-2"></i>@Localizer["ChangePassword"]</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <form asp-controller="Account" asp-action="Logout" method="post" class="px-3 py-1">
                                             @Html.AntiForgeryToken()
-                                            <button type="submit" class="btn btn-danger btn-sm w-100">تسجيل خروج</button>
+                                            <button type="submit" class="btn btn-danger btn-sm w-100">@Localizer["Logout"]</button>
                                         </form>
                                     </li>
                                 </ul>
@@ -75,8 +97,8 @@
                         }
                         else
                         {
-                            <li class="nav-item"><a class="btn btn-primary px-4 ms-2" asp-controller="Account" asp-action="Login">تسجيل الدخول</a></li>
-                            <li class="nav-item"><a class="btn btn-outline-primary px-3" asp-controller="Account" asp-action="Register">إنشاء حساب</a></li>
+                            <li class="nav-item"><a class="btn btn-primary px-4 ms-2" asp-controller="Account" asp-action="Login">@Localizer["Login"]</a></li>
+                            <li class="nav-item"><a class="btn btn-outline-primary px-3" asp-controller="Account" asp-action="Register">@Localizer["Register"]</a></li>
                         }
                     </ul>
                 </div>
@@ -106,7 +128,7 @@
     </div>
 
     <footer class="site-footer mt-4">
-        <div class="container text-center py-3">&copy; 2026 - <strong>PANDAPETSCLINIC</strong></div>
+        <div class="container text-center py-3">&copy; 2026 - <strong>@Localizer["Brand"]</strong></div>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

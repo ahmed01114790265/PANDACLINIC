@@ -1,20 +1,21 @@
 ﻿@using PANDACLINIC.Application.DTOS.Order
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model IEnumerable<OrderSummaryDto>
 
 <div class="container py-4">
-    <h2 class="fw-bold mb-4">طلباتي</h2>
+    <h2 class="fw-bold mb-4">@Localizer["Title"]</h2>
 
     <div class="table-responsive">
         <table class="table table-striped align-middle">
             <thead>
                 <tr>
-                    <th>رقم الطلب</th>
-                    <th>التاريخ</th>
-                    @* <th>العميل</th> *@
-                    <th>طريقة الدفع</th>
-                    <th>حالة الدفع</th>
-                    <th>حالة الطلب</th>
-                    <th>الإجمالي</th>
+                    <th>@Localizer["OrderNumber"]</th>
+                    <th>@Localizer["Date"]</th>
+                    <th>@Localizer["PaymentMethod"]</th>
+                    <th>@Localizer["PaymentStatus"]</th>
+                    <th>@Localizer["Status"]</th>
+                    <th>@Localizer["Total"]</th>
                     <th></th>
                 </tr>
             </thead>
@@ -27,19 +28,18 @@
                         <tr>
                             <td>@i</td>
                             <td>@order.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
-                           @*  <td>@order.ClientName (@order.ClientPhone)</td> *@
                             <td>@order.PaymentMethod</td>
                             <td>@order.PaymentStatus</td>
                             <td>@order.Status</td>
-                            <td>@order.TotalAmount.ToString("0.##") جنيه</td>
-                            <td><a asp-action="Details" asp-route-id="@order.Id" class="btn btn-sm btn-outline-primary">تفاصيل</a></td>
+                            <td>@order.TotalAmount.ToString("0.##") @Localizer["Currency"]</td>
+                            <td><a asp-action="Details" asp-route-id="@order.Id" class="btn btn-sm btn-outline-primary">@Localizer["Details"]</a></td>
                         </tr>
                         i++;
                     }
                 }
                 else
                 {
-                    <tr><td colspan="8" class="text-center text-muted">لا توجد طلبات حتى الآن.</td></tr>
+                    <tr><td colspan="7" class="text-center text-muted">@Localizer["Empty"]</td></tr>
                 }
             </tbody>
         </table>

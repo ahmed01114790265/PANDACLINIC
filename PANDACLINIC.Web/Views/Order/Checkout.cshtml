@@ -1,4 +1,6 @@
 ﻿@using PANDACLINIC.Application.DTOS.Order
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model OrderCheckoutRequestDto
 
 @{
@@ -8,7 +10,7 @@
 }
 
 <div class="container py-4">
-    <h2 class="fw-bold mb-4">تأكيد الطلب والدفع</h2>
+    <h2 class="fw-bold mb-4">@Localizer["Title"]</h2>
 
     <div class="row g-4">
         <div class="col-lg-7">
@@ -19,47 +21,46 @@
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
                         <div class="mb-3">
-                            <label asp-for="ClientName" class="form-label">اسم العميل</label>
+                            <label asp-for="ClientName" class="form-label">@Localizer["ClientName"]</label>
                             <input asp-for="ClientName" class="form-control" />
                             <span asp-validation-for="ClientName" class="text-danger small"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="ClientPhone" class="form-label">رقم الهاتف</label>
+                            <label asp-for="ClientPhone" class="form-label">@Localizer["ClientPhone"]</label>
                             <input asp-for="ClientPhone" class="form-control" />
                             <span asp-validation-for="ClientPhone" class="text-danger small"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="ClientAddress" class="form-label">العنوان</label>
+                            <label asp-for="ClientAddress" class="form-label">@Localizer["ClientAddress"]</label>
                             <textarea asp-for="ClientAddress" class="form-control" rows="3"></textarea>
                             <span asp-validation-for="ClientAddress" class="text-danger small"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="Notes" class="form-label">ملاحظات (اختياري)</label>
+                            <label asp-for="Notes" class="form-label">@Localizer["Notes"]</label>
                             <textarea asp-for="Notes" class="form-control" rows="2"></textarea>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label d-block">طريقة الدفع</label>
+                            <label class="form-label d-block">@Localizer["PaymentMethod"]</label>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" asp-for="PaymentMethod" value="VodafoneCash" id="payVodafone" />
-                                <label class="form-check-label" for="payVodafone">فودافون كاش</label>
+                                <label class="form-check-label" for="payVodafone">@Localizer["Vodafone"]</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" asp-for="PaymentMethod" value="CashOnDelivery" id="payCash" />
-                                <label class="form-check-label" for="payCash">الدفع عند الاستلام</label>
+                                <label class="form-check-label" for="payCash">@Localizer["Cash"]</label>
                             </div>
                             <span asp-validation-for="PaymentMethod" class="text-danger small"></span>
                         </div>
 
                         <div id="vodafoneBox" class="alert alert-warning d-none">
-                            يرجى التحويل على رقم فودافون كاش: <strong>@vodafone</strong><br />
-                            بعد ذلك سيتم تحويلك إلى واتساب لتأكيد الدفع.
+                            @Localizer["VodafoneInfo", vodafone]
                         </div>
 
-                        <button type="submit" class="btn btn-success btn-lg w-100">تأكيد الطلب والدفع</button>
+                        <button type="submit" class="btn btn-success btn-lg w-100">@Localizer["Submit"]</button>
                     </form>
                 </div>
             </div>
@@ -68,20 +69,20 @@
         <div class="col-lg-5">
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-4">
-                    <h5 class="fw-bold mb-3">ملخص الطلب</h5>
+                    <h5 class="fw-bold mb-3">@Localizer["Summary"]</h5>
                     <ul class="list-group list-group-flush">
                         @foreach (var item in items)
                         {
                             <li class="list-group-item d-flex justify-content-between">
                                 <span>@item.ProductName x @item.Quantity</span>
-                                <span>@item.LineTotal.ToString("0.##") جنيه</span>
+                                <span>@item.LineTotal.ToString("0.##") @Localizer["Currency"]</span>
                             </li>
                         }
                     </ul>
                     <hr />
                     <h4 class="d-flex justify-content-between">
-                        <span>الإجمالي</span>
-                        <span class="text-primary">@total.ToString("0.##") جنيه</span>
+                        <span>@Localizer["GrandTotal"]</span>
+                        <span class="text-primary">@total.ToString("0.##") @Localizer["Currency"]</span>
                     </h4>
                 </div>
             </div>

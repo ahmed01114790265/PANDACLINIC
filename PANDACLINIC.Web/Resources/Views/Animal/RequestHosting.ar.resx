@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Title" xml:space="preserve"><value>طلب استضافة</value></data>
+  <data name="Selected" xml:space="preserve"><value>تم اختيار الحيوان: {0}</value></data>
+  <data name="Info" xml:space="preserve"><value>خدمة الاستضافة سيتم ربطها بخطوة الحجز قريبًا. يمكنك الآن اختيار خدمة المواعيد مباشرة.</value></data>
+  <data name="GoToAppointment" xml:space="preserve"><value>اذهب للمواعيد</value></data>
+  <data name="Back" xml:space="preserve"><value>رجوع</value></data>
+</root>

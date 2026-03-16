@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Taste" xml:space="preserve"><value>Taste</value></data>
+  <data name="Weight" xml:space="preserve"><value>Weight</value></data>
+  <data name="Stock" xml:space="preserve"><value>Stock</value></data>
+  <data name="Currency" xml:space="preserve"><value>EGP</value></data>
+  <data name="AddToCart" xml:space="preserve"><value>Add to cart</value></data>
+  <data name="Back" xml:space="preserve"><value>Back</value></data>
+</root>

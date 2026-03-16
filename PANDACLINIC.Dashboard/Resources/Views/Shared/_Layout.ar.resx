@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="DashboardTitle" xml:space="preserve">
+    <value>لوحة تحكم باندا كلينك</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>الرئيسية</value>
+  </data>
+  <data name="MyPets" xml:space="preserve">
+    <value>حيواناتي</value>
+  </data>
+  <data name="TodayAppointments" xml:space="preserve">
+    <value>مواعيد اليوم</value>
+  </data>
+  <data name="Hosting" xml:space="preserve">
+    <value>الاستضافة</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>قيد المراجعة</value>
+  </data>
+  <data name="Payments" xml:space="preserve">
+    <value>المدفوعات</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>اللغة</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>الإنجليزية</value>
+  </data>
+  <data name="Arabic" xml:space="preserve">
+    <value>العربية</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>تغيير كلمة المرور</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>تسجيل خروج</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>تسجيل الدخول</value>
+  </data>
+  <data name="Management" xml:space="preserve">
+    <value>الإدارة</value>
+  </data>
+  <data name="AllAnimals" xml:space="preserve">
+    <value>كل الحيوانات</value>
+  </data>
+  <data name="MyAnimals" xml:space="preserve">
+    <value>حيواناتي</value>
+  </data>
+  <data name="Appointments" xml:space="preserve">
+    <value>المواعيد</value>
+  </data>
+  <data name="MyAppointments" xml:space="preserve">
+    <value>مواعيدي</value>
+  </data>
+  <data name="Hostings" xml:space="preserve">
+    <value>الاستضافات</value>
+  </data>
+  <data name="MyHostings" xml:space="preserve">
+    <value>استضافاتي</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>المنتجات</value>
+  </data>
+  <data name="OrdersReview" xml:space="preserve">
+    <value>مراجعة الطلبات</value>
+  </data>
+</root>

@@ -1,14 +1,16 @@
 ﻿@using PANDACLINIC.Application.DTOS.Animal
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model IEnumerable<AnimalSummaryDto>
 
 <div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <div dir="rtl">
-            <h2 class="fw-bold text-primary mb-1">حيواناتي المسجلة</h2>
-            <p class="text-muted">إدارة الحيوانات الأليفة الخاصة بك في نظامنا</p>
+        <div>
+            <h2 class="fw-bold text-primary mb-1">@Localizer["Title"]</h2>
+            <p class="text-muted">@Localizer["Subtitle"]</p>
         </div>
         <a asp-action="Create" class="btn btn-success shadow-sm">
-            <i class="bi bi-plus-lg"></i> إضافة حيوان جديد
+            <i class="bi bi-plus-lg"></i> @Localizer["Add"]
         </a>
     </div>
 
@@ -31,7 +33,7 @@
                                     data-animal-name="@animal.Name"
                                     data-bs-toggle="modal"
                                     data-bs-target="#serviceChoiceModal">
-                                اختر خدمة
+                                @Localizer["ChooseService"]
                             </button>
                         </div>
                     </div>
@@ -40,7 +42,7 @@
         }
         else
         {
-            <div class="col-12 text-center text-muted py-5">لا يوجد حيوانات مسجلة حالياً.</div>
+            <div class="col-12 text-center text-muted py-5">@Localizer["Empty"]</div>
         }
     </div>
 </div>
@@ -49,14 +51,14 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow">
             <div class="modal-header">
-                <h5 class="modal-title">اختر الخدمة</h5>
+                <h5 class="modal-title">@Localizer["ModalTitle"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
-                <p class="mb-3">الحيوان المختار: <strong id="selectedAnimalName"></strong></p>
+                <p class="mb-3">@Localizer["Selected"] <strong id="selectedAnimalName"></strong></p>
                 <div class="d-grid gap-2">
-                    <a id="appointmentLink" class="btn btn-primary">حجز موعد استشاره للطبيب </a>
-                    <a id="hostingLink" class="btn btn-outline-secondary">حجز استضافه </a>
+                    <a id="appointmentLink" class="btn btn-primary">@Localizer["BookAppointment"]</a>
+                    <a id="hostingLink" class="btn btn-outline-secondary">@Localizer["BookHosting"]</a>
                 </div>
             </div>
         </div>
