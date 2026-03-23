@@ -31,17 +31,20 @@ namespace PANDACLINIC.Application.BaseService
             if (entity == null)
                 return Result<TDetailDto>.Failure("Record not found.");
 
-            return Result<TDetailDto>.Success(_mapper.Map<TDetailDto>(entity));
+            return Result<TDetailDto>.Success(_mapper.Map<TDetailDto>(entity!));
         }
 
         public virtual async Task<Result<IEnumerable<TSummaryDto>>> GetAllAsync()
         {
             var entities = await _repository.GetAllAsync();
-            return Result<IEnumerable<TSummaryDto>>.Success(_mapper.Map<IEnumerable<TSummaryDto>>(entities));
+            return Result<IEnumerable<TSummaryDto>>.Success(_mapper.Map<IEnumerable<TSummaryDto>>(entities!));
         }
 
         public virtual async Task<Result<TDetailDto>> CreateAsync(TCreateDto dto)
         {
+            if (dto == null)
+                return Result<TDetailDto>.Failure("Payload is required.");
+
             var entity = _mapper.Map<TEntity>(dto);
 
             await _repository.AddAsync(entity);

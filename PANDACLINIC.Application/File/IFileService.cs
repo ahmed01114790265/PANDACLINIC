@@ -11,7 +11,7 @@ namespace PANDACLINIC.Application.FileService
 
     public interface IFileService
     {
-        Task<string> UploadFileAsync(IFormFile file, string folderName);
+        Task<string?> UploadFileAsync(IFormFile file, string folderName);
         void DeleteFile(string filePath);
     }
 }

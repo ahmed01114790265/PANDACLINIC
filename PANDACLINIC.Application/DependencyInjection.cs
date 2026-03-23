@@ -33,7 +33,7 @@ namespace PANDACLINIC.Application
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IOrderService, OrderService>();
 
-            var globalUploadsPath = configuration["FileStorage:Path"];
+            var globalUploadsPath = configuration["FileStorage:Path"] ?? string.Empty;
             services.AddScoped<IFileService>(sp => new FileServices(globalUploadsPath));
             return services;
         }

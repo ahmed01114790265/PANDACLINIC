@@ -70,7 +70,7 @@ namespace PANDACLINIC.Application.ImmplementationServices.ProductService
 
             if (dto.ImageFile != null)
             {
-                dto.ImageUrl = await _fileService.UploadFileAsync(dto.ImageFile, "products");
+                dto.ImageUrl = await _fileService.UploadFileAsync(dto.ImageFile, "products") ?? "default-product.png";
             }
 
             var entity = _mapper.Map<Product>(dto);
@@ -103,7 +103,7 @@ namespace PANDACLINIC.Application.ImmplementationServices.ProductService
             var currentImage = product.ImageUrl;
             if (dto.ImageFile != null)
             {
-                dto.ImageUrl = await _fileService.UploadFileAsync(dto.ImageFile, "products");
+                dto.ImageUrl = await _fileService.UploadFileAsync(dto.ImageFile, "products") ?? currentImage;
                 if (!string.IsNullOrWhiteSpace(currentImage) && currentImage.StartsWith("/uploads/"))
                 {
                     _fileService.DeleteFile(currentImage);

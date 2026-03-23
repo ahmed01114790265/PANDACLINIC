@@ -12,9 +12,9 @@ namespace PANDACLINIC.Domain.Entity
     {
         public int Quantity { get; set; }
         public Guid OrderId { get; set; }
-        public virtual Order Order { get; set; }
+        public virtual Order Order { get; set; } = null!;
         public Guid ProductId { get; set; }
-        public virtual  Product Product { get; set; }
-        public Money Price { get; set; }
+        public virtual  Product Product { get; set; } = null!;
+        public Money Price { get; set; } = new Money(0, "EGP");
     }
 }

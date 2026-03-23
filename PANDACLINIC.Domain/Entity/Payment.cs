@@ -13,7 +13,7 @@ namespace PANDACLINIC.Domain.Entity
         public PaymentStatus PaymentStatus { get; set; }
         public string PaymentMethod { get; set; } = null!;
         public Guid OrderId { get; set; }
-        public virtual Order Order { get; set; }
+        public virtual Order Order { get; set; } = null!;
         public decimal? Amount { get; set; }
     }
 }

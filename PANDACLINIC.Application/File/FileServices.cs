@@ -14,10 +14,10 @@ namespace PANDACLINIC.Application.FileService
 
         public FileServices(string storagePath)
         {
-            _storagePath = storagePath;
+            _storagePath = storagePath ?? Path.GetTempPath();
         }
 
-        public async Task<string> UploadFileAsync(IFormFile file, string folderName)
+        public async Task<string?> UploadFileAsync(IFormFile file, string folderName)
         {
             if (file == null || file.Length == 0) return null;
 

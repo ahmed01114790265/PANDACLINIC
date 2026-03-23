@@ -70,7 +70,8 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-var globalUploadsPath = builder.Configuration["FileStorage:Path"];
+var globalUploadsPath = builder.Configuration["FileStorage:Path"] 
+                        ?? Path.Combine(builder.Environment.ContentRootPath, "wwwroot", "uploads");
 var localizationOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value;
 app.UseRequestLocalization(localizationOptions);
 app.UseStaticFiles(new StaticFileOptions
