@@ -1,31 +1,25 @@
-﻿using AutoMapper;
+using Mapster;
 using PANDACLINIC.Application.DTOS.Hosting;
 using PANDACLINIC.Domain.Entity;
 
 namespace PANDACLINIC.Application.Mappings
 {
-    public class HostingMappingProfile : Profile
+    public class HostingMappingProfile : IRegister
     {
-        public HostingMappingProfile()
+        public void Register(TypeAdapterConfig config)
         {
-            CreateMap<HostingStay, HostingSummaryDto>()
-                .ForMember(dest => dest.AnimalName,
-                    opt => opt.MapFrom(src => src.Animal != null ? src.Animal.Name : string.Empty))
-                .ForMember(dest => dest.ClientName,
-                    opt => opt.MapFrom(src => src.Animal != null && src.Animal.User != null ? src.Animal.User.fullName : string.Empty))
-                .ForMember(dest => dest.ClientPhone,
-                    opt => opt.MapFrom(src => src.Animal != null && src.Animal.User != null ? src.Animal.User.PhoneNumber ?? string.Empty : string.Empty));
+            config.NewConfig<HostingStay, HostingSummaryDto>()
+                .Map(dest => dest.AnimalName, src => src.Animal != null ? src.Animal.Name : string.Empty)
+                .Map(dest => dest.ClientName, src => src.Animal != null && src.Animal.User != null ? src.Animal.User.fullName : string.Empty)
+                .Map(dest => dest.ClientPhone, src => src.Animal != null && src.Animal.User != null ? src.Animal.User.PhoneNumber ?? string.Empty : string.Empty);
 
-            CreateMap<HostingStay, HostingDetailDto>()
-                .ForMember(dest => dest.AnimalName,
-                    opt => opt.MapFrom(src => src.Animal != null ? src.Animal.Name : string.Empty))
-                .ForMember(dest => dest.OwnerName,
-                    opt => opt.MapFrom(src => src.Animal != null && src.Animal.User != null ? src.Animal.User.fullName : string.Empty))
-                .ForMember(dest => dest.ClientPhone,
-                    opt => opt.MapFrom(src => src.Animal != null && src.Animal.User != null ? src.Animal.User.PhoneNumber ?? string.Empty : string.Empty));
+            config.NewConfig<HostingStay, HostingDetailDto>()
+                .Map(dest => dest.AnimalName, src => src.Animal != null ? src.Animal.Name : string.Empty)
+                .Map(dest => dest.OwnerName, src => src.Animal != null && src.Animal.User != null ? src.Animal.User.fullName : string.Empty)
+                .Map(dest => dest.ClientPhone, src => src.Animal != null && src.Animal.User != null ? src.Animal.User.PhoneNumber ?? string.Empty : string.Empty);
 
-            CreateMap<HostingRequestDto, HostingStay>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore());
+            config.NewConfig<HostingRequestDto, HostingStay>()
+                .Ignore(dest => dest.Id);
         }
     }
 }

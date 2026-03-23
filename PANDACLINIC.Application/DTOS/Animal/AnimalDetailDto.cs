@@ -1,4 +1,4 @@
-﻿using PANDACLINIC.Shared.Enums;
+using PANDACLINIC.Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +17,10 @@ namespace PANDACLINIC.Application.DTOS.Animal
         public DateTime BirthDate { get; set; }
          public string? Imgageurl { get; set; }
 
-        // Flattened data via AutoMapper
+        // Flattened data via Mapster
         public string OwnerName { get; set; } = string.Empty;
         public int AppointmentCount { get; set; }
         public bool IsHostedNow { get; set; }
     }
 }
+

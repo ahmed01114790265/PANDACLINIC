@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -7,9 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PANDACLINIC.Application\PANDACLINIC.Application.csproj" />
     <ProjectReference Include="..\PANDACLINIC.Domain\PANDACLINIC.Domain.csproj" />
     <ProjectReference Include="..\PANDACLINIC.Shared\PANDACLINIC.Shared.csproj" />
   </ItemGroup>
 
 </Project>
+

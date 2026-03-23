@@ -1,44 +1,32 @@
-﻿using AutoMapper;
+using Mapster;
 using PANDACLINIC.Application.DTOS.Animal;
 using PANDACLINIC.Domain.Entity;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace PANDACLINIC.Application.Mappings
 {
-    public class AnimalMappingProfile : Profile
+    public class AnimalMappingProfile : IRegister
     {
-        public AnimalMappingProfile()
+        public void Register(TypeAdapterConfig config)
         {
-            // 1. Entity -> Summary DTO (Simple/List view)
-            CreateMap<Animal, AnimalSummaryDto>();
+            config.NewConfig<Animal, AnimalSummaryDto>();
 
-            // 2. Entity -> Detail DTO (Full view with complex logic)
-            CreateMap<Animal, AnimalDetailDto>()
-                // Flatten User.FullName to OwnerName
-                .ForMember(dest => dest.OwnerName,
-                    opt => opt.MapFrom(src => src.User != null ? src.User.fullName : "Unknown"))
-                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.CreatedAt))
-                // Count the Appointments list
-                .ForMember(dest => dest.AppointmentCount,
-                    opt => opt.MapFrom(src => src.Appointments != null ? src.Appointments.Count : 0))
+            config.NewConfig<Animal, AnimalDetailDto>()
+                .Map(dest => dest.OwnerName, src => src.User != null ? src.User.fullName : "Unknown")
+                .Map(dest => dest.BirthDate, src => src.CreatedAt)
+                .Map(dest => dest.AppointmentCount, src => src.Appointments != null ? src.Appointments.Count : 0)
+                .Map(dest => dest.IsHostedNow, src => src.HostingHistory != null && src.HostingHistory.Any(h => h.CheckOutDate == null));
 
-                // Logic: Check if any Hosting record has no CheckOutDate
-                .ForMember(dest => dest.IsHostedNow,
-                    opt => opt.MapFrom(src => src.HostingHistory != null &&
-                                              src.HostingHistory.Any(h => h.CheckOutDate == null)));
-
-            // 3. Request DTO -> Entity (For Creating)
-
-            CreateMap<AnimalRequestDto, Animal>()
-     .ForMember(dest => dest.Id, opt => opt.Ignore())
-     .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.Now))
-
-     .ForMember(dest => dest.AnimalType, opt => opt.MapFrom(src => src.AnimalType));
+            config.NewConfig<AnimalRequestDto, Animal>()
+                .Ignore(dest => dest.Id)
+                .Map(dest => dest.CreatedAt, src => src.BirthDate)
+                .Map(dest => dest.AnimalType, src => src.AnimalType)
+                .AfterMapping((src, dest) =>
+                {
+                    var nameProp = dest.GetType().GetProperty("Name", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+                    nameProp?.SetValue(dest, src.Name);
+                });
         }
     }
 }
-

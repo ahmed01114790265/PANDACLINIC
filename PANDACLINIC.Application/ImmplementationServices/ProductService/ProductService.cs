@@ -1,4 +1,4 @@
-using AutoMapper;
+using PANDACLINIC.Application.Mapping;
 using PANDACLINIC.Application.DTOS.Product;
 using PANDACLINIC.Application.FileService;
 using PANDACLINIC.Application.InterfacesService.ProductService;
@@ -173,3 +173,5 @@ namespace PANDACLINIC.Application.ImmplementationServices.ProductService
         }
     }
 }
+
+

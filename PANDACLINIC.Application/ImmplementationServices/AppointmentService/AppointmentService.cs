@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using PANDACLINIC.Application.Mapping;
 using PANDACLINIC.Application.BaseService;
 using PANDACLINIC.Application.DTOS.Appointment;
 using PANDACLINIC.Application.InterfacesService.AppointmentService;
@@ -177,3 +177,5 @@ namespace PANDACLINIC.Application.ImmplementationServices.AppointmentService
         }
     }
 }
+
+

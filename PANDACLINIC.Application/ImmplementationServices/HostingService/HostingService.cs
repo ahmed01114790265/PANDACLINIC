@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using PANDACLINIC.Application.Mapping;
 using PANDACLINIC.Application.BaseService;
 using PANDACLINIC.Application.DTOS.Hosting;
 using PANDACLINIC.Application.InterfacesService.HostingService;
@@ -178,5 +178,7 @@ namespace PANDACLINIC.Application.ImmplementationServices.HostingService
         }
     }
 }
+
+
 
 

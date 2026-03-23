@@ -1,3 +1,4 @@
+using Mapster;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PANDACLINIC.Application.FileService;
@@ -12,6 +13,8 @@ using PANDACLINIC.Application.InterfacesService.HostingService;
 using PANDACLINIC.Application.InterfacesService.OrderService;
 using PANDACLINIC.Application.InterfacesService.ProductService;
 using PANDACLINIC.Application.Mappings;
+using PANDACLINIC.Application.Mapping;
+using System.Reflection;
 
 namespace PANDACLINIC.Application
 {
@@ -19,7 +22,11 @@ namespace PANDACLINIC.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAutoMapper(typeof(AnimalMappingProfile).Assembly);
+            var config = TypeAdapterConfig.GlobalSettings;
+            config.Scan(Assembly.GetExecutingAssembly());
+            services.AddSingleton(config);
+            services.AddScoped<IMapper, ServiceMapper>();
+
             services.AddScoped<IAnimalService, AnimalService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
             services.AddScoped<IHostingService, HostingService>();

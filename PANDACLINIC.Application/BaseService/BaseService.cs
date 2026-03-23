@@ -1,19 +1,17 @@
-﻿using AutoMapper;
+using PANDACLINIC.Application.Mapping;
 using PANDACLINIC.Domain.Comman.BaseEntity;
 using PANDACLINIC.Domain.Comman.GenericRepository;
 using PANDACLINIC.Domain.InterfaceRepository;
 using PANDACLINIC.Shared.ResultModel;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PANDACLINIC.Application.BaseService
 {
     public abstract class BaseService<TEntity, TSummaryDto, TDetailDto, TCreateDto>
-    : IBaseService<TEntity, TSummaryDto, TDetailDto, TCreateDto>
-    where TEntity : BaseEntity
+        : IBaseService<TEntity, TSummaryDto, TDetailDto, TCreateDto>
+        where TEntity : BaseEntity
     {
         protected readonly IGenericRepository<TEntity> _repository;
         protected readonly IUnitOfWork _uow;
@@ -25,6 +23,7 @@ namespace PANDACLINIC.Application.BaseService
             _uow = uow;
             _mapper = mapper;
         }
+
         public virtual async Task<Result<TDetailDto>> GetByIdAsync(Guid id)
         {
             var entity = await _repository.GetByIdAsync(id);

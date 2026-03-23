@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using PANDACLINIC.Application.Mapping;
 using Microsoft.EntityFrameworkCore;
 using PANDACLINIC.Application.BaseService;
 using PANDACLINIC.Application.DTOS.Animal;
@@ -10,7 +10,6 @@ using PANDACLINIC.Shared.ResultModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PANDACLINIC.Application.ImmplementationServices.AnimalService
@@ -24,13 +23,10 @@ namespace PANDACLINIC.Application.ImmplementationServices.AnimalService
             _fileService = fileService;
         }
 
-
-
         public override async Task<Result<AnimalDetailDto>> CreateAsync(AnimalRequestDto dto)
         {
             if (dto.ImageFile != null)
             {
-               
                 dto.Imgageurl = await _fileService.UploadFileAsync(dto.ImageFile, "animals");
             }
 
@@ -41,7 +37,6 @@ namespace PANDACLINIC.Application.ImmplementationServices.AnimalService
 
             return Result<AnimalDetailDto>.Success(_mapper.Map<AnimalDetailDto>(entity));
         }
-
 
         public override async Task<Result> DeleteAsync(Guid id)
         {
@@ -93,20 +88,13 @@ namespace PANDACLINIC.Application.ImmplementationServices.AnimalService
 
         public async Task<Result<IEnumerable<AnimalSummaryDto>>> GetDeletedAnimalsAsync()
         {
-            // 1. Call the specialized repository method that uses .IgnoreQueryFilters()
             var deletedAnimals = await _uow.Animals.GetDeletedAnimalsAsync();
-
-            // 2. Map the entities to DTOs
             var dtos = _mapper.Map<IEnumerable<AnimalSummaryDto>>(deletedAnimals);
-
-            // 3. Return a successful Result
             return Result<IEnumerable<AnimalSummaryDto>>.Success(dtos);
         }
 
-        
         public async Task<Result> RestoreAsync(Guid id)
         {
-          
             var animal = await _uow.Animals.GetByIdDeletedAsync(id);
 
             if (animal == null)
@@ -115,9 +103,7 @@ namespace PANDACLINIC.Application.ImmplementationServices.AnimalService
             animal.IsDeleted = false;
             animal.DeletedAt = null;
 
-            // Use the Unit of Work to persist changes
             await _uow.CompleteAsync();
-
 
             return Result.Success("Animal restored successfully.");
         }
