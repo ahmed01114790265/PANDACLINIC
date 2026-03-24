@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using PANDACLINIC.Application.InterfacesService.AnimalService;
 using PANDACLINIC.Application.InterfacesService.AppointmentService;
 using PANDACLINIC.Application.InterfacesService.HostingService;
 using PANDACLINIC.Application.InterfacesService.OrderService;
 using PANDACLINIC.Application.InterfacesService.ProductService;
 using PANDACLINIC.Dashboard.Models;
+using PANDACLINIC.Domain.Entity;
 using PANDACLINIC.Shared.Enums;
 using System.Diagnostics;
 
@@ -20,6 +23,7 @@ namespace PANDACLINIC.Dashboard.Controllers
         private readonly IHostingService _hostingService;
         private readonly IProductService _productService;
         private readonly IOrderService _orderService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public HomeController(
             ILogger<HomeController> logger,
@@ -27,7 +31,8 @@ namespace PANDACLINIC.Dashboard.Controllers
             IAppointmentService appointmentService,
             IHostingService hostingService,
             IProductService productService,
-            IOrderService orderService)
+            IOrderService orderService,
+            UserManager<ApplicationUser> userManager)
         {
             _logger = logger;
             _animalService = animalService;
@@ -35,6 +40,7 @@ namespace PANDACLINIC.Dashboard.Controllers
             _hostingService = hostingService;
             _productService = productService;
             _orderService = orderService;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
@@ -67,6 +73,7 @@ namespace PANDACLINIC.Dashboard.Controllers
             vm.TotalProducts = products.Count();
             vm.ActiveProducts = products.Count(p => p.IsActive);
             vm.LowStockProducts = products.Count(p => p.Stock <= 5);
+            vm.TotalUsers = await _userManager.Users.CountAsync();
 
             if (isAdmin)
             {

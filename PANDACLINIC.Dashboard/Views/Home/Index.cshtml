@@ -72,6 +72,13 @@
         @if (isAdmin)
         {
             <article class="kpi-card">
+                <div class="kpi-icon bg-soft-cyan"><i class="bi bi-people-fill"></i></div>
+                <p class="kpi-label">@Localizer["LoggedInUsers"]</p>
+                <h3 class="kpi-value">@Model.TotalUsers</h3>
+                <p class="kpi-foot">@Localizer["TotalRegisteredUsers"]</p>
+            </article>
+
+            <article class="kpi-card">
                 <div class="kpi-icon bg-soft-amber"><i class="bi bi-receipt-cutoff"></i></div>
                 <p class="kpi-label">@Localizer["PendingOrders"]</p>
                 <h3 class="kpi-value">@Model.PendingOrders</h3>
