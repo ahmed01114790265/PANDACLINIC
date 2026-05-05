@@ -11,9 +11,9 @@
         currentUser = await UserManager.GetUserAsync(User);
     }
 
-    var displayName = (!string.IsNullOrWhiteSpace(currentUser?.fullName)
+    var displayName = !string.IsNullOrWhiteSpace(currentUser?.fullName)
         ? currentUser!.fullName
-        : User.Identity?.Name) ?? string.Empty;
+        : User.Identity?.Name;
 
     var culture = CultureInfo.CurrentUICulture;
     var isRtl = culture.TextInfo.IsRightToLeft;
