@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -34,6 +35,32 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
 })
 .AddEntityFrameworkStores<ClinicDbContext>()
 .AddDefaultTokenProviders();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Events.OnRedirectToLogin = context =>
+    {
+        var isDashboardRequest = context.Request.Path.StartsWithSegments("/Dashboard", StringComparison.OrdinalIgnoreCase);
+        var loginPath = isDashboardRequest
+            ? "/Dashboard/Account/Login"
+            : "/Account/Login";
+        var returnUrl = context.Request.PathBase + context.Request.Path + context.Request.QueryString;
+
+        context.Response.Redirect(QueryHelpers.AddQueryString(loginPath, "returnUrl", returnUrl));
+        return Task.CompletedTask;
+    };
+
+    options.Events.OnRedirectToAccessDenied = context =>
+    {
+        var isDashboardRequest = context.Request.Path.StartsWithSegments("/Dashboard", StringComparison.OrdinalIgnoreCase);
+        var accessDeniedPath = isDashboardRequest
+            ? "/Dashboard/Account/Login"
+            : "/Account/Login";
+
+        context.Response.Redirect(accessDeniedPath);
+        return Task.CompletedTask;
+    };
+});
 
 builder.Services.AddControllersWithViews()
     .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
@@ -72,6 +99,8 @@ using (var scope = app.Services.CreateScope())
 
 var globalUploadsPath = builder.Configuration["FileStorage:Path"] 
                         ?? Path.Combine(builder.Environment.ContentRootPath, "wwwroot", "uploads");
+Directory.CreateDirectory(globalUploadsPath);
+
 var localizationOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value;
 app.UseRequestLocalization(localizationOptions);
 app.UseStaticFiles(new StaticFileOptions
@@ -87,6 +116,12 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
+app.MapAreaControllerRoute(
+    name: "dashboard",
+    areaName: "Dashboard",
+    pattern: "Dashboard/{controller=Home}/{action=Index}/{id?}")
+    .WithStaticAssets();
 
 app.MapControllerRoute(
     name: "default",

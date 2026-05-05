@@ -6,8 +6,13 @@
   <data name="FullName" xml:space="preserve"><value>الاسم الكامل</value></data>
   <data name="FullNamePlaceholder" xml:space="preserve"><value>مثال: أحمد علي</value></data>
   <data name="Phone" xml:space="preserve"><value>رقم الهاتف</value></data>
+  <data name="Email" xml:space="preserve"><value>البريد الإلكتروني</value></data>
   <data name="Password" xml:space="preserve"><value>كلمة المرور</value></data>
   <data name="ConfirmPassword" xml:space="preserve"><value>تأكيد كلمة المرور</value></data>
+  <data name="AccountType" xml:space="preserve"><value>نوع الحساب</value></data>
+  <data name="UserAccount" xml:space="preserve"><value>مستخدم / صاحب حيوان أليف</value></data>
+  <data name="StaffAccount" xml:space="preserve"><value>طاقم / طبيب بيطري</value></data>
+  <data name="AdminAccount" xml:space="preserve"><value>مدير</value></data>
   <data name="Submit" xml:space="preserve"><value>إنشاء الحساب</value></data>
   <data name="LoginLink" xml:space="preserve"><value>لديك حساب بالفعل؟ تسجيل الدخول</value></data>
 </root>

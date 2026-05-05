@@ -1,0 +1,108 @@
+@using PANDACLINIC.Application.DTOS.Hosting
+@using PANDACLINIC.Shared.Enums
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model IEnumerable<HostingSummaryDto>
+
+@{
+    var isCurrentHostingView = ViewBag.SelectedStatus != null && ViewBag.SelectedStatus.ToString() == "Ongoing";
+    var mine = ViewBag.Mine is bool b && b;
+}
+
+<div class="container-fluid py-4 bg-white">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4 border-bottom pb-3 gap-2">
+        <h2 class="fw-bold text-dark mb-0"><i class="bi bi-house-heart me-2"></i>@(isCurrentHostingView ? Localizer["Current"] : Localizer["Title"])</h2>
+        <div class="d-flex flex-wrap gap-2">
+            <a asp-action="Index" asp-route-mine="false" class="btn @(!mine && !isCurrentHostingView ? "btn-dark" : "btn-outline-secondary")">@Localizer["All"]</a>
+            <a asp-action="CurrentlyHosted" asp-route-mine="false" class="btn @(!mine && isCurrentHostingView ? "btn-dark" : "btn-outline-secondary")">@Localizer["Current"]</a>
+            <a asp-action="Index" asp-route-mine="true" class="btn @(mine ? "btn-dark" : "btn-outline-secondary")">@Localizer["Mine"]</a>
+            <a asp-action="Create" class="btn btn-primary btn-lg shadow-sm rounded-pill px-4">@Localizer["Add"]</a>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm mb-4 rounded-3">
+        <div class="card-body p-3">
+            <form asp-action="Index" method="get" class="row g-2">
+                <input type="hidden" name="mine" value="@mine.ToString().ToLower()" />
+                <div class="col-12 col-md-4"><input type="date" name="date" value="@ViewBag.SelectedDate" class="form-control" /></div>
+                <div class="col-12 col-md-4">
+                    <select id="filterStatus" name="status" asp-items="Html.GetEnumSelectList<HostingStayStatus>()" class="form-select">
+                        <option value="">@Localizer["All"]</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-dark flex-grow-1">@Localizer["Filter"]</button>
+                    <a asp-action="Index" asp-route-mine="@mine" class="btn btn-outline-secondary">@Localizer["Reset"]</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="table-responsive shadow-sm rounded-3">
+        <table class="table table-hover align-middle bg-white mb-0">
+            <thead class="table-light">
+                <tr><th>@Localizer["AnimalName"]</th><th>@Localizer["ClientName"]</th><th>@Localizer["ClientPhone"]</th><th>@Localizer["Room"]</th><th>@Localizer["Status"]</th><th>@Localizer["CheckIn"]</th><th>@Localizer["CheckOut"]</th><th class="text-end">@Localizer["Actions"]</th></tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="fw-bold">@(string.IsNullOrWhiteSpace(item.AnimalName) ? "N/A" : item.AnimalName)</td>
+                            <td>@item.ClientName</td><td>@item.ClientPhone</td><td>@item.RoomNumber</td>
+                            <td>
+                                <form asp-action="UpdateStatus" method="post" class="d-flex align-items-center gap-2">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
+                                        @foreach (var st in Enum.GetValues<HostingStayStatus>())
+                                        {
+                                            @* ?????? selected="@(???)" ????? ?? ternary operator ???? ??? attribute *@
+                                            <option value="@st" selected="@(st == item.Status)">
+                                                @Localizer[st.ToString()]
+                                            </option>
+                                        }
+                                    </select>
+                                </form>
+                            </td>
+                            <td>@item.CheckInDate.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td>@(item.CheckOutDate.HasValue ? item.CheckOutDate.Value.ToString("yyyy-MM-dd HH:mm") : "-")</td>
+                            <td class="text-end">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm"><i class="bi bi-eye"></i></a>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm"><i class="bi bi-pencil"></i></a>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmDelete('@item.Id')"><i class="bi bi-trash"></i></button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="8" class="text-center text-muted py-4">@Localizer["Empty"]</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<form id="deleteForm" asp-action="Delete" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="id" id="deleteId" />
+</form>
+
+<script>
+    function confirmDelete(id) {
+        if (confirm('@Localizer["ConfirmDelete"]')) {
+            document.getElementById('deleteId').value = id;
+            document.getElementById('deleteForm').submit();
+        }
+    }
+    (function() {
+        var statusSelect = document.getElementById('filterStatus');
+        var selected = '@(ViewBag.SelectedStatus?.ToString() ?? string.Empty)';
+        if (statusSelect && selected) statusSelect.value = selected;
+    })();
+</script>

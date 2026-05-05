@@ -1,0 +1,50 @@
+@using PANDACLINIC.Application.DTOS.Product
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model IEnumerable<ProductSummaryDto>
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-bold">@Localizer["Title"]</h2>
+        <a asp-action="Index" class="btn btn-outline-secondary">@Localizer["Back"]</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>@Localizer["Name"]</th>
+                    <th>@Localizer["Type"]</th>
+                    <th>@Localizer["Price"]</th>
+                    <th>@Localizer["Stock"]</th>
+                    <th class="text-end">@Localizer["Actions"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    @foreach (var p in Model)
+                    {
+                        <tr>
+                            <td>@p.Name</td>
+                            <td>@Localizer[p.Type.ToString()]</td>
+                            <td>@p.Price.ToString("0.##") @p.Currency</td>
+                            <td>@p.Stock</td>
+                            <td class="text-end">
+                                <form asp-action="Restore" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@p.Id" />
+                                    <button type="submit" class="btn btn-sm btn-success">@Localizer["Restore"]</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="5" class="text-center text-muted">@Localizer["Empty"]</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

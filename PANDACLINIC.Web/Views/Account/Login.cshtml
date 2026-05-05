@@ -26,9 +26,25 @@
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
                         <div class="mb-3">
+                            <label asp-for="AccountType" class="form-label">@Localizer["AccountType"]</label>
+                            <select asp-for="AccountType" class="form-select js-account-type">
+                                <option value="Customer">@Localizer["UserAccount"]</option>
+                                <option value="Staff">@Localizer["StaffAccount"]</option>
+                                <option value="Admin">@Localizer["AdminAccount"]</option>
+                            </select>
+                            <span asp-validation-for="AccountType" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3 js-phone-field">
                             <label asp-for="PhoneNumber" class="form-label">@Localizer["Phone"]</label>
                             <input asp-for="PhoneNumber" class="form-control" placeholder="01xxxxxxxxx" />
                             <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3 js-email-field">
+                            <label asp-for="Email" class="form-label">@Localizer["Email"]</label>
+                            <input asp-for="Email" class="form-control" placeholder="name@example.com" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
                         </div>
 
                         <div class="mb-3">
@@ -56,4 +72,22 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        (() => {
+            const accountType = document.querySelector('.js-account-type');
+            const phoneField = document.querySelector('.js-phone-field');
+            const emailField = document.querySelector('.js-email-field');
+
+            function syncCredentialField() {
+                const isCustomer = accountType.value === 'Customer';
+                phoneField.hidden = !isCustomer;
+                emailField.hidden = isCustomer;
+                phoneField.querySelector('input').disabled = !isCustomer;
+                emailField.querySelector('input').disabled = isCustomer;
+            }
+
+            accountType.addEventListener('change', syncCredentialField);
+            syncCredentialField();
+        })();
+    </script>
 }
