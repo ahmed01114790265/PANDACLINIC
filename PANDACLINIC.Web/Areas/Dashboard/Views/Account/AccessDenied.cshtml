@@ -1,0 +1,30 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer["AccessDeniedTitle"];
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h1 class="h4 mb-2">@Localizer["AccessDeniedTitle"]</h1>
+                    <p class="text-muted mb-4">@Localizer["AccessDeniedBody"]</p>
+
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-primary" asp-area="Dashboard" asp-controller="Home" asp-action="Index">
+                            @Localizer["BackToDashboard"]
+                        </a>
+                        <form asp-area="Dashboard" asp-controller="Account" asp-action="Logout" method="post">
+                            <button type="submit" class="btn btn-outline-secondary">
+                                @Localizer["Logout"]
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

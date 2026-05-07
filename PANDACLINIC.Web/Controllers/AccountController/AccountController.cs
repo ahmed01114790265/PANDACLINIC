@@ -102,7 +102,9 @@ namespace PANDACLINIC.Web.Controllers.AccountController
 
                     if (result.Succeeded)
                     {
-                        if (!await _userManager.IsInRoleAsync(user, model.AccountType))
+                        // If the user entered an email, we treat this as an admin/staff login attempt and redirect
+                        // based on the user's real roles. This avoids "can't login" when the UI is left on Customer.
+                        if (string.IsNullOrWhiteSpace(model.Email) && !await _userManager.IsInRoleAsync(user, model.AccountType))
                         {
                             await _signInManager.SignOutAsync();
                             ModelState.AddModelError(nameof(model.AccountType), "نوع الحساب المختار لا يطابق هذا المستخدم.");
@@ -121,6 +123,11 @@ namespace PANDACLINIC.Web.Controllers.AccountController
 
         private async Task<ApplicationUser?> FindLoginUserAsync(LoginPhoneVM model)
         {
+            if (!string.IsNullOrWhiteSpace(model.Email))
+            {
+                return await _userManager.FindByEmailAsync(model.Email.Trim());
+            }
+
             if (model.AccountType == "Customer")
             {
                 var phoneNumber = model.PhoneNumber?.Trim();

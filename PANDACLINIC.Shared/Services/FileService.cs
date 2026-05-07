@@ -12,6 +12,7 @@ namespace PANDACLINIC.Shared.Services
     public class FileService : IFileService
     {
         private readonly IWebHostEnvironment _env;
+
         public FileService(IWebHostEnvironment env) => _env = env;
 
         public async Task<string> UploadFileAsync(IFormFile file, string folderName)

@@ -1,10 +1,8 @@
-using System;
-using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using PANDACLINIC.Web.Areas.Dashboard.Models.AccountViewModel;
 using PANDACLINIC.Domain.Entity;
+using PANDACLINIC.Web.Areas.Dashboard.Models.AccountViewModel;
 
 namespace PANDACLINIC.Web.Areas.Dashboard.Controllers
 {

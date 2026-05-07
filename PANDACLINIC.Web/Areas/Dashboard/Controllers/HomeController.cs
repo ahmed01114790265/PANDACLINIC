@@ -52,8 +52,6 @@ namespace PANDACLINIC.Web.Areas.Dashboard.Controllers
                 GeneratedAt = DateTime.Now
             };
 
-            var isAdmin = User.IsInRole("Admin");
-
             var animalsResult = await _animalService.GetAllAsync();
             var animals = animalsResult.IsSuccess ? animalsResult.Data ?? Enumerable.Empty<PANDACLINIC.Application.DTOS.Animal.AnimalSummaryDto>() : Enumerable.Empty<PANDACLINIC.Application.DTOS.Animal.AnimalSummaryDto>();
             vm.TotalAnimals = animals.Count();
@@ -76,24 +74,13 @@ namespace PANDACLINIC.Web.Areas.Dashboard.Controllers
             vm.LowStockProducts = products.Count(p => p.Stock <= 5);
             vm.TotalUsers = await _userManager.Users.CountAsync();
 
-            if (isAdmin)
-            {
-                var ordersResult = await _orderService.GetAllAsync();
-                var orders = ordersResult.IsSuccess ? ordersResult.Data ?? Enumerable.Empty<PANDACLINIC.Application.DTOS.Order.OrderSummaryDto>() : Enumerable.Empty<PANDACLINIC.Application.DTOS.Order.OrderSummaryDto>();
-                vm.TotalOrders = orders.Count();
-                vm.PendingOrders = orders.Count(o => o.Status == OrderStatus.Pending);
-                vm.NewPayments = orders.Count(o => o.PaymentStatus == PaymentStatus.New || o.PaymentStatus == PaymentStatus.InProgress);
-                vm.CompletedOrders = orders.Count(o => o.Status == OrderStatus.Completed);
-                vm.TotalRevenue = orders.Where(o => o.Status == OrderStatus.Completed).Sum(o => o.TotalAmount);
-            }
-            else
-            {
-                vm.TotalOrders = 0;
-                vm.PendingOrders = 0;
-                vm.NewPayments = 0;
-                vm.CompletedOrders = 0;
-                vm.TotalRevenue = 0;
-            }
+            var ordersResult = await _orderService.GetAllAsync();
+            var orders = ordersResult.IsSuccess ? ordersResult.Data ?? Enumerable.Empty<PANDACLINIC.Application.DTOS.Order.OrderSummaryDto>() : Enumerable.Empty<PANDACLINIC.Application.DTOS.Order.OrderSummaryDto>();
+            vm.TotalOrders = orders.Count();
+            vm.PendingOrders = orders.Count(o => o.Status == OrderStatus.Pending);
+            vm.NewPayments = orders.Count(o => o.PaymentStatus == PaymentStatus.New || o.PaymentStatus == PaymentStatus.InProgress);
+            vm.CompletedOrders = orders.Count(o => o.Status == OrderStatus.Completed);
+            vm.TotalRevenue = orders.Where(o => o.Status == OrderStatus.Completed).Sum(o => o.TotalAmount);
 
             return View(vm);
         }

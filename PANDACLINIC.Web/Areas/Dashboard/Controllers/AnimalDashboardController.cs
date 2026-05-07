@@ -89,7 +89,6 @@ namespace PANDACLINIC.Web.Areas.Dashboard.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RecycleBin()
         {
             var result = await _animalService.GetDeletedAnimalsAsync();
@@ -97,7 +96,6 @@ namespace PANDACLINIC.Web.Areas.Dashboard.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Restore(Guid id)
         {
@@ -114,7 +112,6 @@ namespace PANDACLINIC.Web.Areas.Dashboard.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -154,7 +151,7 @@ namespace PANDACLINIC.Web.Areas.Dashboard.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AnimalRequestDto dto)
+        public async Task<IActionResult> Create( AnimalRequestDto dto)
         {
             var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
             dto.UserId = Guid.Parse(userIdClaim!);

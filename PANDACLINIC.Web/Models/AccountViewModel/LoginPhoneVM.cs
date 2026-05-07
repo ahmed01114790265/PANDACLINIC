@@ -21,7 +21,7 @@ namespace PANDACLINIC.Web.Models.AccountViewModel
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (AccountType == "Customer" && string.IsNullOrWhiteSpace(PhoneNumber))
+            if (AccountType == "Customer" && string.IsNullOrWhiteSpace(PhoneNumber) && string.IsNullOrWhiteSpace(Email))
             {
                 yield return new ValidationResult("Phone Number is required", new[] { nameof(PhoneNumber) });
             }

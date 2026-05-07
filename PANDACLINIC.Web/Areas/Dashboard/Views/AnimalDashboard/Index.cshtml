@@ -77,10 +77,7 @@
                             <td class="text-end pe-4">
                                 <div class="btn-group shadow-sm">
                                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm"><i class="bi bi-eye"></i></a>
-                                    @if (User.IsInRole("Admin"))
-                                    {
-                                        <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmDelete('@item.Id')"><i class="bi bi-trash"></i></button>
-                                    }
+                                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmDelete('@item.Id')"><i class="bi bi-trash"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -122,4 +119,3 @@
         }
     }
 </script>
-

@@ -76,6 +76,13 @@ namespace PANDACLINIC.Web.Areas.Dashboard.Controllers
         [HttpGet]
         public IActionResult ChangePassword() => View();
 
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordVM model)

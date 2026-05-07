@@ -54,7 +54,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     {
         var isDashboardRequest = context.Request.Path.StartsWithSegments("/Dashboard", StringComparison.OrdinalIgnoreCase);
         var accessDeniedPath = isDashboardRequest
-            ? "/Dashboard/Account/Login"
+            ? "/Dashboard/Account/AccessDenied"
             : "/Account/Login";
 
         context.Response.Redirect(accessDeniedPath);
