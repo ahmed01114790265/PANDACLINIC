@@ -42,6 +42,8 @@ namespace PANDACLINIC.Application.BaseService
 
         public virtual async Task<Result<TDetailDto>> CreateAsync(TCreateDto dto)
         {
+            ArgumentNullException.ThrowIfNull(dto);
+
             var entity = _mapper.Map<TEntity>(dto);
 
             await _repository.AddAsync(entity);

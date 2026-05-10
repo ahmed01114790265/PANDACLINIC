@@ -11,7 +11,7 @@ namespace PANDACLINIC.Domain.Entity
     public class ApplicationUser : IdentityUser<Guid>
     {
         public string fullName { get; set; } = string.Empty;
-        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
         public virtual ICollection<Animal> Animals { get; set; } = new List<Animal>();
     }
 }

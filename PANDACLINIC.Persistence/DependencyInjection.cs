@@ -18,7 +18,8 @@ namespace PANDACLINIC.Persistence
             services.AddDbContext<ClinicDbContext>(options =>
                 options.UseSqlServer(
                     configuration.GetConnectionString("DefaultConnection"),
-                    b => b.MigrationsAssembly("PANDACLINIC.Persistence")));
+                    b => b.MigrationsAssembly("PANDACLINIC.Persistence")
+                        .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
 
             return services;
         }

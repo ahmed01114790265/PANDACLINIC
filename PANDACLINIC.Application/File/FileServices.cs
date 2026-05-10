@@ -19,7 +19,7 @@ namespace PANDACLINIC.Application.FileService
 
         public async Task<string> UploadFileAsync(IFormFile file, string folderName)
         {
-            if (file == null || file.Length == 0) return null;
+            if (file == null || file.Length == 0) return string.Empty;
 
             var targetDirectory = Path.Combine(_storagePath, folderName);
 

@@ -97,8 +97,10 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-var globalUploadsPath = builder.Configuration["FileStorage:Path"] 
-                        ?? Path.Combine(builder.Environment.ContentRootPath, "wwwroot", "uploads");
+var configuredUploadsPath = builder.Configuration["FileStorage:Path"];
+var globalUploadsPath = string.IsNullOrWhiteSpace(configuredUploadsPath)
+    ? Path.Combine(builder.Environment.ContentRootPath, "wwwroot", "uploads")
+    : Path.GetFullPath(configuredUploadsPath, builder.Environment.ContentRootPath);
 Directory.CreateDirectory(globalUploadsPath);
 
 var localizationOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value;
@@ -115,17 +117,13 @@ app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapStaticAssets();
-
 app.MapAreaControllerRoute(
     name: "dashboard",
     areaName: "Dashboard",
-    pattern: "Dashboard/{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    pattern: "Dashboard/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Product}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=Product}/{action=Index}/{id?}");
 
 app.Run();

@@ -12,9 +12,9 @@ namespace PANDACLINIC.Domain.Entity
     
     public class Product : BaseEntity
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public Money Price { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public Money Price { get; set; } = null!;
         public decimal Weight { get; set; }
         public string Taste { get; set; } = null!;
         public string ImageUrl { get; set; } = "default-product.png";

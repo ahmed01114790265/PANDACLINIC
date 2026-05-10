@@ -32,9 +32,18 @@ namespace PANDACLINIC.Application
             services.AddScoped<IHostingService, HostingService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IOrderService, OrderService>();
-            string? globalUploadsPath = configuration["FileStorage:Path"];
+            var globalUploadsPath = ResolveStoragePath(configuration["FileStorage:Path"]);
             services.AddScoped<IFileService>(sp => new FileServices(globalUploadsPath));
             return services;
+        }
+
+        private static string ResolveStoragePath(string? configuredPath)
+        {
+            var path = string.IsNullOrWhiteSpace(configuredPath)
+                ? Path.Combine("wwwroot", "uploads")
+                : configuredPath;
+
+            return Path.GetFullPath(path);
         }
     }
 }

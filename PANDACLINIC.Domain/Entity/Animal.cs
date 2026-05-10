@@ -10,7 +10,7 @@ namespace PANDACLINIC.Domain.Entity
 {
     public class Animal : BaseEntity
     {
-        public string Name { get; private set; }
+        public string Name { get; private set; } = string.Empty;
         public AnimalType AnimalType { get;  set; }
         public Guid UserId { get; set; }
         public string? Imgageurl { get; set; }

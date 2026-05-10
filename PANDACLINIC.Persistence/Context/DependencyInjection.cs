@@ -21,7 +21,8 @@ namespace PANDACLINIC.Persistence.Context
             services.AddDbContext<ClinicDbContext>(options =>
                 options.UseSqlServer(
                     configuration.GetConnectionString("DefaultConnection"),
-                    b => b.MigrationsAssembly("PANDACLINIC.Persistence")));
+                    b => b.MigrationsAssembly("PANDACLINIC.Persistence")
+                        .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
 
             services.AddScoped<IAnimalRepository, AnimalRepository>();
             services.AddScoped<IAppointmentRepository, AppointmentRepository>();

@@ -18,7 +18,7 @@ namespace PANDACLINIC.Persistence.FileService
 
         public async Task<string> UploadFileAsync(IFormFile file, string folderName)
         {
-            if (file == null || file.Length == 0) return null;
+            if (file == null || file.Length == 0) return string.Empty;
 
             var path = Path.Combine(_env.WebRootPath, "uploads", folderName);
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);

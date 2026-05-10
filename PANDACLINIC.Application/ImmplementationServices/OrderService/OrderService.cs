@@ -78,7 +78,7 @@ namespace PANDACLINIC.Application.ImmplementationServices.OrderService
                 UserId = userId,
                 Status = OrderStatus.Pending,
                 TotalAmount = total,
-                CreatedBy = userId.ToString(),
+                CreatedBy = JsonSerializer.Serialize(clientMeta),
                 OrderItems = orderItems,
                 Payments = new List<Payment>
                 {
