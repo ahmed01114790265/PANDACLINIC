@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36930.0
+# Visual Studio Version 18
+VisualStudioVersion = 18.5.11723.231 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PANDACLINIC.Shared", "PANDACLINIC.Shared\PANDACLINIC.Shared.csproj", "{2D242782-2E6B-4ED7-9517-1BD1BEBB615F}"
 EndProject
