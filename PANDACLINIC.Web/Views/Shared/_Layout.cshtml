@@ -78,7 +78,8 @@
                                 </select>
                             </form>
                         </li>
-                        @if (User.Identity?.IsAuthenticated == true)
+                        @if (User.Identity.IsAuthenticated
+                               && !User.Identity.Name.StartsWith("WIN"))
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle user-chip" href="#" data-bs-toggle="dropdown" aria-expanded="false">
